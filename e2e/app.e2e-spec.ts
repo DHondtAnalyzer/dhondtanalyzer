@@ -1,6 +1,6 @@
 import { DHondtAnalyzerWebPage } from './app.po';
 
-describe('dhondt-analyzer-web App', function() {
+describe('dhondtanalyzer-web App', function() {
   let page: DHondtAnalyzerWebPage;
 
   beforeEach(() => {
