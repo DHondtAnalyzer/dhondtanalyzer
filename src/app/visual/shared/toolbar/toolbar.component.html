@@ -1,0 +1,19 @@
+<md-toolbar>
+    <button md-icon-button>
+        <md-icon class="md-24">menu</md-icon>
+    </button>
+    <span>{{title}}</span>
+    <span class="flex"></span>
+
+    <button md-button *ngFor="let link of links"
+            (click)="goTo(link)">
+        {{ link.name }}
+    </button>
+
+    <button md-icon-button>
+        <md-icon class="md-24">favorite</md-icon>
+    </button>
+    <button md-icon-button>
+        <md-icon class="md-24">more_vert</md-icon>
+    </button>
+</md-toolbar>
