@@ -1,14 +1,14 @@
-import { DHondtAnalyzerWebPage } from './app.po';
+import { DhondtanalyzerPage } from './app.po';
 
-describe('dhondtanalyzer-web App', function() {
-  let page: DHondtAnalyzerWebPage;
+describe('dhondtanalyzer App', function() {
+    let page: DhondtanalyzerPage;
 
-  beforeEach(() => {
-    page = new DHondtAnalyzerWebPage();
-  });
+    beforeEach(() => {
+        page = new DhondtanalyzerPage();
+    });
 
-  it('should display message saying app works', () => {
-    page.navigateTo();
-    expect(page.getParagraphText()).toEqual('app works!');
-  });
+    it('should display message saying app works', () => {
+        page.navigateTo();
+        expect(page.getParagraphText()).toEqual('app works!');
+    });
 });
