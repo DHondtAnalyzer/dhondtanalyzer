@@ -1,11 +1,11 @@
 import { NgModule }     from '@angular/core';
 import { RouterModule } from '@angular/router';
-import {RootModule} from "./visual/root/root.module";
 
 @NgModule({
     imports: [
         RouterModule.forRoot([
-            { path: '', loadChildren: RootModule },
+            { path: '', loadChildren: 'app/visual/landing/landing.module#LandingModule' },
+            { path: 'app', loadChildren: 'app/visual/root/root.module#RootModule'},
         ])
     ],
     exports: [

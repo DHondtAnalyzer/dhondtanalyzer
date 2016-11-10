@@ -18,8 +18,9 @@ export class ToolbarComponent implements OnInit {
 
     ngOnInit() {
         this.links = [
-            new Link('Home', '/home'),
-            new Link('Elections', '/elections')
+            new Link('Home', '/app/home'),
+            new Link('Elections', '/app/elections'),
+            new Link('Log Out', '/')
         ]
     }
 
