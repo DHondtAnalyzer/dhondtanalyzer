@@ -7,7 +7,6 @@ import { NgModule }     from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {HomeComponent} from "./home/home.component";
 import {RootComponent} from "./root.component";
-import {ElectionListComponent} from "./elections/election-list/election-list.component";
 
 
 @NgModule({
@@ -18,7 +17,8 @@ import {ElectionListComponent} from "./elections/election-list/election-list.com
                 children: [
                     { path: '', redirectTo: 'home', pathMatch: 'full' },
                     { path: 'home', component: HomeComponent },
-                    { path: 'elections', component: ElectionListComponent }
+                    { path: 'elections', loadChildren: 'app/visual/root/elections/election.module#ElectionModule' },
+                    { path: 'parties', loadChildren: 'app/visual/root/parties/party.module#PartyModule'  },
                 ]
             }
         ])

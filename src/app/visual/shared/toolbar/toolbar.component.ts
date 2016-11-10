@@ -20,7 +20,8 @@ export class ToolbarComponent implements OnInit {
         this.links = [
             new Link('Home', '/app/home'),
             new Link('Elections', '/app/elections'),
-            new Link('Log Out', '/')
+            new Link('Parties', '/app/parties'),
+            new Link('Exit', '/')
         ]
     }
 
