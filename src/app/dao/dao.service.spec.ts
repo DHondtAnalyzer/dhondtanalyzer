@@ -1,16 +1,16 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async, inject } from '@angular/core/testing';
-import { PartyDataService } from './party-data.service';
+import { DaoService } from './dao.service';
 
-describe('Service: PartyData', () => {
+describe('DaoService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [PartyDataService]
+      providers: [DaoService]
     });
   });
 
-  it('should ...', inject([PartyDataService], (service: PartyDataService) => {
+  it('should ...', inject([DaoService], (service: DaoService) => {
     expect(service).toBeTruthy();
   }));
 });

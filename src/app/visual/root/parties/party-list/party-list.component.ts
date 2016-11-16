@@ -1,6 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {PartyBusinessService} from "../../../../business/parties/party-business.service";
-import {Party} from "../../../../data/parties/party";
 
 @Component({
     selector: 'app-party-list',
@@ -9,15 +7,12 @@ import {Party} from "../../../../data/parties/party";
 })
 export class PartyListComponent implements OnInit {
 
-    parties: Party[];
 
     constructor(
-        private partyBusinessService: PartyBusinessService
     ) {
     }
 
     ngOnInit() {
-        this.parties = this.partyBusinessService.getParties();
     }
 
 }
