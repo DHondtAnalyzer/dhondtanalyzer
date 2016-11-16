@@ -8,6 +8,8 @@ import {Party} from "./party";
 
 export class VoteCount {
 
+    key: string;
+
     count: number;
     type: VoteType;
 

@@ -8,6 +8,8 @@ import {VoteCount} from "./vote-count";
 
 export class District {
 
+    key: string;
+
     seats: number;
     census: number;
 
@@ -16,8 +18,7 @@ export class District {
     region: Region;
     voteCountList: VoteCount[];
 
-    constructor(election: Election, region:Region, seats: number, census: number){
-        this.election = election;
+    constructor(region:Region, seats: number, census: number){
         this.region = region;
         this.seats = seats;
         this.census = census;

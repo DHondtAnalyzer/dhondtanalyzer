@@ -8,6 +8,8 @@ import {Party} from "./party";
 
 export class Election {
 
+    key: string;
+
     name: string;
     date: Date;
     seats: number;

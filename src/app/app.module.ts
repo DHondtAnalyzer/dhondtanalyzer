@@ -9,13 +9,11 @@ import {MaterialModule} from '@angular/material';
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from "./app-routing.module";
 import {AuthGuard} from "./shared/auth/auth.guard";
-import { DaoComponent } from './dao/dao/dao.component';
 import {DaoModule} from "./dao/dao.module";
 
 @NgModule({
     declarations: [
         AppComponent,
-        DaoComponent,
     ],
     imports: [
         BrowserModule,

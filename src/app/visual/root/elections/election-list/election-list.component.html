@@ -1,27 +1,7 @@
 <md-grid-list cols="6" >
-    <md-grid-tile>
+    <md-grid-tile *ngFor="let election of electionList">
         <md-card>
-            Basic card.
-        </md-card>
-    </md-grid-tile>
-    <md-grid-tile>
-        <md-card>
-            Basic card.
-        </md-card>
-    </md-grid-tile>
-    <md-grid-tile>
-        <md-card>
-            Basic card.
-        </md-card>
-    </md-grid-tile>
-    <md-grid-tile>
-        <md-card>
-            Basic card.
-        </md-card>
-    </md-grid-tile>
-    <md-grid-tile>
-        <md-card>
-            Basic card.
+            {{election.name}}
         </md-card>
     </md-grid-tile>
 </md-grid-list>

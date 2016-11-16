@@ -4,6 +4,8 @@ import {District} from "./district";
  */
 export class Region {
 
+    key: string;
+
     name: string;
     districtList: District[];
 
