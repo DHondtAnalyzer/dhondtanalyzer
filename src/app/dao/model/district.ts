@@ -4,6 +4,7 @@
 
 import {Election} from "./election";
 import {Region} from "./region";
+import {VoteCount} from "./vote-count";
 
 export class District {
 
@@ -11,9 +12,13 @@ export class District {
     census: number;
 
     election: Election;
-    region: Region;
 
-    constructor(seats: number, census: number){
+    region: Region;
+    voteCountList: VoteCount[];
+
+    constructor(election: Election, region:Region, seats: number, census: number){
+        this.election = election;
+        this.region = region;
         this.seats = seats;
         this.census = census;
     }

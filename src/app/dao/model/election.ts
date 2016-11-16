@@ -4,6 +4,7 @@
 
 import {ElectionType} from "./election-type";
 import {District} from "./district";
+import {Party} from "./party";
 
 export class Election {
 
@@ -13,13 +14,16 @@ export class Election {
     type: ElectionType;
 
     districtList: District[];
+    partyList: Party[];
 
-
-    constructor(name: string, date: Date, seats: number, type: ElectionType){
+    constructor(name: string, date: Date, seats: number,
+                type: ElectionType, districtList?: District[], partyList?:Party[]){
         this.name = name;
         this.date = date;
         this.seats = seats;
         this.type = type;
+        this.districtList = districtList;
+        this.partyList = partyList;
     }
 
 }
