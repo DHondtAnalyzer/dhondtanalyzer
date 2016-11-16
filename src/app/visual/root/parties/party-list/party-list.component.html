@@ -1,3 +1,7 @@
-<p>
-  party-list works!
-</p>
+<md-grid-list cols="6" >
+    <md-grid-tile *ngFor="let party of parties">
+        <md-card>
+            {{party.name}}
+        </md-card>
+    </md-grid-tile>
+</md-grid-list>
