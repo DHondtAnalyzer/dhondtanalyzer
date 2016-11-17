@@ -1,5 +1,5 @@
 <md-grid-list cols="6" >
-    <md-grid-tile *ngFor="let party of partyList" (click)="openDialog()">
+    <md-grid-tile *ngFor="let party of partyList" (click)="openDialog('hola')">
         <md-card>
             {{party.name}}
         </md-card>

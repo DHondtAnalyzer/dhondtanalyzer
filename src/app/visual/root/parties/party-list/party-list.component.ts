@@ -1,3 +1,4 @@
+import {Location} from '@angular/common';
 import {Component, OnInit, ViewContainerRef} from '@angular/core';
 
 import {MdDialog, MdDialogRef} from "@angular/material";
@@ -20,17 +21,29 @@ export class PartyListComponent implements OnInit {
 
     constructor(private dialog: MdDialog,
                 private viewContainerRef: ViewContainerRef,
-                private daoService: DaoService) {
+                private daoService: DaoService,
+                private location: Location) {
     }
 
     ngOnInit() {
         this.partyList = this.daoService.partyList;
     }
 
-    openDialog() {
+    openDialog(partyKey: string) {
+
+        let basePath = this.location.path();
+
         this.dialogRef = this.dialog.open(PartyDetailComponent, {
             viewContainerRef: this.viewContainerRef,
             role: 'dialog'
+        });
+
+        this.dialogRef.componentInstance.partyKey = partyKey;
+        this.location.go(basePath + "/" + partyKey);
+
+        this.dialogRef.afterClosed().subscribe(() => {
+            this.location.go(basePath);
+            this.dialogRef = null;
         });
     }
 
