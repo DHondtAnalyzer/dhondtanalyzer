@@ -1,5 +1,4 @@
 import {Component, OnInit,} from '@angular/core';
-import {ActivatedRoute, Params} from "@angular/router";
 
 @Component({
     selector: 'app-party-detail',
@@ -10,22 +9,10 @@ export class PartyDetailComponent implements OnInit{
 
     private _partyId: string;
 
-    constructor(
-        private route: ActivatedRoute
-    ) {
+    constructor() {
     }
 
     ngOnInit(){
-        this.readRoute();
-    }
-
-    readRoute():void {
-        this.route.params
-            .forEach((params: Params) => {
-                if (params['id'] !== undefined) {
-                    this.partyId = params['id'];
-                }
-        });
     }
 
 

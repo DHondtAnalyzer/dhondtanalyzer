@@ -17,6 +17,9 @@ import {ElectionDetailComponent} from "./election-detail/election-detail.compone
         ElectionListComponent,
         ElectionDetailComponent
     ],
+    entryComponents: [
+        ElectionDetailComponent
+    ],
     imports: [
         CommonModule,
         MaterialModule,

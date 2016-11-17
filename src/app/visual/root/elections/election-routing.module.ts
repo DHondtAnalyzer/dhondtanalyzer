@@ -20,7 +20,7 @@ import {ElectionDetailComponent} from "./election-detail/election-detail.compone
                 path: '',
                 children: [
                     { path: '', component: ElectionListComponent },
-                    { path: ':id', component: ElectionDetailComponent },
+                    { path: ':id', component: ElectionListComponent },
                 ]
             }
         ])
