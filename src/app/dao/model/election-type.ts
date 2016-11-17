@@ -6,5 +6,4 @@ export enum ElectionType {
     AUTONOMICAS,
     GENERALES,
     EUROPEAS
-
 }
