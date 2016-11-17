@@ -1,4 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewContainerRef} from '@angular/core';
+
+import {MdDialog, MdDialogRef} from "@angular/material";
+
+import {PartyDetailComponent} from "../party-detail/party-detail.component";
+
 import {Party} from "../../../../dao/model/party";
 import {DaoService} from "../../../../dao/dao.service";
 
@@ -9,15 +14,24 @@ import {DaoService} from "../../../../dao/dao.service";
 })
 export class PartyListComponent implements OnInit {
 
+    dialogRef: MdDialogRef<PartyDetailComponent>;
+
     private partyList: Party[];
 
-    constructor(
-        private daoService: DaoService
-    ) {
+    constructor(private dialog: MdDialog,
+                private viewContainerRef: ViewContainerRef,
+                private daoService: DaoService) {
     }
 
     ngOnInit() {
         this.partyList = this.daoService.partyList;
+    }
+
+    openDialog() {
+        this.dialogRef = this.dialog.open(PartyDetailComponent, {
+            viewContainerRef: this.viewContainerRef,
+            role: 'dialog'
+        });
     }
 
 }

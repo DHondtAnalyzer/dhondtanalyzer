@@ -2,7 +2,7 @@
  * Created by garciparedes on 10/11/2016.
  */
 
-import { NgModule } from '@angular/core';
+import {NgModule} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {MaterialModule} from "@angular/material";
 
@@ -17,6 +17,9 @@ import {PartyDetailComponent} from "./party-detail/party-detail.component";
         PartyListComponent,
         PartyDetailComponent
     ],
+    entryComponents: [
+        PartyDetailComponent
+    ],
     imports: [
         CommonModule,
         MaterialModule,
@@ -24,4 +27,5 @@ import {PartyDetailComponent} from "./party-detail/party-detail.component";
     ],
     providers: []
 })
-export class PartyModule { }
+export class PartyModule {
+}
