@@ -29,7 +29,7 @@ export class PartyListComponent implements OnInit {
         this.partyList = this.daoService.partyList;
     }
 
-    openDialog(partyKey: string) {
+    openDialog(partyId: string) {
 
         let basePath = this.location.path();
 
@@ -38,8 +38,8 @@ export class PartyListComponent implements OnInit {
             role: 'dialog'
         });
 
-        this.dialogRef.componentInstance.partyKey = partyKey;
-        this.location.go(basePath + "/" + partyKey);
+        this.dialogRef.componentInstance.partyId = partyId;
+        this.location.go(basePath + "/" + partyId);
 
         this.dialogRef.afterClosed().subscribe(() => {
             this.location.go(basePath);
