@@ -7,6 +7,7 @@ import {District} from "./district";
 import {Party} from "./party";
 
 export interface ElectionRaw{
+  id: string;
   name: string;
   date: Date;
   seats: number;
@@ -14,7 +15,7 @@ export interface ElectionRaw{
 }
 
 export class Election {
-
+    id: string;
     name: string;
     date: Date;
     seats: number;
@@ -36,6 +37,7 @@ export class Election {
 
     static fromRaw(raw: ElectionRaw){
       let instance = new Election();
+      instance.id = raw.id;
       instance.name = raw.name;
       instance.date = raw.date;
       instance.seats = raw.seats;
