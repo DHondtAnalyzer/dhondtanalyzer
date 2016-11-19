@@ -15,20 +15,26 @@ export class ElectionListComponent implements OnInit {
 
   ngOnInit() {
     let test_election = Election.fromRaw({
+      id: 'election1',
       name: 'Elecciones Generales',
       date: new Date(),
       seats: 5,
       type: ElectionType.GENERALES,
     });
-    this.dao.createElection(test_election).then((election) => {
-      console.log(election);
-      this.elections.push(election);
+    this.dao.createElection('election1',test_election).then(_ => {
+      test_election.id = 'election1';
+      console.log(test_election);
+      this.dao.getElections().then((elections) => {
+        console.log('after creation',elections);
+        this.elections = elections;
+      }).catch((error) => {
+        console.error(error);
+      });
     }).catch((error) => {
       console.error(error);
     });
     this.dao.getElections().then((elections) => {
-      console.log(elections);
-      this.elections = elections;
+      console.log('just after',elections);
     }).catch((error) => {
       console.error(error);
     });
