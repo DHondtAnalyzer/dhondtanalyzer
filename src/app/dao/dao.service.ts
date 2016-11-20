@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { AngularFire } from 'angularfire2';
 import 'angularfire2/node_modules/firebase';
+import {FirebaseListObservable, FirebaseObjectObservable} from 'angularfire2';
 // import 'firebase';
 import 'rxjs/add/operator/toPromise';
 
@@ -19,15 +20,15 @@ export class DaoService {
   createElection(id: string, election: Election): firebase.Promise<void>{
     return this.af.database.object('/rest/elections/'+id).set(election);
   }
-  
+
   // FIXME: Property 'toArray' does not exist on type 'FirebaseListObservable<any[]>'
-  getElections(): Promise<Election[]>{
-    return this.af.database.list('/rest/elections').toArray();
+  getElections(): FirebaseListObservable<Election[]>{
+    return this.af.database.list('/rest/elections');
   }
 
   // FIXME: Property 'toArray' does not exist on type 'FirebaseObjectObservable<any[]>'
-  getElection(id: string): Promise<Election>{
-    return this.af.database.object('/rest/elections/'+id).toArray();
+  getElection(id: string): FirebaseObjectObservable<Election>{
+    return this.af.database.object('/rest/elections/'+id);
   }
 
   updateElection(id: string, election: Election): firebase.Promise<void>{
@@ -47,13 +48,13 @@ export class DaoService {
   }
 
   // FIXME: Property 'toArray' does not exist on type 'FirebaseListObservable<any[]>'
-  getPartys(): Promise<Party[]>{
-    return this.af.database.list('/rest/partys').toArray();
+  getPartys(): FirebaseListObservable<Party[]>{
+    return this.af.database.list('/rest/partys');
   }
 
   // FIXME: Property 'toArray' does not exist on type 'FirebaseObjectObservable<any[]>'
-  getParty(id: string): Promise<Party>{
-    return this.af.database.object('/rest/partys/'+id).toArray();
+  getParty(id: string): FirebaseObjectObservable<Party>{
+    return this.af.database.object('/rest/partys/'+id);
   }
 
   updateParty(id: string, party: Party): firebase.Promise<void>{

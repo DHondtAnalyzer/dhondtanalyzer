@@ -13,12 +13,6 @@ import {AuthGuard} from "./shared/auth/auth.guard";
 import { DaoModule } from "./dao/dao.module";
 import { AngularFireModule } from 'angularfire2';
 
-let http : Http;
-//
-// http.request('./config.json').map(res => {
-//   let data = res.json();
-//   firebaseConfig = data.firebase;
-// })
 
 @NgModule({
     declarations: [
@@ -32,7 +26,7 @@ let http : Http;
         MaterialModule.forRoot(),
         AppRoutingModule,
         DaoModule,
-        AngularFireModule.initializeApp(firebaseConfig)
+        // AngularFireModule.initializeApp(firebaseConfig)
     ],
     providers: [AuthGuard],
     bootstrap: [AppComponent]
