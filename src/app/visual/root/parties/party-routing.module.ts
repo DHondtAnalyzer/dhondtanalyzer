@@ -18,7 +18,7 @@ import {PartyDetailComponent} from "./party-detail/party-detail.component";
                 path: '',
                 children: [
                     { path: '', component: PartyListComponent },
-                    { path: ':id', component: PartyDetailComponent },
+                    { path: ':id', component: PartyListComponent },
                 ]
             }
         ])

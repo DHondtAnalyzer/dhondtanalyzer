@@ -1,15 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit,} from '@angular/core';
 
 @Component({
-  selector: 'app-party-detail',
-  templateUrl: './party-detail.component.html',
-  styleUrls: ['./party-detail.component.css']
+    selector: 'app-party-detail',
+    templateUrl: './party-detail.component.html',
+    styleUrls: ['./party-detail.component.css']
 })
-export class PartyDetailComponent implements OnInit {
+export class PartyDetailComponent implements OnInit{
 
-  constructor() { }
+    private _partyId: string;
 
-  ngOnInit() {
-  }
+    constructor() {
+    }
+
+    ngOnInit(){
+    }
+
+
+    get partyId(): string {
+        return this._partyId
+    }
+
+    set partyId(partyKey: string) {
+        this._partyId = partyKey;
+    }
 
 }
