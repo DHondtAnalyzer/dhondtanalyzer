@@ -13,3 +13,6 @@ body {
 }
 button:focus {outline:0;}
 
+md-dialog-container.md-dialog-container {
+    padding: 0;
+}
