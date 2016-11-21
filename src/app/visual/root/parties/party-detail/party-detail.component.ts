@@ -1,27 +1,50 @@
-import {Component, OnInit,} from '@angular/core';
+import {Component} from '@angular/core';
 
+
+/**
+ * Clase PartyDetailComponent. Implementa la funcionalidad de un Componente.
+ *
+ * PartyDetailComponent se encarga de representar visualmente un partido político.
+ */
 @Component({
     selector: 'app-party-detail',
     templateUrl: './party-detail.component.html',
     styleUrls: ['./party-detail.component.css']
 })
-export class PartyDetailComponent implements OnInit{
+export class PartyDetailComponent {
 
+
+    /**
+     * Atributo partyId.
+     *
+     * El tipo es string.
+     */
     private _partyId: string;
 
+
+    /**
+     * Constructor de la clase.
+     */
     constructor() {
     }
 
-    ngOnInit(){
-    }
 
-
+    /**
+     * Getter del atributo partyId.
+     *
+     * @returns {string}
+     */
     get partyId(): string {
         return this._partyId
     }
 
-    set partyId(partyKey: string) {
-        this._partyId = partyKey;
-    }
 
+    /**
+     * Setter del atributo partyId.
+     *
+     * @param partyId
+     */
+    set partyId(partyId: string) {
+        this._partyId = partyId;
+    }
 }

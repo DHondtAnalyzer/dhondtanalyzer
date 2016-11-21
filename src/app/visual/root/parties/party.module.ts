@@ -1,7 +1,3 @@
-/**
- * Created by garciparedes on 10/11/2016.
- */
-
 import {NgModule} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {MaterialModule} from "@angular/material";
@@ -12,6 +8,12 @@ import {PartyListComponent} from "./party-list/party-list.component";
 import {PartyDetailComponent} from "./party-detail/party-detail.component";
 
 
+/**
+ * Clase PartyModule. Implementa la funcionalidad de un Modulo.
+ *
+ * PartyModule es el módulo que implementa los componentes necesarios para
+ * visualizar los Partidos Políticos.
+ */
 @NgModule({
     declarations: [
         PartyListComponent,
@@ -28,4 +30,11 @@ import {PartyDetailComponent} from "./party-detail/party-detail.component";
     providers: []
 })
 export class PartyModule {
+
+
+    /**
+     * Constructor de la clase.
+     */
+    constructor() {
+    }
 }

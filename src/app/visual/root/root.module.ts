@@ -31,4 +31,11 @@ import {RootRoutingModule} from "./root-routing.module";
     providers: []
 })
 export class RootModule {
+
+
+    /**
+     * Constructor de la clase.
+     */
+    constructor() {
+    }
 }

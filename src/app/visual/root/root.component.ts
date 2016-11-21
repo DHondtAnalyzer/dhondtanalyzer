@@ -23,6 +23,13 @@ export class RootComponent implements OnInit {
 
 
     /**
+     * Constructor de la clase.
+     */
+    constructor() {
+    }
+
+
+    /**
      * Getter del atributo title.
      *
      * @returns {string}

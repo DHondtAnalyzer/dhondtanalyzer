@@ -48,4 +48,11 @@ import {RootComponent} from "./root.component";
     ]
 })
 export class RootRoutingModule {
+
+
+    /**
+     * Constructor de la clase.
+     */
+    constructor() {
+    }
 }
