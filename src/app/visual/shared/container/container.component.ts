@@ -1,15 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import {Component} from '@angular/core';
 
+
+/**
+ * Clase ContainerComponent. Implementa la funcionalidad de un Componente.
+ *
+ * ContainerComponent es un componente que actua como contenedor de contenido
+ * aplicando márgenes y colocando apropiadamente el contenido que se añada en
+ * su interior.
+ */
 @Component({
-  selector: 'app-container',
-  templateUrl: './container.component.html',
-  styleUrls: ['./container.component.css']
+    selector: 'app-container',
+    templateUrl: './container.component.html',
+    styleUrls: ['./container.component.css']
 })
-export class ContainerComponent implements OnInit {
+export class ContainerComponent {
 
-  constructor() { }
 
-  ngOnInit() {
-  }
-
+    /**
+     * Constructor de la clase.
+     */
+    constructor() {
+    }
 }

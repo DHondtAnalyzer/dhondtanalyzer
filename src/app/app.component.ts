@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 
 
 /**
@@ -12,4 +12,11 @@ import { Component } from '@angular/core';
     styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+
+
+    /**
+     * Constructor de la clase.
+     */
+    constructor() {
+    }
 }

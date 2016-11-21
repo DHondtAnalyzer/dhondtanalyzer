@@ -1,5 +1,5 @@
-import { NgModule }     from '@angular/core';
-import { RouterModule } from '@angular/router';
+import {NgModule}     from '@angular/core';
+import {RouterModule} from '@angular/router';
 import {AuthGuard} from "./shared/auth/auth.guard";
 
 
@@ -12,7 +12,7 @@ import {AuthGuard} from "./shared/auth/auth.guard";
  *
  * Para poder acceder al contenido de RootModule es necesario haberse
  * identificado previamente en el sistema. Esta comprobación se realiza en la
- * clase AuthGuard
+ * clase AuthGuard.
  */
 @NgModule({
     imports: [
@@ -32,4 +32,12 @@ import {AuthGuard} from "./shared/auth/auth.guard";
         RouterModule
     ]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule {
+
+
+    /**
+     * Constructor de la clase.
+     */
+    constructor() {
+    }
+}

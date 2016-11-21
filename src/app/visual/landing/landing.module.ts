@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import {NgModule} from '@angular/core';
 
 import {CommonModule} from "@angular/common";
 import {MaterialModule} from "@angular/material";
@@ -23,4 +23,12 @@ import {LandingComponent} from "./landing.component";
     ],
     providers: []
 })
-export class LandingModule { }
+export class LandingModule {
+
+
+    /**
+     * Constructor de la clase.
+     */
+    constructor() {
+    }
+}

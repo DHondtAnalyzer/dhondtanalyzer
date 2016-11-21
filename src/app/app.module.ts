@@ -33,4 +33,11 @@ import {DaoModule} from "./dao/dao.module";
     bootstrap: [AppComponent]
 })
 export class AppModule {
+
+
+    /**
+     * Constructor de la clase.
+     */
+    constructor() {
+    }
 }

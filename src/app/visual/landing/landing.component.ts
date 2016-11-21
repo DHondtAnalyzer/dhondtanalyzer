@@ -21,7 +21,12 @@ import {Router} from "@angular/router";
 export class LandingComponent implements OnInit {
 
 
-    private title: string;
+    /**
+     * Atributo title.
+     *
+     * El tipo es string.
+     */
+    private _title: string;
 
 
     /**
@@ -31,6 +36,26 @@ export class LandingComponent implements OnInit {
      * rutas dentro de la aplicación.
      */
     constructor(private router: Router,) {
+    }
+
+
+    /**
+     * Getter del atributo title.
+     *
+     * @returns {string}
+     */
+    get title(): string {
+        return this._title;
+    }
+
+
+    /**
+     * Setter del atributo title.
+     *
+     * @param value
+     */
+    set title(value: string) {
+        this._title = value;
     }
 
 

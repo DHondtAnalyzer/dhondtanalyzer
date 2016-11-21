@@ -1,8 +1,8 @@
-import { NgModule }     from '@angular/core';
+import {NgModule}     from '@angular/core';
 
-import { RouterModule } from '@angular/router';
+import {RouterModule} from '@angular/router';
 
-import { LandingComponent } from "./landing.component";
+import {LandingComponent} from "./landing.component";
 
 
 /**
@@ -23,4 +23,12 @@ import { LandingComponent } from "./landing.component";
         RouterModule
     ]
 })
-export class LandingRoutingModule {}
+export class LandingRoutingModule {
+
+
+    /**
+     * Constructor de la clase.
+     */
+    constructor() {
+    }
+}
