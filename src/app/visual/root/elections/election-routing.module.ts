@@ -1,26 +1,24 @@
-/**
- * Created by garciparedes on 10/11/2016.
- */
+import {NgModule}     from '@angular/core';
 
-import { NgModule }     from '@angular/core';
-
-import { RouterModule } from '@angular/router';
+import {RouterModule} from '@angular/router';
 
 import {ElectionListComponent} from "./election-list/election-list.component";
-import {ElectionDetailComponent} from "./election-detail/election-detail.component";
 
 
-
-
-
+/**
+ * Clase ElectionRoutingModule. Implementa la funcionalidad de un Módulo.
+ *
+ * ElectionRoutingModule es la clase encarga de redistribuir el tráfico principal
+ * de la aplicación dentro del módulo Election.
+ */
 @NgModule({
     imports: [
         RouterModule.forChild([
             {
                 path: '',
                 children: [
-                    { path: '', component: ElectionListComponent },
-                    { path: ':id', component: ElectionListComponent },
+                    {path: '', component: ElectionListComponent},
+                    {path: ':id', component: ElectionListComponent},
                 ]
             }
         ])
@@ -29,4 +27,12 @@ import {ElectionDetailComponent} from "./election-detail/election-detail.compone
         RouterModule
     ]
 })
-export class ElectionRoutingModule {}
+export class ElectionRoutingModule {
+
+
+    /**
+     * Constructor de la clase.
+     */
+    constructor() {
+    }
+}

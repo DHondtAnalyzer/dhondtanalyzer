@@ -11,6 +11,12 @@ import {AppRoutingModule} from "./app-routing.module";
 import {AuthGuard} from "./shared/auth/auth.guard";
 import {DaoModule} from "./dao/dao.module";
 
+
+/**
+ * Clase AppModule. Implementa la funcionalidad de un Modulo.
+ *
+ * AppModule es el módulo raíz de la aplicación.
+ */
 @NgModule({
     declarations: [
         AppComponent,
@@ -27,4 +33,11 @@ import {DaoModule} from "./dao/dao.module";
     bootstrap: [AppComponent]
 })
 export class AppModule {
+
+
+    /**
+     * Constructor de la clase.
+     */
+    constructor() {
+    }
 }

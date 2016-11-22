@@ -1,8 +1,4 @@
-/**
- * Created by garciparedes on 10/11/2016.
- */
-
-import { NgModule } from '@angular/core';
+import {NgModule} from '@angular/core';
 
 import {CommonModule} from "@angular/common";
 import {MaterialModule} from "@angular/material";
@@ -14,6 +10,12 @@ import {RootComponent} from "./root.component";
 import {RootRoutingModule} from "./root-routing.module";
 
 
+/**
+ * Clase RootModule. Implementa la funcionalidad de un Modulo.
+ *
+ * RootModule es el módulo raíz de la aplicación una vez el usuario se ha
+ * identificado en el sistema.
+ */
 @NgModule({
     declarations: [
         ToolbarComponent,
@@ -28,4 +30,12 @@ import {RootRoutingModule} from "./root-routing.module";
     ],
     providers: []
 })
-export class RootModule { }
+export class RootModule {
+
+
+    /**
+     * Constructor de la clase.
+     */
+    constructor() {
+    }
+}
