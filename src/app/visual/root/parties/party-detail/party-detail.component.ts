@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {ComponentWithParams} from "../../../shared/component-with-params";
 import {Model} from "../../../../dao/model/model";
 import {Party} from "../../../../dao/model/party";
+import {MdDialogRef} from "@angular/material";
 
 
 /**
@@ -28,7 +29,9 @@ export class PartyDetailComponent implements ComponentWithParams {
     /**
      * Constructor de la clase.
      */
-    constructor() {
+    constructor(
+        private dialogRef: MdDialogRef<PartyDetailComponent>
+    ) {
     }
 
 
@@ -51,5 +54,9 @@ export class PartyDetailComponent implements ComponentWithParams {
      */
     set model(value: Party) {
         this._model = value;
+    }
+
+    private closeDialog(): void{
+        this.dialogRef.close();
     }
 }

@@ -1,14 +1,44 @@
-<md-toolbar color="primary">Basic</md-toolbar>
+<md-toolbar color="primary">
+    <span>{{model.name}}</span>
+
+    <span class="flex"></span>
+
+    <button md-icon-button  [md-menu-trigger-for]="menu">
+        <md-icon class="md-24">more_vert</md-icon>
+    </button>
+
+    <md-menu x-position="before"  #menu>
+        <button md-menu-item> Edit </button>
+    </md-menu>
+
+
+    <button md-icon-button (click)=closeDialog()>
+        <md-icon>close</md-icon>
+    </button>
+</md-toolbar>
+
 <div class="content">
     <form>
-        <table style="width: 100%" cellspacing="0"><tr>
-            <td><md-input placeholder="First name" style="width: 100%"></md-input></td>
-            <td><md-input placeholder="Long Last Name That Will Be Truncated" style="width: 100%"></md-input></td>
-        </tr></table>
-        <table style="width: 100%" cellspacing="0"><tr>
-            <td><md-input class="demo-full-width" placeholder="City"></md-input></td>
-            <td><md-input class="demo-full-width" placeholder="State"></md-input></td>
-        </tr></table>
+        <table style="width: 100%" cellspacing="0">
+            <tr>
+                <td>
+                    <md-input placeholder="First name" style="width: 100%"></md-input>
+                </td>
+                <td>
+                    <md-input placeholder="Long Last Name That Will Be Truncated" style="width: 100%"></md-input>
+                </td>
+            </tr>
+        </table>
+        <table style="width: 100%" cellspacing="0">
+            <tr>
+                <td>
+                    <md-input class="demo-full-width" placeholder="City"></md-input>
+                </td>
+                <td>
+                    <md-input class="demo-full-width" placeholder="State"></md-input>
+                </td>
+            </tr>
+        </table>
     </form>
     <p>
         party-detail works! This is {{model.name}}

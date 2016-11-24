@@ -16,3 +16,8 @@ button:focus {outline:0;}
 md-dialog-container.md-dialog-container {
     padding: 0;
 }
+
+.md-overlay-pane {
+    max-width: 960px;
+    width: 90%;
+}
