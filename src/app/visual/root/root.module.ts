@@ -8,6 +8,7 @@ import {ContainerComponent} from "../shared/container/container.component";
 import {HomeComponent} from "./home/home.component";
 import {RootComponent} from "./root.component";
 import {RootRoutingModule} from "./root-routing.module";
+import {DialogService} from "../shared/dialog/dialog.service";
 
 
 /**
@@ -28,7 +29,7 @@ import {RootRoutingModule} from "./root-routing.module";
         MaterialModule,
         RootRoutingModule
     ],
-    providers: []
+    providers: [DialogService]
 })
 export class RootModule {
 

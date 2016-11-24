@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {ComponentWithParams} from "../../../shared/component-with-params";
 
 
 /**
@@ -11,7 +12,7 @@ import {Component} from '@angular/core';
     templateUrl: './election-detail.component.html',
     styleUrls: ['./election-detail.component.css']
 })
-export class ElectionDetailComponent {
+export class ElectionDetailComponent implements ComponentWithParams {
 
 
     /**
@@ -30,6 +31,27 @@ export class ElectionDetailComponent {
 
 
     /**
+     * Getter del atributo objectId.
+     * (Necesario por la interfaz ComponentWithParams)
+     *
+     * @returns {string}
+     */
+    get objectId(): string {
+        return this.electionId;
+    }
+
+
+    /**
+     * Setter del atributo objectId
+     * (Necesario por la interfaz ComponentWithParams)
+     *
+     * @param value
+     */
+    set objectId(value: string) {
+        this.electionId = value;
+    }
+
+    /**
      * Getter del atributo electionId.
      *
      * @returns {string}
@@ -40,7 +62,7 @@ export class ElectionDetailComponent {
 
 
     /**
-     * Getter del atributo electionId.
+     * Setter del atributo electionId.
      *
      * @param electionId
      */

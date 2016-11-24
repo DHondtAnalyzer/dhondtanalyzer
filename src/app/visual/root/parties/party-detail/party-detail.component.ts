@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {ComponentWithParams} from "../../../shared/component-with-params";
 
 
 /**
@@ -11,7 +12,7 @@ import {Component} from '@angular/core';
     templateUrl: './party-detail.component.html',
     styleUrls: ['./party-detail.component.css']
 })
-export class PartyDetailComponent {
+export class PartyDetailComponent implements ComponentWithParams {
 
 
     /**
@@ -26,6 +27,28 @@ export class PartyDetailComponent {
      * Constructor de la clase.
      */
     constructor() {
+    }
+
+
+    /**
+     * Getter del atributo objectId.
+     * (Necesario por la interfaz ComponentWithParams)
+     *
+     * @returns {string}
+     */
+    get objectId(): string {
+        return this.partyId;
+    }
+
+
+    /**
+     * Setter del atributo objectId
+     * (Necesario por la interfaz ComponentWithParams)
+     *
+     * @param value
+     */
+    set objectId(value: string) {
+        this.partyId = value;
     }
 
 
