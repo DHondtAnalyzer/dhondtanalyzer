@@ -6,6 +6,7 @@ import {DaoService} from "../../../../dao/dao.service";
 
 import {Party} from "../../../../dao/model/party";
 import {PartyDetailComponent} from "../party-detail/party-detail.component";
+import {RouterService} from "../../../shared/router/router.service";
 
 
 /**
@@ -37,12 +38,14 @@ export class PartyListComponent implements OnInit {
      * @param viewContainerRef
      * @param route
      * @param daoService
-     * @param dialogHelper
+     * @param routerService
+     * @param dialogService
      */
     constructor(private viewContainerRef: ViewContainerRef,
                 private route: ActivatedRoute,
                 private daoService: DaoService,
-                private dialogHelper: DialogService) {
+                private routerService: RouterService<Party>,
+                private dialogService: DialogService,) {
     }
 
 
@@ -73,8 +76,20 @@ export class PartyListComponent implements OnInit {
      */
     ngOnInit() {
         this.partyList = this.daoService.partyList;
+        this.initRouterHelper();
         this.initDialogHelper();
         this.readRoute();
+    }
+
+
+    /**
+     * Función initRouterHelper.
+     *
+     * Se encarga de asignar los parámetros necesarios para poder utilizar
+     * el servicio que asigna el modelo a partir de la ruta en el dialog.
+     */
+    private initRouterHelper(): void {
+        this.routerService.init(this.route);
     }
 
 
@@ -84,9 +99,9 @@ export class PartyListComponent implements OnInit {
      * Se encarga de asignar los parámetros necesarios para poder utilizar
      * el servicio que muestra dialogs.
      */
-    initDialogHelper(): void {
-        this.dialogHelper.init(this.viewContainerRef,
-            PartyDetailComponent, this.route);
+    private initDialogHelper(): void {
+        this.dialogService.init(this.viewContainerRef,
+            PartyDetailComponent);
     }
 
 
@@ -97,8 +112,8 @@ export class PartyListComponent implements OnInit {
      * existan realiza una llamada a la función openDialog, que muestra el
      * detalle de una eleccion.
      */
-    readRoute(): void {
-        this.dialogHelper.readRoute();
+    private readRoute(): void {
+        this.routerService.readRoute(this.dialogService);
     }
 
 
@@ -113,8 +128,7 @@ export class PartyListComponent implements OnInit {
      * @param navigated boolean que indica si se ha hacedido a la url por
      * navegación.
      */
-    openDialog(partyId: string, navigated = false): void {
-        this.dialogHelper.openDialog(partyId, navigated);
+    private openDialog(partyId: Party, navigated = false): void {
+        this.dialogService.openDialog(partyId, navigated);
     }
-
 }

@@ -1,9 +1,10 @@
 import {Injectable, ViewContainerRef} from '@angular/core';
-import {ActivatedRoute, Params} from "@angular/router";
 import {Location} from '@angular/common';
 
 import {MdDialog, MdDialogRef, ComponentType} from "@angular/material";
 import {ComponentWithParams} from "../component-with-params";
+import {Model} from "../../../dao/model/model";
+import {ObjectFromRoute} from "../router/object-from-route";
 
 
 /**
@@ -11,9 +12,14 @@ import {ComponentWithParams} from "../component-with-params";
  *
  * Este servicio es el encargado de manejar el control de un diálogo dentro
  * de la web. Desde aquí se crea, se muestra, y se destruye.
+ *
+ * Implementa la capacidad de recibir llamadas externas a partir de la ruta.
  */
 @Injectable()
-export class DialogService {
+export class DialogService implements ObjectFromRoute<Model> {
+    objectCallback(object: Model): void {
+        this.openDialog(object, true);
+    }
 
 
     /**
@@ -32,15 +38,6 @@ export class DialogService {
      *
      */
     private componentType: ComponentType<ComponentWithParams>;
-
-
-    /**
-     * Atributo route.
-     *
-     * El tipo es ActivatedRoute.
-     *
-     */
-    private route: ActivatedRoute;
 
 
     /**
@@ -74,36 +71,11 @@ export class DialogService {
      * el dialog.
      *
      * @param componentType tipo del componente que esta dentro del dialog.
-     *
-     * @param route ruta desde la que se extrae el id del objeto a mostrar en
-     * el dialog.
      */
     public init(viewContainerRef: ViewContainerRef,
-                componentType: ComponentType<ComponentWithParams>,
-                route: ActivatedRoute) {
+                componentType: ComponentType<ComponentWithParams>) {
         this.viewContainerRef = viewContainerRef;
         this.componentType = componentType;
-        this.route = route;
-    }
-
-
-    /**
-     * Función readRoute.
-     *
-     * Se encarga de "leer" los parámetros de la url y en el caso de que estos
-     * existan realiza una llamada a la función openDialog, que muestra el
-     * detalle de una eleccion.
-     */
-    readRoute(): void {
-        this.route.params
-            .forEach((params: Params) => {
-                console.log(params);
-
-                if (params['id'] !== undefined) {
-                    this.openDialog(params['id'], true);
-                    console.log(params['id']);
-                }
-            });
     }
 
 
@@ -114,11 +86,11 @@ export class DialogService {
      * partido político a partir de un diálogo que contiene el contenido del
      * component PartyDetailComponent.
      *
-     * @param objectId string que representa el id del objeto a mostrar.
+     * @param model string que representa el id del objeto a mostrar.
      * @param navigated boolean que indica si se ha hacedido a la url por
      * navegación.
      */
-    openDialog(objectId: string, navigated = false) {
+    openDialog(model: Model, navigated = false) {
 
 
         let basePath = this.location.path();
@@ -130,9 +102,9 @@ export class DialogService {
         });
 
 
-        this.dialogRef.componentInstance.objectId = objectId;
+        this.dialogRef.componentInstance.model = model;
         if (!navigated) {
-            this.location.go(basePath + "/" + objectId);
+            this.location.go(basePath + "/" + model.key);
         }
 
         this.dialogRef.afterClosed().subscribe(() => {
@@ -141,7 +113,7 @@ export class DialogService {
 
             if (navigated) {
                 navigated = false;
-                basePath = basePath.split('/' + objectId)[0];
+                basePath = basePath.split('/' + model.key)[0];
                 this.location.go(basePath);
             }
         });

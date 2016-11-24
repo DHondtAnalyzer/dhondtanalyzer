@@ -9,6 +9,7 @@ import {HomeComponent} from "./home/home.component";
 import {RootComponent} from "./root.component";
 import {RootRoutingModule} from "./root-routing.module";
 import {DialogService} from "../shared/dialog/dialog.service";
+import {RouterService} from "../shared/router/router.service";
 
 
 /**
@@ -29,7 +30,10 @@ import {DialogService} from "../shared/dialog/dialog.service";
         MaterialModule,
         RootRoutingModule
     ],
-    providers: [DialogService]
+    providers: [
+        DialogService,
+        RouterService
+    ]
 })
 export class RootModule {
 

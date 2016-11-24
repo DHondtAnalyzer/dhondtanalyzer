@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {ComponentWithParams} from "../../../shared/component-with-params";
+import {Election} from "../../../../dao/model/election";
 
 
 /**
@@ -16,11 +17,11 @@ export class ElectionDetailComponent implements ComponentWithParams {
 
 
     /**
-     * Atributo electionId.
+     * Atributo model.
      *
      * El tipo es string.
      */
-    private _electionId: string;
+    private _model: Election;
 
 
     /**
@@ -31,42 +32,23 @@ export class ElectionDetailComponent implements ComponentWithParams {
 
 
     /**
-     * Getter del atributo objectId.
+     * Getter del atributo model.
      * (Necesario por la interfaz ComponentWithParams)
      *
-     * @returns {string}
+     * @returns {Election}
      */
-    get objectId(): string {
-        return this.electionId;
+    get model(): Election {
+        return this._model;
     }
 
 
     /**
-     * Setter del atributo objectId
+     * Setter del atributo model
      * (Necesario por la interfaz ComponentWithParams)
      *
      * @param value
      */
-    set objectId(value: string) {
-        this.electionId = value;
-    }
-
-    /**
-     * Getter del atributo electionId.
-     *
-     * @returns {string}
-     */
-    get electionId(): string {
-        return this._electionId
-    }
-
-
-    /**
-     * Setter del atributo electionId.
-     *
-     * @param electionId
-     */
-    set electionId(electionId: string) {
-        this._electionId = electionId;
+    set model(value: Election) {
+        this._model = value;
     }
 }

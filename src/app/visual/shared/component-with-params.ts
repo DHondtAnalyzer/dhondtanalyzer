@@ -1,4 +1,5 @@
 import {Component} from "@angular/core";
+import {Model} from "../../dao/model/model";
 
 
 /**
@@ -9,5 +10,5 @@ import {Component} from "@angular/core";
  * código.
  */
 export interface ComponentWithParams extends Component {
-    objectId: string;
+    model: Model;
 }

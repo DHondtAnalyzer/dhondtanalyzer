@@ -1,5 +1,5 @@
 <md-grid-list cols="6" >
-    <md-grid-tile *ngFor="let election of electionList" (click)="openDialog('hola')">
+    <md-grid-tile *ngFor="let election of electionList" (click)="openDialog(election)">
         <md-card>
             {{election.name}}
         </md-card>

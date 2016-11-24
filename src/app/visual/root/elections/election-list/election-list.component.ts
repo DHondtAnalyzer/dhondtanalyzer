@@ -6,6 +6,8 @@ import {DaoService} from "../../../../dao/dao.service";
 
 import {Election} from "../../../../dao/model/election";
 import {ElectionDetailComponent} from "../election-detail/election-detail.component";
+import {Model} from "../../../../dao/model/model";
+import {RouterService} from "../../../shared/router/router.service";
 
 
 /**
@@ -42,6 +44,7 @@ export class ElectionListComponent implements OnInit {
     constructor(private viewContainerRef: ViewContainerRef,
                 private route: ActivatedRoute,
                 private daoService: DaoService,
+                private routerHelper: RouterService<Election>,
                 private dialogService: DialogService) {
     }
 
@@ -73,8 +76,20 @@ export class ElectionListComponent implements OnInit {
      */
     ngOnInit() {
         this.electionList = this.daoService.electionList;
+        this.initRouterHelper();
         this.initDialogService();
         this.readRoute();
+    }
+
+
+    /**
+     * Función initRouterHelper.
+     *
+     * Se encarga de asignar los parámetros necesarios para poder utilizar
+     * el servicio que asigna el modelo a partir de la ruta en el dialog.
+     */
+    private initRouterHelper(): void {
+        this.routerHelper.init(this.route);
     }
 
 
@@ -84,9 +99,9 @@ export class ElectionListComponent implements OnInit {
      * Se encarga de asignar los parámetros necesarios para poder utilizar
      * el servicio que muestra dialogs.
      */
-    initDialogService(): void {
+    private initDialogService(): void {
         this.dialogService.init(this.viewContainerRef,
-            ElectionDetailComponent, this.route);
+            ElectionDetailComponent);
     }
 
 
@@ -97,8 +112,8 @@ export class ElectionListComponent implements OnInit {
      * existan realiza una llamada a la función openDialog, que muestra el
      * detalle de una eleccion.
      */
-    readRoute(): void {
-        this.dialogService.readRoute();
+    private readRoute(): void {
+        this.routerHelper.readRoute(this.dialogService);
     }
 
 
@@ -113,7 +128,7 @@ export class ElectionListComponent implements OnInit {
      * @param navigated boolean que indica si se ha hacedido a la url por
      * navegación.
      */
-    openDialog(electionId: string, navigated = false) {
+    private openDialog(electionId: Model, navigated = false) {
         this.dialogService.openDialog(electionId, navigated);
     }
 }

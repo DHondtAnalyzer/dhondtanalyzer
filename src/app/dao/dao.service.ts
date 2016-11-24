@@ -21,6 +21,11 @@ export class DaoService {
             new Party("Ciudadanos", "C", "naranja"),
         ];
 
+        this.partyList[0].key = "hola";
+        this.partyList[1].key = "hola";
+        this.partyList[2].key = "hola";
+        this.partyList[3].key = "hola";
+
         this._regionList = [
             new Region("Madrid"),
             new Region("Barcelona"),

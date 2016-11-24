@@ -1,5 +1,7 @@
 import {Component} from '@angular/core';
 import {ComponentWithParams} from "../../../shared/component-with-params";
+import {Model} from "../../../../dao/model/model";
+import {Party} from "../../../../dao/model/party";
 
 
 /**
@@ -16,11 +18,11 @@ export class PartyDetailComponent implements ComponentWithParams {
 
 
     /**
-     * Atributo partyId.
+     * Atributo model.
      *
-     * El tipo es string.
+     * El tipo es Party.
      */
-    private _partyId: string;
+    private _model: Party;
 
 
     /**
@@ -31,43 +33,23 @@ export class PartyDetailComponent implements ComponentWithParams {
 
 
     /**
-     * Getter del atributo objectId.
+     * Getter del atributo model.
      * (Necesario por la interfaz ComponentWithParams)
      *
      * @returns {string}
      */
-    get objectId(): string {
-        return this.partyId;
+    get model(): Party {
+        return this._model;
     }
 
 
     /**
-     * Setter del atributo objectId
+     * Setter del atributo model
      * (Necesario por la interfaz ComponentWithParams)
      *
      * @param value
      */
-    set objectId(value: string) {
-        this.partyId = value;
-    }
-
-
-    /**
-     * Getter del atributo partyId.
-     *
-     * @returns {string}
-     */
-    get partyId(): string {
-        return this._partyId
-    }
-
-
-    /**
-     * Setter del atributo partyId.
-     *
-     * @param partyId
-     */
-    set partyId(partyId: string) {
-        this._partyId = partyId;
+    set model(value: Party) {
+        this._model = value;
     }
 }
