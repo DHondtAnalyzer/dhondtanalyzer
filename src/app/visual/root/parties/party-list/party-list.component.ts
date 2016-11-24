@@ -1,13 +1,12 @@
-import {Location} from '@angular/common';
 import {Component, OnInit, ViewContainerRef} from '@angular/core';
+import {ActivatedRoute} from "@angular/router";
 
-import {MdDialog, MdDialogRef} from "@angular/material";
-
-import {PartyDetailComponent} from "../party-detail/party-detail.component";
+import {DialogService} from "../../../shared/dialog/dialog.service";
+import {DaoService} from "../../../../dao/dao.service";
 
 import {Party} from "../../../../dao/model/party";
-import {DaoService} from "../../../../dao/dao.service";
-import {Params, ActivatedRoute} from "@angular/router";
+import {PartyDetailComponent} from "../party-detail/party-detail.component";
+import {RouterService} from "../../../shared/router/router.service";
 
 
 /**
@@ -26,16 +25,6 @@ export class PartyListComponent implements OnInit {
 
 
     /**
-     * Atributo dialogRef.
-     *
-     * El tipo es MdDialogRef<PartyDetailComponent>.
-     *
-     * Representa el dialog que muestra los detalles de un Partido Político.
-     */
-    private _dialogRef: MdDialogRef<PartyDetailComponent>;
-
-
-    /**
      * Atributo partyList.
      *
      * El tipo es Array<Party>
@@ -46,37 +35,17 @@ export class PartyListComponent implements OnInit {
     /**
      * Constructor de la clase.
      *
-     * @param dialog
      * @param viewContainerRef
-     * @param daoService
-     * @param location
      * @param route
+     * @param daoService
+     * @param routerService
+     * @param dialogService
      */
-    constructor(private dialog: MdDialog,
-                private viewContainerRef: ViewContainerRef,
+    constructor(private viewContainerRef: ViewContainerRef,
+                private route: ActivatedRoute,
                 private daoService: DaoService,
-                private location: Location,
-                private route: ActivatedRoute) {
-    }
-
-
-    /**
-     * Getter del atributo dialogRef.
-     *
-     * @returns {MdDialogRef<PartyDetailComponent>}
-     */
-    get dialogRef(): MdDialogRef<PartyDetailComponent> {
-        return this._dialogRef;
-    }
-
-
-    /**
-     * Setter del atributo dialogRef.
-     *
-     * @param value
-     */
-    set dialogRef(value: MdDialogRef<PartyDetailComponent>) {
-        this._dialogRef = value;
+                private routerService: RouterService<Party>,
+                private dialogService: DialogService,) {
     }
 
 
@@ -107,7 +76,32 @@ export class PartyListComponent implements OnInit {
      */
     ngOnInit() {
         this.partyList = this.daoService.partyList;
+        this.initRouterHelper();
+        this.initDialogHelper();
         this.readRoute();
+    }
+
+
+    /**
+     * Función initRouterHelper.
+     *
+     * Se encarga de asignar los parámetros necesarios para poder utilizar
+     * el servicio que asigna el modelo a partir de la ruta en el dialog.
+     */
+    private initRouterHelper(): void {
+        this.routerService.init(this.route);
+    }
+
+
+    /**
+     * Función initDialogService.
+     *
+     * Se encarga de asignar los parámetros necesarios para poder utilizar
+     * el servicio que muestra dialogs.
+     */
+    private initDialogHelper(): void {
+        this.dialogService.init(this.viewContainerRef,
+            PartyDetailComponent);
     }
 
 
@@ -118,13 +112,8 @@ export class PartyListComponent implements OnInit {
      * existan realiza una llamada a la función openDialog, que muestra el
      * detalle de una eleccion.
      */
-    readRoute(): void {
-        this.route.params
-            .forEach((params: Params) => {
-                if (params['id'] !== undefined) {
-                    this.openDialog(params['id'], true);
-                }
-            });
+    private readRoute(): void {
+        this.routerService.readRoute(this.dialogService);
     }
 
 
@@ -139,31 +128,7 @@ export class PartyListComponent implements OnInit {
      * @param navigated boolean que indica si se ha hacedido a la url por
      * navegación.
      */
-    openDialog(partyId: string, navigated = false) {
-
-        let basePath = this.location.path();
-
-        this.dialogRef = this.dialog.open(PartyDetailComponent, {
-            viewContainerRef: this.viewContainerRef,
-            role: 'dialog'
-        });
-
-        this.dialogRef.componentInstance.partyId = partyId;
-        if (!navigated) {
-            this.location.go(basePath + "/" + partyId);
-        }
-
-        this.dialogRef.afterClosed().subscribe(() => {
-            this.location.go(basePath);
-            this.dialogRef = null;
-
-            if (navigated) {
-                navigated = false;
-                basePath = basePath.split('/' + partyId)[0];
-                this.location.go(basePath);
-            }
-        });
-
+    private openDialog(partyId: Party, navigated = false): void {
+        this.dialogService.openDialog(partyId, navigated);
     }
-
 }
