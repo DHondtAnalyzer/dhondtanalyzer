@@ -2,26 +2,22 @@
     padding: 24px;
 }
 
-md-toolbar {
-    height: 140px;
-}
-
 md-input {
     width: 100%;
 }
 
 .md-fab-editing {
     position: absolute;
-    top: 110px;
+    top: 100px;
     right: 5%;
-}
-
-md-toolbar-row  {
-    padding-top: 50px;
 }
 
 
 md-grid-tile md-card {
     width: 95%;
     height: 95%;
+}
+
+md-input.toolbar-input {
+    font-size: 28px
 }
