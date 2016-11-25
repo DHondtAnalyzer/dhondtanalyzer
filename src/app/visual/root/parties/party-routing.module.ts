@@ -15,12 +15,11 @@ import {PartyDetailComponent} from "./party-detail/party-detail.component";
     imports: [
         RouterModule.forChild([
             {
-                path: '',
-                children: [
-                    {path: '', component: PartyListComponent},
-                    {path: ':id', component: PartyListComponent},
-                ]
-            }
+                path: '', component: PartyListComponent
+            },
+            {
+                path: ':id', component: PartyListComponent
+            },
         ])
     ],
     exports: [
