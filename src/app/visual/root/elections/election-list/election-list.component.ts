@@ -8,6 +8,7 @@ import {Election} from "../../../../dao/model/election";
 import {ElectionDetailComponent} from "../election-detail/election-detail.component";
 import {Model} from "../../../../dao/model/model";
 import {RouterService} from "../../../shared/router/router.service";
+import {ObjectFromRoute} from "../../../shared/router/object-from-route";
 
 
 /**
@@ -22,7 +23,7 @@ import {RouterService} from "../../../shared/router/router.service";
     templateUrl: 'election-list.component.html',
     styleUrls: ['election-list.component.css']
 })
-export class ElectionListComponent implements OnInit {
+export class ElectionListComponent implements OnInit, ObjectFromRoute<Election> {
 
 
     /**
@@ -39,6 +40,7 @@ export class ElectionListComponent implements OnInit {
      * @param daoService
      * @param viewContainerRef
      * @param route
+     * @param routerHelper
      * @param dialogService
      */
     constructor(private viewContainerRef: ViewContainerRef,
@@ -113,7 +115,7 @@ export class ElectionListComponent implements OnInit {
      * detalle de una eleccion.
      */
     private readRoute(): void {
-        this.routerHelper.readRoute(this.dialogService);
+        this.routerHelper.readRoute(this);
     }
 
 
@@ -130,5 +132,13 @@ export class ElectionListComponent implements OnInit {
      */
     private openDialog(electionId: Model, navigated = false) {
         this.dialogService.openDialog(electionId, navigated);
+    }
+
+    objectCallback(object: Election): void {
+        this.openDialog(object, true);
+    }
+
+    createCallback(): void {
+        //TODO
     }
 }

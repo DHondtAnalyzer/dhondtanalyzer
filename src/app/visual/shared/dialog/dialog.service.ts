@@ -16,10 +16,7 @@ import {ObjectFromRoute} from "../router/object-from-route";
  * Implementa la capacidad de recibir llamadas externas a partir de la ruta.
  */
 @Injectable()
-export class DialogService implements ObjectFromRoute<Model> {
-    objectCallback(object: Model): void {
-        this.openDialog(object, true);
-    }
+export class DialogService {
 
 
     /**
@@ -90,10 +87,31 @@ export class DialogService implements ObjectFromRoute<Model> {
      * @param navigated boolean que indica si se ha hacedido a la url por
      * navegación.
      */
-    openDialog(model: Model, navigated = false) {
+    public openDialog(model: Model, navigated = false, newModel = false) {
 
 
         let basePath = this.location.path();
+        let extensionPath;
+
+
+        if (navigated) {
+            let temp;
+
+            if (newModel){
+                temp = basePath.split('/new');
+
+            } else {
+                temp = basePath.split('/' + model.key);
+            }
+            basePath = temp[0];
+            extensionPath = temp[1];
+        } else {
+            if (newModel){
+                extensionPath = "/new";
+            } else {
+                extensionPath = "/" + model.key;
+            }
+        }
 
 
         this.dialogRef = this.dialog.open(this.componentType, {
@@ -104,18 +122,12 @@ export class DialogService implements ObjectFromRoute<Model> {
 
         this.dialogRef.componentInstance.model = model;
         if (!navigated) {
-            this.location.go(basePath + "/" + model.key);
+            this.location.go(basePath + extensionPath );
         }
 
         this.dialogRef.afterClosed().subscribe(() => {
             this.location.go(basePath);
             this.dialogRef = null;
-
-            if (navigated) {
-                navigated = false;
-                basePath = basePath.split('/' + model.key)[0];
-                this.location.go(basePath);
-            }
         });
 
     }
