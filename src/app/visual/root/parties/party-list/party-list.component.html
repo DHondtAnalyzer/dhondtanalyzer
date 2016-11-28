@@ -1,4 +1,17 @@
 <div class="row is-flex">
+    <div class="col-xs-12">
+        <md-card>
+            <md-card-title>
+                <md-input placeholder="Search party..." name="search" style="width: 100%">
+                    <span md-prefix>
+                        <md-icon>search</md-icon>
+                    </span>
+                </md-input>
+            </md-card-title>
+        </md-card>
+    </div>
+
+
     <div class="col-xs-2" *ngFor="let party of partyList" >
         <md-card (click)="openDialog(party)">
             <md-card-title>{{party.name}}</md-card-title>
