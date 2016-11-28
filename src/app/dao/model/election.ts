@@ -18,7 +18,7 @@ export class Election {
     districtList: District[];
     partyList: Party[];
 
-    constructor(name?: string, date?: Date, seats?: number,
+    constructor(name?: string, date: Date = new Date(), seats: number = 0,
                 type?: ElectionType, districtList: District[] = [], partyList:Party[] = []){
         this.name = name;
         this.date = date;

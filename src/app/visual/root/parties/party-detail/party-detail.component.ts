@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ComponentWithParams} from "../../../shared/component-with-params";
 import {Model} from "../../../../dao/model/model";
 import {Party} from "../../../../dao/model/party";
@@ -17,7 +17,7 @@ import {Election} from "../../../../dao/model/election";
     templateUrl: './party-detail.component.html',
     styleUrls: ['./party-detail.component.css']
 })
-export class PartyDetailComponent implements ComponentWithParams {
+export class PartyDetailComponent implements ComponentWithParams, OnInit {
 
 
     private editing: boolean;
@@ -83,6 +83,13 @@ export class PartyDetailComponent implements ComponentWithParams {
      */
     set party(value: Party) {
         this.model = value;
+    }
+
+
+    ngOnInit(): void {
+        if(!this.model.name){
+            this.editing = true;
+        }
     }
 
 
