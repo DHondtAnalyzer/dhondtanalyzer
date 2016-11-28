@@ -33,6 +33,11 @@ export class DaoService {
             new Region("Andalucia"),
         ];
 
+        this.regionList[0].id = 'madrid';
+        this.regionList[1].id = 'barcelona';
+        this.regionList[2].id = 'castilla-y-leon';
+        this.regionList[3].id = 'andalucia';
+
         this.electionList = [
             new Election(
                 "generales 2016",
@@ -100,6 +105,15 @@ export class DaoService {
         for(let i:number = 0; i < this.partyList.length; i++){
             if (this.partyList[i].id == id){
                 return this.partyList[i];
+            }
+        }
+        return null;
+    }
+
+    getRegionById(id: string): Region {
+        for(let i:number = 0; i < this.regionList.length; i++){
+            if (this.regionList[i].id == id){
+                return this.regionList[i];
             }
         }
         return null;
