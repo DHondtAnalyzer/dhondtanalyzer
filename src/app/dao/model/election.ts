@@ -19,7 +19,7 @@ export class Election {
     partyList: Party[];
 
     constructor(name?: string, date?: Date, seats?: number,
-                type?: ElectionType, districtList?: District[], partyList?:Party[]){
+                type?: ElectionType, districtList: District[] = [], partyList:Party[] = []){
         this.name = name;
         this.date = date;
         this.seats = seats;
