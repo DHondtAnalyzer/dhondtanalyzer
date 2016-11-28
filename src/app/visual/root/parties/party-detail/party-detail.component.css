@@ -21,3 +21,7 @@ md-grid-tile md-card {
 md-input.toolbar-input {
     font-size: 28px
 }
+
+table {
+    width: 100%;
+}
