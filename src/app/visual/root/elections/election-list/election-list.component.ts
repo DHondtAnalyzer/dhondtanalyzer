@@ -126,19 +126,29 @@ export class ElectionListComponent implements OnInit, ObjectFromRoute<Election> 
      * elección a partir de un diálogo que contiene el contenido del
      * component ElectionDetailComponent.
      *
-     * @param electionId string que representa el id de la elección a mostrar.
+     * @param election
      * @param navigated boolean que indica si se ha hacedido a la url por
      * navegación.
+     * @param newElection
      */
-    private openDialog(electionId: Model, navigated = false) {
-        this.dialogService.openDialog(electionId, navigated);
+    private openDialog(election: Election, navigated = false,
+                       newElection = false): void {
+        this.dialogService.openDialog(election, navigated, newElection);
     }
 
+    
     objectCallback(object: Election): void {
         this.openDialog(object, true);
     }
 
+
     createCallback(): void {
-        //TODO
+        this.create(true);
+    }
+
+
+    private create(navigated = false) {
+        let election = new Election();
+        this.openDialog(election, navigated, true);
     }
 }

@@ -37,3 +37,9 @@ md-toolbar div.md-input-underline {
 .md-fab {
     z-index: 10;
 }
+
+md-grid-tile md-card {
+    width: 95%;
+    height: 95%;
+    text-align: center;
+}
