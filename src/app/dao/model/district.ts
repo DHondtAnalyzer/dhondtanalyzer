@@ -18,7 +18,7 @@ export class District {
     region: Region;
     voteCountList: VoteCount[];
 
-    constructor(region:Region, seats: number, census: number){
+    constructor(region?:Region, seats?: number, census?: number){
         this.region = region;
         this.seats = seats;
         this.census = census;
@@ -26,6 +26,10 @@ export class District {
     }
 
     get name(){
-        return this.region.name;
+        if (this.region){
+            return this.region.name;
+        } else {
+            return '';
+        }
     }
 }

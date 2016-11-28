@@ -1,15 +1,11 @@
-<md-grid-list cols="6" rowHeight="4:3">
-    <md-grid-tile [colspan]="3" [rowspan]="1"
-                  *ngFor="let district of getDistricts()"
-                  (click)="goToDistrict(district)">
-        <md-card>
-            <span>{{district.name}}</span>
-        </md-card>
+<md-grid-list cols="3" rowHeight="1:1">
+    <md-grid-tile *ngFor="let district of districtList">
+       <app-district-detail [district]="district"></app-district-detail>
     </md-grid-tile>
 
-    <md-grid-tile [colspan]="tile.cols" [rowspan]="tile.rows">
+    <md-grid-tile>
         <md-card (click)="addDistrict()">
-            <span><md-icon>add</md-icon></span>
+            <md-card-title>Add</md-card-title>
         </md-card>
     </md-grid-tile>
 </md-grid-list>

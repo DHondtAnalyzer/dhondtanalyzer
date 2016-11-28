@@ -5,6 +5,7 @@ import {MaterialModule} from "@angular/material";
 
 import {DistrictGridComponent} from "./district-grid/district-grid.component";
 import {FormsModule} from "@angular/forms";
+import {DistrictDetailComponent} from './district-detail/district-detail.component';
 
 @NgModule({
     imports: [
@@ -13,7 +14,8 @@ import {FormsModule} from "@angular/forms";
         FormsModule,
     ],
     declarations: [
-        DistrictGridComponent
+        DistrictGridComponent,
+        DistrictDetailComponent
     ],
     exports: [
         DistrictGridComponent
