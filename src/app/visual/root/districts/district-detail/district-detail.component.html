@@ -5,16 +5,26 @@
     </md-card-title>
 
     <md-card-content>
-        <md-input [disabled]="!editing" placeholder="Seats"
-                  [(ngModel)]="district.seats" name="seats"></md-input>
 
-        <md-input [disabled]="!editing" placeholder="Census"
-                  [(ngModel)]="district.census" name="census"></md-input>
+
+        <table cellspacing="0">
+            <tr>
+                <td>
+                    <md-input [disabled]="!editing" placeholder="Seats"
+                              [(ngModel)]="district.seats" name="seats"></md-input>
+                </td>
+
+                <td>
+                    <md-input [disabled]="!editing" placeholder="Census"
+                              [(ngModel)]="district.census" name="census"></md-input>
+                </td>
+            </tr>
+        </table>
     </md-card-content>
 
     <md-card-actions>
-        <button *ngIf="!editing"(click)="edit()" md-button>Edit</button>
-        <button *ngIf="editing" (click)="save()"md-button>Save</button>
-        <button *ngIf="editing" (click)="remove()"md-button>Remove</button>
+        <button *ngIf="!editing" (click)="edit()" md-button>Edit</button>
+        <button *ngIf="editing" (click)="save()" md-button>Save</button>
+        <button *ngIf="editing" (click)="remove()" md-button>Remove</button>
     </md-card-actions>
 </md-card>

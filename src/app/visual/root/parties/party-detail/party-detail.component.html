@@ -33,7 +33,7 @@
         </tr>
     </table>
 
-    <md-grid-list cols="6" rowHeight="4:3">
+    <md-grid-list cols="3" rowHeight="4:3">
         <md-grid-tile *ngFor="let election of party.electionList">
             <md-card (click)="goToElection(election)">
                 <md-card-title>{{election.name}}</md-card-title>

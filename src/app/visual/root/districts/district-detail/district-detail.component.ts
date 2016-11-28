@@ -1,4 +1,4 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, EventEmitter, Output} from '@angular/core';
 import {District} from "../../../../dao/model/district";
 
 @Component({
@@ -10,13 +10,14 @@ export class DistrictDetailComponent implements OnInit {
 
 
     @Input() district: District;
+    @Output() onRemove = new EventEmitter<District>();
 
     private editing: boolean;
 
     constructor() { }
 
     ngOnInit() {
-        if (!this.district.id) {
+        if (!this.district.name) {
             this.editing = true;
         }
     }
@@ -30,7 +31,7 @@ export class DistrictDetailComponent implements OnInit {
     }
 
     private remove() {
-
+        this.onRemove.emit(this.district);
     }
 
     /**

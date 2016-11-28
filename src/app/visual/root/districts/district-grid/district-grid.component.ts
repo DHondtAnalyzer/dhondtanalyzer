@@ -19,10 +19,10 @@ export class DistrictGridComponent implements OnInit {
 
 
     private addDistrict(): void {
-        this.districtList.push(new District());
+        //this.districtList.push(new District());
     }
 
-    private remove(index: number) {
-        this.districtList.splice(index);
+    private remove(district: District) {
+        this.districtList.splice(this.districtList.indexOf(district,0),1);
     }
 }
