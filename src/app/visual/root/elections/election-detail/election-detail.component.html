@@ -50,8 +50,11 @@
             <template md-tab-content>
                 <md-grid-list cols="3" rowHeight="4:3">
                     <md-grid-tile *ngFor="let party of election.partyList">
-                        <md-card (click)="goToParty(party)">
+                        <md-card>
                             <md-card-title>{{party.name}}</md-card-title>
+                            <md-card-actions>
+                                <button (click)="goToParty(party)" md-button>View</button>
+                            </md-card-actions>
                         </md-card>
                     </md-grid-tile>
                     <md-grid-tile>

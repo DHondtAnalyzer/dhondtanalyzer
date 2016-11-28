@@ -38,8 +38,6 @@ md-toolbar div.md-input-underline {
     z-index: 1;
 }
 
-md-grid-tile md-card {
-    width: 95%;
-    height: 95%;
+md-card-title{
     text-align: center;
 }
