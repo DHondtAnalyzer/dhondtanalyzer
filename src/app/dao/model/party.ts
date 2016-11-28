@@ -9,7 +9,12 @@ export class Party {
 
     electionList: Election[];
 
-    constructor(name?: string, abbreviation?: string, color?: string){
+    public static newInstance(name?: string, abbreviation?: string, color?: string): Party {
+        let district = new Party(name, abbreviation, color);
+        return district;
+    }
+
+    private constructor(name?: string, abbreviation?: string, color?: string) {
         this.name = name;
         this.abbreviation = abbreviation;
         this.color = color;

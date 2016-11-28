@@ -16,6 +16,16 @@ export class VoteCount {
     district: District;
     party: Party;
 
+
+    public static newInstance(district: District, type: VoteType,
+                              count: number, party?:Party): VoteCount {
+        let voteCount = new VoteCount(district, type, count, party);
+
+        district.voteCountList.push(voteCount);
+
+        return voteCount;
+    }
+
     constructor(district: District, type: VoteType, count: number, party?:Party){
         this.district = district;
         this.type =  type;

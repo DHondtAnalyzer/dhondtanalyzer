@@ -15,10 +15,10 @@ export class DaoService {
 
     constructor() {
         this.partyList = [
-            new Party("Partido Popular", "PP", "azul"),
-            new Party("Partido Socialista", "PSOE", "rojo"),
-            new Party("Podemos", "P", "morado"),
-            new Party("Ciudadanos", "C", "naranja"),
+            Party.newInstance("Partido Popular", "PP", "azul"),
+            Party.newInstance("Partido Socialista", "PSOE", "rojo"),
+            Party.newInstance("Podemos", "P", "morado"),
+            Party.newInstance("Ciudadanos", "C", "naranja"),
         ];
 
         this.partyList[0].id = "partido-popular";
@@ -27,10 +27,10 @@ export class DaoService {
         this.partyList[3].id = "ciudadanos";
 
         this.regionList = [
-            new Region("Madrid"),
-            new Region("Barcelona"),
-            new Region("Castilla y León"),
-            new Region("Andalucia"),
+            Region.newInstance("Madrid"),
+            Region.newInstance("Barcelona"),
+            Region.newInstance("Castilla y León"),
+            Region.newInstance("Andalucia"),
         ];
 
         this.regionList[0].id = 'madrid';
@@ -39,16 +39,16 @@ export class DaoService {
         this.regionList[3].id = 'andalucia';
 
         this.electionList = [
-            new Election(
+            Election.newInstance(
                 "generales 2016",
                 new Date("2016"),
                 250,
                 ElectionType.GENERALES,
                 [
-                    new District(this.regionList[0], 21, 3123123),
-                    new District(this.regionList[1], 21, 3123123),
-                    new District(this.regionList[2], 21, 3123123),
-                    new District(this.regionList[3], 21, 3123123),
+                    District.newInstance(this.regionList[0], 21, 3123123),
+                    District.newInstance(this.regionList[1], 21, 3123123),
+                    District.newInstance(this.regionList[2], 21, 3123123),
+                    District.newInstance(this.regionList[3], 21, 3123123),
                 ],
                 [
                     this.partyList[0],
@@ -60,11 +60,6 @@ export class DaoService {
         ];
         this._electionList[0].id = "generales-2016";
 
-
-        this.partyList[0].electionList.push(this.electionList[0]);
-        this.partyList[1].electionList.push(this.electionList[0]);
-        this.partyList[2].electionList.push(this.electionList[0]);
-        this.partyList[3].electionList.push(this.electionList[0]);
     }
 
     get electionList(): Election[] {

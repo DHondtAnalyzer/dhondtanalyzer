@@ -18,6 +18,13 @@ export class District {
     region: Region;
     voteCountList: VoteCount[];
 
+    public static newInstance(region?:Region, seats?: number, census?: number): District {
+        let district = new District(region, seats, census);
+
+        region.districtList.push(district);
+
+        return district;
+    }
     constructor(region?:Region, seats?: number, census?: number){
         this.region = region;
         this.seats = seats;

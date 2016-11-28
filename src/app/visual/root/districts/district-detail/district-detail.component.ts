@@ -1,5 +1,6 @@
 import {Component, OnInit, Input, EventEmitter, Output} from '@angular/core';
 import {District} from "../../../../dao/model/district";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-district-detail',
@@ -14,7 +15,7 @@ export class DistrictDetailComponent implements OnInit {
 
     private editing: boolean;
 
-    constructor() { }
+    constructor(private route: Router) { }
 
     ngOnInit() {
         if (!this.district.name) {
@@ -29,6 +30,11 @@ export class DistrictDetailComponent implements OnInit {
     private edit() {
         this.editing = true;
     }
+
+    private view() {
+        this.route.navigate(['/app/regions', this.district.region.id]);
+    }
+
 
     private remove() {
         this.onRemove.emit(this.district);

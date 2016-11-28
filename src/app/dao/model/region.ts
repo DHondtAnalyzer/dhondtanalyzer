@@ -9,7 +9,14 @@ export class Region {
     name: string;
     districtList: District[];
 
-    constructor(name?: string) {
+    public static newInstance(name?:string): Region {
+        let region = new Region(name);
+
+        return region;
+    }
+
+
+    private constructor(name?: string) {
         this.name = name;
         this.districtList = [];
     }
