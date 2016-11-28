@@ -8,7 +8,7 @@ import {VoteCount} from "./vote-count";
 
 export class District {
 
-    key: string;
+    id: string;
 
     seats: number;
     census: number;
@@ -22,5 +22,10 @@ export class District {
         this.region = region;
         this.seats = seats;
         this.census = census;
+        this.voteCountList = [];
+    }
+
+    get name(){
+        return this.region.name;
     }
 }

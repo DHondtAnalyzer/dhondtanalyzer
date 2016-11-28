@@ -1,7 +1,7 @@
 import {Election} from "./election";
 export class Party {
 
-    key: string;
+    id: string;
 
     name: string;
     abbreviation: string;
@@ -13,6 +13,7 @@ export class Party {
         this.name = name;
         this.abbreviation = abbreviation;
         this.color = color;
+        this.electionList = [];
     }
 
 }

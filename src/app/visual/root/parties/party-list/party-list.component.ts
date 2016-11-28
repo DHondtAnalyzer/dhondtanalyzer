@@ -22,7 +22,7 @@ import {ObjectFromRoute} from "../../../shared/router/object-from-route";
     templateUrl: './party-list.component.html',
     styleUrls: ['./party-list.component.css']
 })
-export class PartyListComponent implements OnInit, ObjectFromRoute<Party> {
+export class PartyListComponent implements OnInit, ObjectFromRoute {
 
 
     /**
@@ -141,8 +141,8 @@ export class PartyListComponent implements OnInit, ObjectFromRoute<Party> {
         this.openDialog(party, navigated, true);
     }
 
-    objectCallback(object: Party): void {
-        this.openDialog(object, true);
+    objectIdCallback(id: string): void {
+        this.openDialog(this.daoService.getPartyById(id), true);
     }
 
     createCallback(): void {

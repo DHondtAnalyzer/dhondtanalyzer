@@ -86,6 +86,7 @@ export class DialogService {
      * @param model string que representa el id del objeto a mostrar.
      * @param navigated boolean que indica si se ha hacedido a la url por
      * navegación.
+     * @param newModel
      */
     public openDialog(model: Model, navigated = false, newModel = false) {
 
@@ -101,7 +102,7 @@ export class DialogService {
                 temp = basePath.split('/new');
 
             } else {
-                temp = basePath.split('/' + model.key);
+                temp = basePath.split('/' + model.id);
             }
             basePath = temp[0];
             extensionPath = temp[1];
@@ -109,7 +110,7 @@ export class DialogService {
             if (newModel){
                 extensionPath = "/new";
             } else {
-                extensionPath = "/" + model.key;
+                extensionPath = "/" + model.id;
             }
         }
 

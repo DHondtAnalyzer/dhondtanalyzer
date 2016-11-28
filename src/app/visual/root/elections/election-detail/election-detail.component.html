@@ -33,11 +33,46 @@
         </tr>
     </table>
 
-    <md-grid-list cols="4" rowHeight="4:3">
-        <md-grid-tile *ngFor="let election of [1,2,3,4,5,6,7,8]">
-            <md-card (click)="goToElection(election)">
-                <span>Election {{election}}</span>
-            </md-card>
-        </md-grid-tile>
-    </md-grid-list>
+    <md-tab-group>
+        <md-tab>
+            <template md-tab-label>
+                Districts
+            </template>
+
+            <template md-tab-content>
+                <md-grid-list cols="6" rowHeight="4:3">
+                    <md-grid-tile *ngFor="let district of election.districtList">
+                        <md-card (click)="goToDistrict(district)">
+                            <span>{{district.name}}</span>
+                        </md-card>
+                    </md-grid-tile>
+
+                    <md-grid-tile>
+                        <md-card>
+                            <span><md-icon>add</md-icon></span>
+                        </md-card>
+                    </md-grid-tile>
+                </md-grid-list>
+            </template>
+        </md-tab>
+        <md-tab>
+            <template md-tab-label>
+                Parties
+            </template>
+            <template md-tab-content>
+                <md-grid-list cols="6" rowHeight="4:3">
+                    <md-grid-tile *ngFor="let party of election.partyList">
+                        <md-card (click)="goToParty(party)">
+                            <span>{{party.name}}</span>
+                        </md-card>
+                    </md-grid-tile>
+                    <md-grid-tile>
+                        <md-card>
+                            <span><md-icon>add</md-icon></span>
+                        </md-card>
+                    </md-grid-tile>
+                </md-grid-list>
+            </template>
+        </md-tab>
+    </md-tab-group>
 </div>

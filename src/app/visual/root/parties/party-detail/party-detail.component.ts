@@ -4,6 +4,7 @@ import {Model} from "../../../../dao/model/model";
 import {Party} from "../../../../dao/model/party";
 import {MdDialogRef} from "@angular/material";
 import {Router} from "@angular/router";
+import {Election} from "../../../../dao/model/election";
 
 
 /**
@@ -142,8 +143,8 @@ export class PartyDetailComponent implements ComponentWithParams {
      * Cambia la ruta de la web hacia la elección seleccionada.
      * @param election
      */
-    private goToElection(election): void {
-        this.route.navigate(['/app/elections']);
+    private goToElection(election: Election): void {
+        this.route.navigate(['/app/elections', election.id]);
         this.closeDialog();
     }
 }

@@ -8,7 +8,7 @@ import {Party} from "./party";
 
 export class Election {
 
-    key: string;
+    id: string;
 
     name: string;
     date: Date;

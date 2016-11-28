@@ -4,12 +4,13 @@ import {District} from "./district";
  */
 export class Region {
 
-    key: string;
+    id: string;
 
     name: string;
     districtList: District[];
 
     constructor(name: string) {
         this.name = name;
+        this.districtList = [];
     }
 }

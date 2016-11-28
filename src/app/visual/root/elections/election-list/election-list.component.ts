@@ -23,7 +23,7 @@ import {ObjectFromRoute} from "../../../shared/router/object-from-route";
     templateUrl: 'election-list.component.html',
     styleUrls: ['election-list.component.css']
 })
-export class ElectionListComponent implements OnInit, ObjectFromRoute<Election> {
+export class ElectionListComponent implements OnInit, ObjectFromRoute {
 
 
     /**
@@ -136,9 +136,9 @@ export class ElectionListComponent implements OnInit, ObjectFromRoute<Election> 
         this.dialogService.openDialog(election, navigated, newElection);
     }
 
-    
-    objectCallback(object: Election): void {
-        this.openDialog(object, true);
+
+    objectIdCallback(id: string): void {
+        this.openDialog(this.daoService.getElectionById(id), true);
     }
 
 
