@@ -20,4 +20,20 @@ md-dialog-container.md-dialog-container {
 .md-overlay-pane {
     max-width: 960px;
     width: 90%;
+    max-height: 95vh;
+    overflow: scroll;
+}
+div.content {
+    background-color: whitesmoke;
+}
+
+md-toolbar label.md-input-placeholder {
+    color: rgba(255, 255, 255, 0.87);
+}
+md-toolbar div.md-input-underline {
+    border-color: rgba(255, 255, 255, 0.87);
+}
+
+.md-fab {
+    z-index: 10;
 }
