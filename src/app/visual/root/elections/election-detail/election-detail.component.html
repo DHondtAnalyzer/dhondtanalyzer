@@ -40,19 +40,7 @@
             </template>
 
             <template md-tab-content>
-                <md-grid-list cols="6" rowHeight="4:3">
-                    <md-grid-tile *ngFor="let district of election.districtList">
-                        <md-card (click)="goToDistrict(district)">
-                            <span>{{district.name}}</span>
-                        </md-card>
-                    </md-grid-tile>
-
-                    <md-grid-tile>
-                        <md-card>
-                            <span><md-icon>add</md-icon></span>
-                        </md-card>
-                    </md-grid-tile>
-                </md-grid-list>
+                <app-district-grid [districtList]="election.districtList"></app-district-grid>
             </template>
         </md-tab>
         <md-tab>

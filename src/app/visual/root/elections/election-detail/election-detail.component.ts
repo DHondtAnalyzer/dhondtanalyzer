@@ -4,7 +4,6 @@ import {Election} from "../../../../dao/model/election";
 import {Router} from "@angular/router";
 import {MdDialogRef} from "@angular/material";
 import {Party} from "../../../../dao/model/party";
-import {District} from "../../../../dao/model/district";
 
 
 /**
@@ -135,20 +134,6 @@ export class ElectionDetailComponent implements ComponentWithParams {
      */
     private saveChanges(): void {
         // TODO
-    }
-
-
-    /**
-     * Función gotoElection.
-     *
-     * Cambia la ruta de la web hacia la elección seleccionada.
-     * @param district
-     */
-    private goToDistrict(district: District): void {
-        //this.route.navigate(['/app/elections']);
-        //this.closeDialog();
-        console.log(district);
-
     }
 
     /**

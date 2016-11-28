@@ -9,6 +9,7 @@ import {ElectionRoutingModule} from "./election-routing.module";
 
 import {ElectionListComponent} from "./election-list/election-list.component";
 import {ElectionDetailComponent} from "./election-detail/election-detail.component";
+import {DistrictModule} from "../districts/district.module";
 
 /**
  * Clase ElectionModule. Implementa la funcionalidad de un Modulo.
@@ -28,6 +29,7 @@ import {ElectionDetailComponent} from "./election-detail/election-detail.compone
         CommonModule,
         FormsModule,
         MaterialModule,
+        DistrictModule,
         ElectionRoutingModule
     ],
     providers: []
