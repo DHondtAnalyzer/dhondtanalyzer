@@ -38,6 +38,30 @@ md-toolbar div.md-input-underline {
     z-index: 1;
 }
 
+md-card {
+    width: 100%;
+    height: 100%;
+}
+
+.row {
+    padding: 10px;
+}
+.row >[class*='col-'] {
+    padding: 10px;
+}
+
+.row {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display:         flex;
+    flex-wrap: wrap;
+}
+
+.row > [class*='col-'] {
+    display: flex;
+    flex-direction: column;
+}
 md-card-title{
     text-align: center;
 }
