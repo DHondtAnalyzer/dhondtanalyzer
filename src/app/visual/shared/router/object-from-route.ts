@@ -8,4 +8,6 @@ import {Model} from "../../../dao/model/model";
  */
 export interface ObjectFromRoute<T extends Model> {
     objectCallback(object: T): void;
+
+    createCallback(): void;
 }

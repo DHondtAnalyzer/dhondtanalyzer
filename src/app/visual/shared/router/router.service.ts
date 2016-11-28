@@ -56,12 +56,17 @@ export class RouterService<T extends Model> {
      * existan realiza una llamada a la función openDialog, que muestra el
      * detalle de una eleccion.
      */
-    public readRoute(repsonse: ObjectFromRoute<Model>) {
+    public readRoute(response: ObjectFromRoute<Model>) {
 
         this.route.params
             .forEach((params: Params) => {
-                if (params['id'] !== undefined) {
-                    repsonse.objectCallback(this.daoService.partyList[0]);
+                let id = params['id'];
+                if ( id !== undefined) {
+                    if (id === 'new' ){
+                        response.createCallback()
+                    } else {
+                        response.objectCallback(this.daoService.partyList[0]);
+                    }
                 }
             });
     }

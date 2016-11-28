@@ -1,16 +1,43 @@
-<md-toolbar color="primary">Basic</md-toolbar>
+<md-toolbar color="primary">
+
+    <span class="flex"></span>
+
+    <button md-icon-button (click)=closeDialog()>
+        <md-icon>close</md-icon>
+    </button>
+
+    <button md-fab class="md-fab-editing md-fab" (click)="editingChange()">
+        <md-icon class="md-24">{{fabIcon()}}</md-icon>
+    </button>
+
+    <md-toolbar-row>
+        <md-input [disabled]="!editing" placeholder="Name" class="toolbar-input"
+                  [(ngModel)]="party.name" name="name"></md-input>
+    </md-toolbar-row>
+
+</md-toolbar>
+
 <div class="content">
-    <form>
-        <table style="width: 100%" cellspacing="0"><tr>
-            <td><md-input placeholder="First name" style="width: 100%"></md-input></td>
-            <td><md-input placeholder="Long Last Name That Will Be Truncated" style="width: 100%"></md-input></td>
-        </tr></table>
-        <table style="width: 100%" cellspacing="0"><tr>
-            <td><md-input class="demo-full-width" placeholder="City"></md-input></td>
-            <td><md-input class="demo-full-width" placeholder="State"></md-input></td>
-        </tr></table>
-    </form>
-    <p>
-        party-detail works! This is {{model.name}}
-    </p>
+
+    <table cellspacing="0">
+        <tr>
+            <td>
+                <md-input [disabled]="!editing" placeholder="Abbreviation"
+                          [(ngModel)]="party.abbreviation" name="abbreviation"></md-input>
+            </td>
+
+            <td>
+                <md-input [disabled]="!editing" placeholder="Color"
+                          [(ngModel)]="party.color" name="color"></md-input>
+            </td>
+        </tr>
+    </table>
+
+    <md-grid-list cols="4" rowHeight="4:3">
+        <md-grid-tile *ngFor="let election of [1,2,3,4,5,6,7,8]">
+            <md-card (click)="goToElection(election)">
+                <span>Election {{election}}</span>
+            </md-card>
+        </md-grid-tile>
+    </md-grid-list>
 </div>

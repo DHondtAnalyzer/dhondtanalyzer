@@ -7,6 +7,7 @@ import {DaoService} from "../../../../dao/dao.service";
 import {Party} from "../../../../dao/model/party";
 import {PartyDetailComponent} from "../party-detail/party-detail.component";
 import {RouterService} from "../../../shared/router/router.service";
+import {ObjectFromRoute} from "../../../shared/router/object-from-route";
 
 
 /**
@@ -21,7 +22,7 @@ import {RouterService} from "../../../shared/router/router.service";
     templateUrl: './party-list.component.html',
     styleUrls: ['./party-list.component.css']
 })
-export class PartyListComponent implements OnInit {
+export class PartyListComponent implements OnInit, ObjectFromRoute<Party> {
 
 
     /**
@@ -113,7 +114,7 @@ export class PartyListComponent implements OnInit {
      * detalle de una eleccion.
      */
     private readRoute(): void {
-        this.routerService.readRoute(this.dialogService);
+        this.routerService.readRoute(this);
     }
 
 
@@ -124,11 +125,27 @@ export class PartyListComponent implements OnInit {
      * partido político a partir de un diálogo que contiene el contenido del
      * component PartyDetailComponent.
      *
-     * @param partyId string que representa el id del partido a mostrar.
+     * @param party string que representa el id del partido a mostrar.
      * @param navigated boolean que indica si se ha hacedido a la url por
      * navegación.
+     * @param newParty
      */
-    private openDialog(partyId: Party, navigated = false): void {
-        this.dialogService.openDialog(partyId, navigated);
+    private openDialog(party: Party, navigated = false,
+                       newParty = false): void {
+        this.dialogService.openDialog(party, navigated, newParty);
+    }
+
+
+    private create(navigated = false) {
+        let party = new Party();
+        this.openDialog(party, navigated, true);
+    }
+
+    objectCallback(object: Party): void {
+        this.openDialog(object, true);
+    }
+
+    createCallback(): void {
+        this.create(true);
     }
 }
