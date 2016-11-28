@@ -16,11 +16,12 @@ import {ElectionListComponent} from "./election-list/election-list.component";
         RouterModule.forChild([
             {
                 path: '',
-                children: [
-                    {path: '', component: ElectionListComponent},
-                    {path: ':id', component: ElectionListComponent},
-                ]
-            }
+                component: ElectionListComponent
+            },
+            {
+                path: ':id',
+                component: ElectionListComponent
+            },
         ])
     ],
     exports: [

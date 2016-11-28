@@ -1,7 +1,22 @@
-<md-grid-list cols="6" >
-    <md-grid-tile *ngFor="let election of electionList" (click)="openDialog(election)">
+<div class="row is-flex">
+    <div class="col-xs-12">
         <md-card>
-            {{election.name}}
+            <md-card-title>
+                <md-input placeholder="Search election..." name="search" style="width: 100%">
+                    <span md-prefix>
+                        <md-icon>search</md-icon>
+                    </span>
+                </md-input>
+            </md-card-title>
         </md-card>
-    </md-grid-tile>
-</md-grid-list>
+    </div>
+    <div class="col-xs-2" *ngFor="let election of electionList">
+        <md-card (click)="openDialog(election)">
+            <md-card-title>{{election.name}}</md-card-title>
+        </md-card>
+    </div>
+</div>
+
+<button md-fab class="md-fab-create md-fab" (click)="create()">
+    <md-icon class="md-24">add</md-icon>
+</button>

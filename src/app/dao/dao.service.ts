@@ -14,45 +14,52 @@ export class DaoService {
     private _regionList: Region[];
 
     constructor() {
-        this._partyList = [
+        this.partyList = [
             new Party("Partido Popular", "PP", "azul"),
             new Party("Partido Socialista", "PSOE", "rojo"),
             new Party("Podemos", "P", "morado"),
             new Party("Ciudadanos", "C", "naranja"),
         ];
 
-        this.partyList[0].key = "partido-popular";
-        this.partyList[1].key = "partido-socialista";
-        this.partyList[2].key = "podemos";
-        this.partyList[3].key = "ciudadanos";
+        this.partyList[0].id = "partido-popular";
+        this.partyList[1].id = "partido-socialista";
+        this.partyList[2].id = "podemos";
+        this.partyList[3].id = "ciudadanos";
 
-        this._regionList = [
+        this.regionList = [
             new Region("Madrid"),
             new Region("Barcelona"),
             new Region("Castilla y León"),
             new Region("Andalucia"),
         ];
 
-        this._electionList = [
+        this.electionList = [
             new Election(
                 "generales 2016",
                 new Date("2016"),
                 250,
                 ElectionType.GENERALES,
                 [
-                    new District(this._regionList[0], 21, 3123123),
-                    new District(this._regionList[1], 21, 3123123),
-                    new District(this._regionList[2], 21, 3123123),
-                    new District(this._regionList[3], 21, 3123123),
+                    new District(this.regionList[0], 21, 3123123),
+                    new District(this.regionList[1], 21, 3123123),
+                    new District(this.regionList[2], 21, 3123123),
+                    new District(this.regionList[3], 21, 3123123),
                 ],
                 [
-                    this._partyList[0],
-                    this._partyList[1],
-                    this._partyList[2],
-                    this._partyList[3],
+                    this.partyList[0],
+                    this.partyList[1],
+                    this.partyList[2],
+                    this.partyList[3],
                 ]
             )
         ];
+        this._electionList[0].id = "generales-2016";
+
+
+        this.partyList[0].electionList.push(this.electionList[0]);
+        this.partyList[1].electionList.push(this.electionList[0]);
+        this.partyList[2].electionList.push(this.electionList[0]);
+        this.partyList[3].electionList.push(this.electionList[0]);
     }
 
     get electionList(): Election[] {
@@ -78,5 +85,23 @@ export class DaoService {
 
     set regionList(value: Region[]) {
         this._regionList = value;
+    }
+
+    getElectionById(id: string): Election {
+        for(let i:number = 0; i <this.electionList.length; i++){
+            if (this.electionList[i].id == id){
+                return this.electionList[i];
+            }
+        }
+        return null;
+    }
+
+    getPartyById(id: string): Party {
+        for(let i:number = 0; i < this.partyList.length; i++){
+            if (this.partyList[i].id == id){
+                return this.partyList[i];
+            }
+        }
+        return null;
     }
 }

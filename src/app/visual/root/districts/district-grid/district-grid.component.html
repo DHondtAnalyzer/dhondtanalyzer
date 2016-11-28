@@ -1,0 +1,13 @@
+<div class="row is-flex" >
+    <div class="col-xs-4" *ngFor="let district of districtList">
+        <app-district-detail [district]="district"  (onRemove)="remove($event)"></app-district-detail>
+    </div>
+    <div class="col-xs-4">
+        <md-card (click)="addDistrict()">
+            <md-card-title>
+                <md-input placeholder="Add District"
+                          name="newDistrict"></md-input>
+            </md-card-title>
+        </md-card>
+    </div>
+</div>

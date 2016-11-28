@@ -33,11 +33,26 @@
         </tr>
     </table>
 
-    <md-grid-list cols="4" rowHeight="4:3">
-        <md-grid-tile *ngFor="let election of [1,2,3,4,5,6,7,8]">
-            <md-card (click)="goToElection(election)">
-                <span>Election {{election}}</span>
-            </md-card>
-        </md-grid-tile>
-    </md-grid-list>
+
+
+    <md-tab-group>
+        <md-tab>
+            <template md-tab-label>
+                Elections
+            </template>
+
+            <template md-tab-content>
+                <div class="row is-flex">
+                    <div class="col-xs-4" *ngFor="let election of party.electionList">
+                        <md-card>
+                            <md-card-title>{{election.name}}</md-card-title>
+                            <md-card-actions>
+                                <button (click)="goToElection(election)" md-button>View</button>
+                            </md-card-actions>
+                        </md-card>
+                    </div>
+                </div>
+            </template>
+        </md-tab>
+    </md-tab-group>
 </div>

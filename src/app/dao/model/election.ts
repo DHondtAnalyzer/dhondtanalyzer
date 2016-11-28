@@ -8,7 +8,7 @@ import {Party} from "./party";
 
 export class Election {
 
-    key: string;
+    id: string;
 
     name: string;
     date: Date;
@@ -18,8 +18,8 @@ export class Election {
     districtList: District[];
     partyList: Party[];
 
-    constructor(name: string, date: Date, seats: number,
-                type: ElectionType, districtList?: District[], partyList?:Party[]){
+    constructor(name?: string, date: Date = new Date(), seats: number = 0,
+                type?: ElectionType, districtList: District[] = [], partyList:Party[] = []){
         this.name = name;
         this.date = date;
         this.seats = seats;

@@ -1,9 +1,10 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ComponentWithParams} from "../../../shared/component-with-params";
 import {Model} from "../../../../dao/model/model";
 import {Party} from "../../../../dao/model/party";
 import {MdDialogRef} from "@angular/material";
 import {Router} from "@angular/router";
+import {Election} from "../../../../dao/model/election";
 
 
 /**
@@ -16,7 +17,7 @@ import {Router} from "@angular/router";
     templateUrl: './party-detail.component.html',
     styleUrls: ['./party-detail.component.css']
 })
-export class PartyDetailComponent implements ComponentWithParams {
+export class PartyDetailComponent implements ComponentWithParams, OnInit {
 
 
     private editing: boolean;
@@ -85,6 +86,13 @@ export class PartyDetailComponent implements ComponentWithParams {
     }
 
 
+    ngOnInit(): void {
+        if(!this.model.name){
+            this.editing = true;
+        }
+    }
+
+
     /**
      * Función closeDialog.
      *
@@ -142,8 +150,8 @@ export class PartyDetailComponent implements ComponentWithParams {
      * Cambia la ruta de la web hacia la elección seleccionada.
      * @param election
      */
-    private goToElection(election): void {
-        this.route.navigate(['/app/elections']);
+    private goToElection(election: Election): void {
+        this.route.navigate(['/app/elections', election.id]);
         this.closeDialog();
     }
 }
