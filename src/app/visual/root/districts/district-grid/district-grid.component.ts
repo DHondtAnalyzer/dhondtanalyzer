@@ -35,4 +35,16 @@ export class DistrictGridComponent implements OnInit {
     private routeChanged(): void {
         this.onRoute.emit()
     }
+
+    private get posibleRegions(): Region[] {
+
+        //TODO FILTER REGIONS!!!!
+
+        return this.daoService.regionList.filter(
+            function (value) {
+                return true;
+            }
+        );
+
+    }
 }

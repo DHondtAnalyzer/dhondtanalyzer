@@ -40,4 +40,11 @@ export class PartyGridComponent implements OnInit {
         this.onRoute.emit();
     }
 
+
+    private get posibleParties(): Party[] {
+        return this.daoService.partyList.filter(
+            (value) => this.partyList.indexOf(value) < 0
+        );
+    }
+
 }

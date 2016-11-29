@@ -8,9 +8,10 @@
         </md-card>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4" *ngIf="editable">
-        <md-card (click)="addParty()" role="button">
+        <md-card role="button">
             <md-card-title>
-                <app-autocomplete-input [items]="daoService.partyList" [findAttribute]="'name'" [placeholder]="'Add Party'"
+                <app-autocomplete-input [items]="posibleParties" [findAttribute]="'name'"
+                                        [placeholder]="'Add Party'"
                                         (selectedItem)="addParty($event)" [autoClean]="true">
                 </app-autocomplete-input>
             </md-card-title>

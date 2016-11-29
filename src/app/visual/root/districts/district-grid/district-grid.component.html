@@ -4,9 +4,9 @@
                              [district]="district"></app-district-detail>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4" *ngIf="editable">
-        <md-card (click)="addDistrict()" role="button">
+        <md-card role="button">
             <md-card-title>
-                <app-autocomplete-input [items]="daoService.regionList" [findAttribute]="'name'" [placeholder]="'Add District'"
+                <app-autocomplete-input [items]="posibleRegions" [findAttribute]="'name'" [placeholder]="'Add District'"
                                         (selectedItem)="addDistrict($event)" [autoClean]="true">
                 </app-autocomplete-input>
             </md-card-title>
