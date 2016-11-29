@@ -7,6 +7,7 @@ import {FormsModule} from "@angular/forms";
 import {RegionRoutingModule} from "./region-routing.module";
 import { RegionListComponent } from './region-list/region-list.component';
 import { RegionDetailComponent } from './region-detail/region-detail.component';
+import {ElectionCommonModule} from "../elections/election-common.module";
 
 
 /**
@@ -27,7 +28,8 @@ import { RegionDetailComponent } from './region-detail/region-detail.component';
         CommonModule,
         FormsModule,
         MaterialModule,
-        RegionRoutingModule
+        RegionRoutingModule,
+        ElectionCommonModule,
     ],
 })
 export class RegionModule {

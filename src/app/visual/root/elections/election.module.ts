@@ -10,6 +10,11 @@ import {ElectionRoutingModule} from "./election-routing.module";
 import {ElectionListComponent} from "./election-list/election-list.component";
 import {ElectionDetailComponent} from "./election-detail/election-detail.component";
 import {DistrictModule} from "../districts/district.module";
+import {PartyModule} from "../parties/party.module";
+import { ElectionGridComponent } from './election-grid/election-grid.component';
+import {ElectionCommonModule} from "./election-common.module";
+import {PartyCommonModule} from "../parties/party-common.module";
+import {DistrictCommonModule} from "../districts/district-common.module";
 
 /**
  * Clase ElectionModule. Implementa la funcionalidad de un Modulo.
@@ -20,19 +25,24 @@ import {DistrictModule} from "../districts/district.module";
 @NgModule({
     declarations: [
         ElectionListComponent,
-        ElectionDetailComponent
+        ElectionDetailComponent,
     ],
     entryComponents: [
-        ElectionDetailComponent
+        ElectionDetailComponent,
     ],
     imports: [
         CommonModule,
         FormsModule,
         MaterialModule,
-        DistrictModule,
-        ElectionRoutingModule
+        ElectionRoutingModule,
+        ElectionCommonModule,
+        PartyCommonModule,
+        DistrictCommonModule,
     ],
-    providers: []
+    exports: [
+    ],
+    providers: [
+    ],
 })
 export class ElectionModule {
 

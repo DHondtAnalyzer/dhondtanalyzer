@@ -143,15 +143,4 @@ export class ElectionDetailComponent implements ComponentWithParams, OnInit {
     private saveChanges(): void {
         // TODO
     }
-
-    /**
-     * Función gotoElection.
-     *
-     * Cambia la ruta de la web hacia la elección seleccionada.
-     * @param party
-     */
-    private goToParty(party: Party): void {
-        this.route.navigate(['/app/parties', party.id]);
-        this.closeDialog();
-    }
 }

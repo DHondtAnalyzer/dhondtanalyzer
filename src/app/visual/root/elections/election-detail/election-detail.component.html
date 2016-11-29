@@ -40,7 +40,7 @@
             </template>
 
             <template md-tab-content>
-                <app-district-grid [districtList]="election.districtList"></app-district-grid>
+                <app-district-grid [districtList]="election.districtList" (onRoute)="closeDialog()"></app-district-grid>
             </template>
         </md-tab>
         <md-tab>
@@ -48,26 +48,7 @@
                 Parties
             </template>
             <template md-tab-content>
-
-                <div class="row is-flex">
-                    <div class="col-xs-12 col-sm-6 col-md-44" *ngFor="let party of election.partyList">
-                        <md-card>
-                            <md-card-title>{{party.name}}</md-card-title>
-                            <md-card-actions>
-                                <button (click)="goToParty(party)" md-button>View</button>
-                            </md-card-actions>
-                        </md-card>
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-4">
-                        <md-card (click)="addDistrict()">
-                            <md-card-title>
-                                <md-input placeholder="Add Party"
-                                          name="newParty"></md-input>
-                            </md-card-title>
-                        </md-card>
-                    </div>
-                </div>
-
+                <app-party-grid [partyList]="election.partyList" (onRoute)="closeDialog()"></app-party-grid>
 
             </template>
         </md-tab>

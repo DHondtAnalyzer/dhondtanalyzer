@@ -4,13 +4,7 @@ import {FormsModule} from "@angular/forms";
 
 import {MaterialModule} from "@angular/material";
 
-import {PartyRoutingModule} from "./party-routing.module";
-
-
-import {PartyListComponent} from "./party-list/party-list.component";
-import {PartyDetailComponent} from "./party-detail/party-detail.component";
-import {PartyCommonModule} from "./party-common.module";
-import {ElectionCommonModule} from "../elections/election-common.module";
+import {PartyGridComponent} from './party-grid/party-grid.component';
 
 
 /**
@@ -21,24 +15,21 @@ import {ElectionCommonModule} from "../elections/election-common.module";
  */
 @NgModule({
     declarations: [
-        PartyListComponent,
-        PartyDetailComponent,
-    ],
-    entryComponents: [
-        PartyDetailComponent
+        PartyGridComponent,
     ],
     imports: [
         CommonModule,
         FormsModule,
         MaterialModule,
-        PartyRoutingModule,
-        PartyCommonModule,
-        ElectionCommonModule,
+    ],
+    exports: [
+        PartyGridComponent,
     ],
     providers: [
+
     ],
 })
-export class PartyModule {
+export class PartyCommonModule {
 
 
     /**

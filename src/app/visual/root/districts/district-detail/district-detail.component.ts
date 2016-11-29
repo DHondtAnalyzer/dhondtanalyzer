@@ -12,6 +12,7 @@ export class DistrictDetailComponent implements OnInit {
 
     @Input() district: District;
     @Output() onRemove = new EventEmitter<District>();
+    @Output() onRoute = new EventEmitter<void>();
 
     private editing: boolean;
 
@@ -32,6 +33,7 @@ export class DistrictDetailComponent implements OnInit {
     }
 
     private view() {
+        this.onRoute.emit();
         this.route.navigate(['/app/regions', this.district.region.id]);
     }
 

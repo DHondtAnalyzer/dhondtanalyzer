@@ -42,16 +42,8 @@
             </template>
 
             <template md-tab-content>
-                <div class="row is-flex">
-                    <div class="col-xs-12 col-sm-6 col-md-4" *ngFor="let election of party.electionList">
-                        <md-card>
-                            <md-card-title>{{election.name}}</md-card-title>
-                            <md-card-actions>
-                                <button (click)="goToElection(election)" md-button>View</button>
-                            </md-card-actions>
-                        </md-card>
-                    </div>
-                </div>
+                <app-election-grid [electionList]="party.electionList" (onRoute)="closeDialog()"></app-election-grid>
+
             </template>
         </md-tab>
     </md-tab-group>

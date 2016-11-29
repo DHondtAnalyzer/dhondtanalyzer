@@ -1,4 +1,4 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {District} from "../../../../dao/model/district";
 
 @Component({
@@ -10,6 +10,7 @@ export class DistrictGridComponent implements OnInit {
 
 
     @Input() districtList: District[];
+    @Output() onRoute = new EventEmitter<void>();
 
     constructor() {
     }
@@ -24,5 +25,9 @@ export class DistrictGridComponent implements OnInit {
 
     private remove(district: District) {
         this.districtList.splice(this.districtList.indexOf(district,0),1);
+    }
+
+    private routeChanged(): void {
+        this.onRoute.emit()
     }
 }

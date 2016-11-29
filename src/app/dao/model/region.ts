@@ -1,4 +1,5 @@
 import {District} from "./district";
+import {Election} from "./election";
 /**
  * Created by garciparedes on 16/11/2016.
  */
@@ -19,5 +20,15 @@ export class Region {
     private constructor(name?: string) {
         this.name = name;
         this.districtList = [];
+    }
+
+    get electionList(): Election[] {
+        let electionList: Array<Election> = [];
+
+        this.districtList.forEach(function (value) {
+            electionList.push(value.election);
+        });
+
+        return electionList
     }
 }

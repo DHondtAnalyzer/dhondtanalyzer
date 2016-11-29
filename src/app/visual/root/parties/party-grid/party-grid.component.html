@@ -1,0 +1,18 @@
+<div class="row is-flex">
+    <div class="col-xs-12 col-sm-6 col-md-4" *ngFor="let party of partyList">
+        <md-card>
+            <md-card-title>{{party.name}}</md-card-title>
+            <md-card-actions>
+                <button (click)="goToParty(party)" md-button>View</button>
+            </md-card-actions>
+        </md-card>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4">
+        <md-card (click)="addDistrict()">
+            <md-card-title>
+                <md-input placeholder="Add Party"
+                          name="newParty"></md-input>
+            </md-card-title>
+        </md-card>
+    </div>
+</div>
