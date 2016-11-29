@@ -5,6 +5,7 @@ import {FormsModule} from "@angular/forms";
 import {MaterialModule} from "@angular/material";
 
 import {PartyGridComponent} from './party-grid/party-grid.component';
+import {AutoCompleteInputComponent} from "../../shared/autocomplete-input/autocomplete-input.component";
 
 
 /**
@@ -16,6 +17,7 @@ import {PartyGridComponent} from './party-grid/party-grid.component';
 @NgModule({
     declarations: [
         PartyGridComponent,
+        AutoCompleteInputComponent,
     ],
     imports: [
         CommonModule,

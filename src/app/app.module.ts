@@ -10,7 +10,6 @@ import {AppComponent} from './app.component';
 import {AppRoutingModule} from "./app-routing.module";
 import {AuthGuard} from "./shared/auth/auth.guard";
 import {DaoModule} from "./dao/dao.module";
-import { AutocompleteInputComponent } from './visual/shared/autocomplete-input/autocomplete-input.component';
 
 
 /**
@@ -21,7 +20,6 @@ import { AutocompleteInputComponent } from './visual/shared/autocomplete-input/a
 @NgModule({
     declarations: [
         AppComponent,
-        AutocompleteInputComponent,
     ],
     imports: [
         BrowserModule,

@@ -36,4 +36,8 @@ export class PartyGridComponent implements OnInit {
         this.onRoute.emit();
     }
 
+    private newParty(party: Party): void {
+        console.log(party);
+    }
+
 }
