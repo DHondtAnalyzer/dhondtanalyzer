@@ -11,7 +11,7 @@
         <md-card (click)="addParty()">
             <md-card-title>
                 <app-autocomplete-input [items]="partyList" [findAttribute]="'name'" [placeholder]="'Add Party'"
-                                        (selectedItem)="newParty($event)">
+                                        (selectedItem)="addParty($event)" [autoClean]="true">
                 </app-autocomplete-input>
             </md-card-title>
         </md-card>

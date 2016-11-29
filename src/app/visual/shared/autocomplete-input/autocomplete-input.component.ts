@@ -1,4 +1,5 @@
 import {Component, OnInit, ElementRef, Input, Output, EventEmitter, ViewChild} from '@angular/core';
+import {MdMenuTrigger} from "@angular/material";
 
 
 /**
@@ -26,7 +27,7 @@ export class AutoCompleteInputComponent {
     @Input() items: any[];
     @Input() findAttribute: string;
 
-
+    @Input() autoClean?: boolean;
     @Input() placeholder: string;
 
     @Output() selectedItem = new EventEmitter<Object>();
@@ -50,6 +51,10 @@ export class AutoCompleteInputComponent {
     select(item) {
         this.query = item[this.findAttribute];
         this.selectedItem.emit(item);
+
+        if (this.autoClean) {
+            this.query = '';
+        }
         this.filtered = [];
     }
 

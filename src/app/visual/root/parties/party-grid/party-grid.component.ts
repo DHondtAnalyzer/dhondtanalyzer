@@ -20,8 +20,10 @@ export class PartyGridComponent implements OnInit {
     }
 
 
-    private addParty(): void {
-        //this.partyList.push(new District());
+    private addParty(party: Party): void {
+        if (party) {
+            this.partyList.push(party);
+        }
     }
 
 
@@ -34,10 +36,6 @@ export class PartyGridComponent implements OnInit {
     private goToParty(party: Party): void {
         this.route.navigate(['/app/parties', party.id]);
         this.onRoute.emit();
-    }
-
-    private newParty(party: Party): void {
-        console.log(party);
     }
 
 }
