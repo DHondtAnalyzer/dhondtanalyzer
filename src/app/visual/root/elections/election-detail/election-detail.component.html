@@ -50,7 +50,7 @@
             <template md-tab-content>
 
                 <div class="row is-flex">
-                    <div class="col-xs-4" *ngFor="let party of election.partyList">
+                    <div class="col-xs-12 col-sm-6 col-md-44" *ngFor="let party of election.partyList">
                         <md-card>
                             <md-card-title>{{party.name}}</md-card-title>
                             <md-card-actions>
@@ -58,7 +58,7 @@
                             </md-card-actions>
                         </md-card>
                     </div>
-                    <div class="col-xs-4">
+                    <div class="col-xs-12 col-sm-6 col-md-4">
                         <md-card (click)="addDistrict()">
                             <md-card-title>
                                 <md-input placeholder="Add Party"

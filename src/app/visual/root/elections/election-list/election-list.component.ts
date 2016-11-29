@@ -148,7 +148,7 @@ export class ElectionListComponent implements OnInit, ObjectFromRoute {
 
 
     private create(navigated = false) {
-        let election = new Election();
+        let election = Election.newInstance();
         this.openDialog(election, navigated, true);
     }
 }

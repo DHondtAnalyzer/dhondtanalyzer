@@ -137,7 +137,7 @@ export class PartyListComponent implements OnInit, ObjectFromRoute {
 
 
     private create(navigated = false) {
-        let party = new Party();
+        let party = Party.newInstance();
         this.openDialog(party, navigated, true);
     }
 

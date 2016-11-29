@@ -127,8 +127,8 @@ export class RegionListComponent implements OnInit, ObjectFromRoute {
 
 
     private create(navigated = false) {
-        let party = new Region();
-        this.openDialog(party, navigated, true);
+        let region = Region.newInstance();
+        this.openDialog(region, navigated, true);
     }
 
     objectIdCallback(id: string): void {
