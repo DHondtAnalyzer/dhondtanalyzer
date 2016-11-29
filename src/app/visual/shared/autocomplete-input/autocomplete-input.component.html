@@ -1,0 +1,11 @@
+<div class="container">
+    <md-input id="country" placeholder="Type"
+              [(ngModel)]=query (keyup)=filter() name="type"></md-input>
+
+    <div class="suggestions" *ngIf="filteredList.length > 0">
+        <md-list>
+            <md-list-item *ngFor="let item of filteredList"
+                          (click)="select(item)">{{item}}</md-list-item>
+        </md-list>
+    </div>
+</div>
