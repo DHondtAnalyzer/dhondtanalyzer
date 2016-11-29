@@ -25,7 +25,7 @@ export class AutoCompleteInputComponent {
 
 
     @Input() items: any[];
-    @Input() findAttribute: string;
+    @Input() findAttribute: string = 'name';
 
     @Input() autoClean?: boolean;
     @Input() placeholder: string;

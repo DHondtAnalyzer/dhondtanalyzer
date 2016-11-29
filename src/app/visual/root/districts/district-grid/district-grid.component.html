@@ -6,8 +6,9 @@
     <div class="col-xs-12 col-sm-6 col-md-4" *ngIf="editable">
         <md-card (click)="addDistrict()">
             <md-card-title>
-                <md-input placeholder="Add District"
-                          name="newDistrict"></md-input>
+                <app-autocomplete-input [items]="daoService.regionList" [findAttribute]="'name'" [placeholder]="'Add District'"
+                                        (selectedItem)="addDistrict($event)" [autoClean]="true">
+                </app-autocomplete-input>
             </md-card-title>
         </md-card>
     </div>

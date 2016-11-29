@@ -1,6 +1,7 @@
 import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {Party} from "../../../../dao/model/party";
 import {Router} from "@angular/router";
+import {DaoService} from "../../../../dao/dao.service";
 
 @Component({
     selector: 'app-party-grid',
@@ -13,7 +14,8 @@ export class PartyGridComponent implements OnInit {
     @Input() editable: boolean;
     @Output() onRoute = new EventEmitter<void>();
 
-    constructor(private route: Router) {
+    constructor(private daoService: DaoService,
+                private route: Router) {
     }
 
     ngOnInit() {

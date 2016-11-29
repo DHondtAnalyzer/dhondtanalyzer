@@ -1,5 +1,7 @@
 import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {District} from "../../../../dao/model/district";
+import {DaoService} from "../../../../dao/dao.service";
+import {Region} from "../../../../dao/model/region";
 
 @Component({
     selector: 'app-district-grid',
@@ -13,15 +15,17 @@ export class DistrictGridComponent implements OnInit {
     @Input() editable: boolean;
     @Output() onRoute = new EventEmitter<void>();
 
-    constructor() {
+    constructor(private daoService: DaoService) {
     }
 
     ngOnInit() {
     }
 
 
-    private addDistrict(): void {
-        //this.districtList.push(new District());
+    private addDistrict(region: Region): void {
+        if (region) {
+            this.districtList.push(District.newInstance(region));
+        }
     }
 
     private remove(district: District) {

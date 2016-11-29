@@ -6,6 +6,8 @@ import {MaterialModule} from "@angular/material";
 
 import {PartyGridComponent} from './party-grid/party-grid.component';
 import {AutoCompleteInputComponent} from "../../shared/autocomplete-input/autocomplete-input.component";
+import {SharedModule} from "../../shared/shared.module";
+import {DaoModule} from "../../../dao/dao.module";
 
 
 /**
@@ -17,12 +19,13 @@ import {AutoCompleteInputComponent} from "../../shared/autocomplete-input/autoco
 @NgModule({
     declarations: [
         PartyGridComponent,
-        AutoCompleteInputComponent,
     ],
     imports: [
         CommonModule,
         FormsModule,
         MaterialModule,
+        SharedModule,
+        DaoModule
     ],
     exports: [
         PartyGridComponent,
