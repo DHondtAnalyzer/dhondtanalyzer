@@ -10,6 +10,7 @@ import {Router} from "@angular/router";
 export class PartyGridComponent implements OnInit {
 
     @Input() partyList: Party[];
+    @Input() editable: boolean;
     @Output() onRoute = new EventEmitter<void>();
 
     constructor(private route: Router) {

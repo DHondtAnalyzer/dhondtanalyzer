@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Region} from "../../../../dao/model/region";
 import {ComponentWithParams} from "../../../shared/component-with-params";
 import {MdDialogRef} from "@angular/material";
@@ -6,9 +6,9 @@ import {Router} from "@angular/router";
 import {Election} from "../../../../dao/model/election";
 
 @Component({
-  selector: 'app-region-detail',
-  templateUrl: './region-detail.component.html',
-  styleUrls: ['./region-detail.component.css']
+    selector: 'app-region-detail',
+    templateUrl: './region-detail.component.html',
+    styleUrls: ['./region-detail.component.css']
 })
 export class RegionDetailComponent implements ComponentWithParams, OnInit {
 
@@ -26,8 +26,7 @@ export class RegionDetailComponent implements ComponentWithParams, OnInit {
     /**
      * Constructor de la clase.
      */
-    constructor(private dialogRef: MdDialogRef<RegionDetailComponent>,
-                private route: Router) {
+    constructor(private dialogRef: MdDialogRef<RegionDetailComponent>) {
     }
 
 
@@ -80,7 +79,7 @@ export class RegionDetailComponent implements ComponentWithParams, OnInit {
 
 
     ngOnInit(): void {
-        if(!this.model.name){
+        if (!this.model.name) {
             this.editing = true;
         }
     }
@@ -134,17 +133,5 @@ export class RegionDetailComponent implements ComponentWithParams, OnInit {
      */
     private saveChanges(): void {
         // TODO
-    }
-
-
-    /**
-     * Función gotoElection.
-     *
-     * Cambia la ruta de la web hacia la elección seleccionada.
-     * @param election
-     */
-    private goToElection(election: Election): void {
-        this.route.navigate(['/app/elections', election.id]);
-        this.closeDialog();
     }
 }

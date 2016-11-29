@@ -3,7 +3,7 @@
         <app-district-detail (onRemove)="remove($event)" (onRoute)="routeChanged()"
                              [district]="district"></app-district-detail>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4">
+    <div class="col-xs-12 col-sm-6 col-md-4" *ngIf="editable">
         <md-card (click)="addDistrict()">
             <md-card-title>
                 <md-input placeholder="Add District"

@@ -33,8 +33,7 @@ export class PartyDetailComponent implements ComponentWithParams, OnInit {
     /**
      * Constructor de la clase.
      */
-    constructor(private dialogRef: MdDialogRef<PartyDetailComponent>,
-                private route: Router) {
+    constructor(private dialogRef: MdDialogRef<PartyDetailComponent>) {
     }
 
 

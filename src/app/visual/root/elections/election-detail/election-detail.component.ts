@@ -33,8 +33,7 @@ export class ElectionDetailComponent implements ComponentWithParams, OnInit {
     /**
      * Constructor de la clase.
      */
-    constructor(private dialogRef: MdDialogRef<ElectionDetailComponent>,
-                private route: Router) {
+    constructor(private dialogRef: MdDialogRef<ElectionDetailComponent>) {
     }
 
 

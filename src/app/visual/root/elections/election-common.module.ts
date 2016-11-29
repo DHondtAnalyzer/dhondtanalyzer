@@ -5,7 +5,7 @@ import {FormsModule} from "@angular/forms";
 
 import {MaterialModule} from "@angular/material";
 
-import { ElectionGridComponent } from './election-grid/election-grid.component';
+import {ElectionGridComponent} from './election-grid/election-grid.component';
 
 /**
  * Clase ElectionModule. Implementa la funcionalidad de un Modulo.
@@ -25,9 +25,7 @@ import { ElectionGridComponent } from './election-grid/election-grid.component';
     exports: [
         ElectionGridComponent,
     ],
-    providers: [
-
-    ],
+    providers: [],
 })
 export class ElectionCommonModule {
 

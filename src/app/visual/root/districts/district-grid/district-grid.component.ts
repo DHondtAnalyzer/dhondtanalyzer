@@ -10,6 +10,7 @@ export class DistrictGridComponent implements OnInit {
 
 
     @Input() districtList: District[];
+    @Input() editable: boolean;
     @Output() onRoute = new EventEmitter<void>();
 
     constructor() {
@@ -24,7 +25,7 @@ export class DistrictGridComponent implements OnInit {
     }
 
     private remove(district: District) {
-        this.districtList.splice(this.districtList.indexOf(district,0),1);
+        this.districtList.splice(this.districtList.indexOf(district, 0), 1);
     }
 
     private routeChanged(): void {

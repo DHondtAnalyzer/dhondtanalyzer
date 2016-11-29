@@ -4,7 +4,6 @@ import {RouterModule} from '@angular/router';
 import {RegionListComponent} from "./region-list/region-list.component";
 
 
-
 /**
  * Clase ElectionRoutingModule. Implementa la funcionalidad de un Módulo.
  *

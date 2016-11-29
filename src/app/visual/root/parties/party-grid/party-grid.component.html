@@ -7,8 +7,8 @@
             </md-card-actions>
         </md-card>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4">
-        <md-card (click)="addDistrict()">
+    <div class="col-xs-12 col-sm-6 col-md-4" *ngIf="editable">
+        <md-card (click)="addParty()">
             <md-card-title>
                 <md-input placeholder="Add Party"
                           name="newParty"></md-input>

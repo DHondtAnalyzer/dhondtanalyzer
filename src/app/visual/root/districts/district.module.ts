@@ -13,10 +13,8 @@ import {DistrictCommonModule} from "./district-common.module";
         FormsModule,
         DistrictCommonModule,
     ],
-    declarations: [
-    ],
-    exports: [
-    ],
+    declarations: [],
+    exports: [],
 })
 export class DistrictModule {
 }

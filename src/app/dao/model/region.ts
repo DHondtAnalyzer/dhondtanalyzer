@@ -1,5 +1,6 @@
 import {District} from "./district";
 import {Election} from "./election";
+import {Party} from "./party";
 /**
  * Created by garciparedes on 16/11/2016.
  */

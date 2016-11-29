@@ -35,8 +35,7 @@ import {ElectionCommonModule} from "../elections/election-common.module";
         PartyCommonModule,
         ElectionCommonModule,
     ],
-    providers: [
-    ],
+    providers: [],
 })
 export class PartyModule {
 

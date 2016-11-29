@@ -25,9 +25,7 @@ import {PartyGridComponent} from './party-grid/party-grid.component';
     exports: [
         PartyGridComponent,
     ],
-    providers: [
-
-    ],
+    providers: [],
 })
 export class PartyCommonModule {
 
