@@ -1,6 +1,6 @@
 <div class="row is-flex">
     <div class="col-xs-12 col-sm-6 col-md-4" *ngFor="let party of partyList">
-        <md-card>
+        <md-card role="button">
             <md-card-title>{{party.name}}</md-card-title>
             <md-card-actions>
                 <button (click)="goToParty(party)" md-button>View</button>
@@ -8,7 +8,7 @@
         </md-card>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4" *ngIf="editable">
-        <md-card (click)="addParty()">
+        <md-card (click)="addParty()" role="button">
             <md-card-title>
                 <app-autocomplete-input [items]="daoService.partyList" [findAttribute]="'name'" [placeholder]="'Add Party'"
                                         (selectedItem)="addParty($event)" [autoClean]="true">
