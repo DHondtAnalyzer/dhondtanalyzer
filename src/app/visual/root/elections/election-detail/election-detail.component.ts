@@ -33,8 +33,7 @@ export class ElectionDetailComponent implements ComponentWithParams, OnInit {
     /**
      * Constructor de la clase.
      */
-    constructor(private dialogRef: MdDialogRef<ElectionDetailComponent>,
-                private route: Router) {
+    constructor(private dialogRef: MdDialogRef<ElectionDetailComponent>) {
     }
 
 
@@ -142,16 +141,5 @@ export class ElectionDetailComponent implements ComponentWithParams, OnInit {
      */
     private saveChanges(): void {
         // TODO
-    }
-
-    /**
-     * Función gotoElection.
-     *
-     * Cambia la ruta de la web hacia la elección seleccionada.
-     * @param party
-     */
-    private goToParty(party: Party): void {
-        this.route.navigate(['/app/parties', party.id]);
-        this.closeDialog();
     }
 }

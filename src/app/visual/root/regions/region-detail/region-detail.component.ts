@@ -1,23 +1,16 @@
 import {Component, OnInit} from '@angular/core';
+import {Region} from "../../../../dao/model/region";
 import {ComponentWithParams} from "../../../shared/component-with-params";
-import {Model} from "../../../../dao/model/model";
-import {Party} from "../../../../dao/model/party";
 import {MdDialogRef} from "@angular/material";
 import {Router} from "@angular/router";
 import {Election} from "../../../../dao/model/election";
 
-
-/**
- * Clase PartyDetailComponent. Implementa la funcionalidad de un Componente.
- *
- * PartyDetailComponent se encarga de representar visualmente un partido político.
- */
 @Component({
-    selector: 'app-party-detail',
-    templateUrl: './party-detail.component.html',
-    styleUrls: ['./party-detail.component.css']
+    selector: 'app-region-detail',
+    templateUrl: './region-detail.component.html',
+    styleUrls: ['./region-detail.component.css']
 })
-export class PartyDetailComponent implements ComponentWithParams, OnInit {
+export class RegionDetailComponent implements ComponentWithParams, OnInit {
 
 
     private editing: boolean;
@@ -27,13 +20,13 @@ export class PartyDetailComponent implements ComponentWithParams, OnInit {
      *
      * El tipo es Party.
      */
-    private _model: Party;
+    private _model: Region;
 
 
     /**
      * Constructor de la clase.
      */
-    constructor(private dialogRef: MdDialogRef<PartyDetailComponent>) {
+    constructor(private dialogRef: MdDialogRef<RegionDetailComponent>) {
     }
 
 
@@ -43,7 +36,7 @@ export class PartyDetailComponent implements ComponentWithParams, OnInit {
      *
      * @returns {string}
      */
-    get model(): Party {
+    get model(): Region {
         return this._model;
     }
 
@@ -54,7 +47,7 @@ export class PartyDetailComponent implements ComponentWithParams, OnInit {
      *
      * @param value
      */
-    set model(value: Party) {
+    set model(value: Region) {
         this._model = value;
     }
 
@@ -67,7 +60,7 @@ export class PartyDetailComponent implements ComponentWithParams, OnInit {
      *
      * @returns {Party}
      */
-    get party(): Party {
+    get region(): Region {
         return this.model;
     }
 
@@ -80,13 +73,13 @@ export class PartyDetailComponent implements ComponentWithParams, OnInit {
      *
      * @returns {Party}
      */
-    set party(value: Party) {
+    set region(value: Region) {
         this.model = value;
     }
 
 
     ngOnInit(): void {
-        if(!this.model.name){
+        if (!this.model.name) {
             this.editing = true;
         }
     }

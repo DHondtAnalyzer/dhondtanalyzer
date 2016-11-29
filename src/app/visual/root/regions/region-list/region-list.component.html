@@ -2,7 +2,7 @@
     <div class="col-xs-12">
         <md-card>
             <md-card-title>
-                <md-input placeholder="Search election..." name="search" style="width: 100%">
+                <md-input placeholder="Search region..." name="search" style="width: 100%">
                     <span md-prefix>
                         <md-icon>search</md-icon>
                     </span>
@@ -10,9 +10,11 @@
             </md-card-title>
         </md-card>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngFor="let election of electionList">
-        <md-card (click)="openDialog(election)">
-            <md-card-title>{{election.name}}</md-card-title>
+
+
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngFor="let region of regionList" >
+        <md-card (click)="openDialog(region)">
+            <md-card-title>{{region.name}}</md-card-title>
         </md-card>
     </div>
 </div>

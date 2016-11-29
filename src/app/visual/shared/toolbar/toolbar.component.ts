@@ -77,6 +77,7 @@ export class ToolbarComponent implements OnInit {
             new Link('Home', '/app/home'),
             new Link('Elections', '/app/elections'),
             new Link('Parties', '/app/parties'),
+            new Link('Regions', '/app/regions'),
             new Link('Exit', '/')
         ]
     }

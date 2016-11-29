@@ -39,6 +39,10 @@ import {RootComponent} from "./root.component";
                         path: 'parties',
                         loadChildren: 'app/visual/root/parties/party.module#PartyModule'
                     },
+                    {
+                        path: 'regions',
+                        loadChildren: 'app/visual/root/regions/region.module#RegionModule'
+                    },
                 ]
             }
         ])

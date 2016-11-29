@@ -1,36 +1,26 @@
 import {Component, OnInit, ViewContainerRef} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
-
-import {DialogService} from "../../../shared/dialog/dialog.service";
-import {DaoService} from "../../../../dao/dao.service";
-
-import {Party} from "../../../../dao/model/party";
-import {PartyDetailComponent} from "../party-detail/party-detail.component";
-import {RouterService} from "../../../shared/router/router.service";
 import {ObjectFromRoute} from "../../../shared/router/object-from-route";
+import {Region} from "../../../../dao/model/region";
+import {ActivatedRoute} from "@angular/router";
+import {DaoService} from "../../../../dao/dao.service";
+import {RouterService} from "../../../shared/router/router.service";
+import {DialogService} from "../../../shared/dialog/dialog.service";
+import {RegionDetailComponent} from "../region-detail/region-detail.component";
 
-
-/**
- * Clase PartyListComponent. Implementa la funcionalidad de un Componente.
- *
- * PartyListComponent se encarga de representar visualmente el listado de
- * Partidos Políticos así como la funcionalidad de mostrar un dialog del
- * detalle individual.
- */
 @Component({
-    selector: 'app-party-list',
-    templateUrl: './party-list.component.html',
-    styleUrls: ['./party-list.component.css']
+  selector: 'app-region-list',
+  templateUrl: './region-list.component.html',
+  styleUrls: ['./region-list.component.css']
 })
-export class PartyListComponent implements OnInit, ObjectFromRoute {
+export class RegionListComponent implements OnInit, ObjectFromRoute {
 
 
     /**
-     * Atributo partyList.
+     * Atributo regionList.
      *
-     * El tipo es Array<Party>
+     * El tipo es Array<REgion>
      */
-    private _partyList: Array<Party>;
+    private _regionList: Array<Region>;
 
 
     /**
@@ -45,28 +35,28 @@ export class PartyListComponent implements OnInit, ObjectFromRoute {
     constructor(private viewContainerRef: ViewContainerRef,
                 private route: ActivatedRoute,
                 private daoService: DaoService,
-                private routerService: RouterService<Party>,
+                private routerService: RouterService<Region>,
                 private dialogService: DialogService,) {
     }
 
 
     /**
-     * Getter del atributo partyList.
+     * Getter del atributo regionList.
      *
      * @returns {Array<Party>}
      */
-    get partyList(): Array<Party> {
-        return this._partyList;
+    get regionList(): Array<Region> {
+        return this._regionList;
     }
 
 
     /**
-     * Setter del atributo partyList.
+     * Setter del atributo regionList.
      *
      * @param value
      */
-    set partyList(value: Array<Party>) {
-        this._partyList = value;
+    set regionList(value: Array<Region>) {
+        this._regionList = value;
     }
 
 
@@ -76,7 +66,7 @@ export class PartyListComponent implements OnInit, ObjectFromRoute {
      * Implementa la función de la interfaz OnInit
      */
     ngOnInit() {
-        this.partyList = this.daoService.partyList;
+        this.regionList = this.daoService.regionList;
         this.initRouterHelper();
         this.initDialogHelper();
         this.readRoute();
@@ -102,7 +92,7 @@ export class PartyListComponent implements OnInit, ObjectFromRoute {
      */
     private initDialogHelper(): void {
         this.dialogService.init(this.viewContainerRef,
-            PartyDetailComponent);
+            RegionDetailComponent);
     }
 
 
@@ -125,24 +115,24 @@ export class PartyListComponent implements OnInit, ObjectFromRoute {
      * partido político a partir de un diálogo que contiene el contenido del
      * component PartyDetailComponent.
      *
-     * @param party string que representa el id del partido a mostrar.
+     * @param region string que representa el id del partido a mostrar.
      * @param navigated boolean que indica si se ha hacedido a la url por
      * navegación.
      * @param newParty
      */
-    private openDialog(party: Party, navigated = false,
+    private openDialog(region: Region, navigated = false,
                        newParty = false): void {
-        this.dialogService.openDialog(party, navigated, newParty);
+        this.dialogService.openDialog(region, navigated, newParty);
     }
 
 
     private create(navigated = false) {
-        let party = Party.newInstance();
-        this.openDialog(party, navigated, true);
+        let region = Region.newInstance();
+        this.openDialog(region, navigated, true);
     }
 
     objectIdCallback(id: string): void {
-        this.openDialog(this.daoService.getPartyById(id), true);
+        this.openDialog(this.daoService.getRegionById(id), true);
     }
 
     createCallback(): void {

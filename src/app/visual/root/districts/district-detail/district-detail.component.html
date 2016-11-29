@@ -24,6 +24,7 @@
 
     <md-card-actions>
         <button *ngIf="!editing" (click)="edit()" md-button>Edit</button>
+        <button *ngIf="!editing" (click)="view()" md-button>View</button>
         <button *ngIf="editing" (click)="save()" md-button>Save</button>
         <button *ngIf="editing" (click)="remove()" md-button>Remove</button>
     </md-card-actions>
