@@ -8,6 +8,9 @@ import {RegionRoutingModule} from "./region-routing.module";
 import {RegionListComponent} from './region-list/region-list.component';
 import {RegionDetailComponent} from './region-detail/region-detail.component';
 import {ElectionCommonModule} from "../elections/election-common.module";
+import { RegionGridComponent } from './region-grid/region-grid.component';
+import { RegionResumeComponent } from './region-resume/region-resume.component';
+import {RegionCommonModule} from "./region-common.module";
 
 
 /**
@@ -29,6 +32,7 @@ import {ElectionCommonModule} from "../elections/election-common.module";
         FormsModule,
         MaterialModule,
         RegionRoutingModule,
+        RegionCommonModule,
         ElectionCommonModule,
     ],
 })

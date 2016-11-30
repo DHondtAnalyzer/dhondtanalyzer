@@ -14,11 +14,6 @@
 
 
     <div class="{{cardColClass}}" *ngFor="let election of electionList">
-        <md-card role="button">
-            <md-card-title>{{election.name}}</md-card-title>
-            <md-card-actions>
-                <button (click)="goToElection(election)" md-button>View</button>
-            </md-card-actions>
-        </md-card>
+        <app-election-resume [election]="election" (onView)="goToElection($event)"></app-election-resume>
     </div>
 </div>

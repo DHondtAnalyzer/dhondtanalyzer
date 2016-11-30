@@ -1,0 +1,18 @@
+<div class="row is-flex">
+    <div class="col-xs-12">
+        <md-card role="button">
+            <md-card-title>
+                <md-input placeholder="Search region..." name="search" style="width: 100%">
+                    <span md-prefix>
+                        <md-icon>search</md-icon>
+                    </span>
+                </md-input>
+            </md-card-title>
+        </md-card>
+    </div>
+
+
+    <div class="{{cardColClass}}" *ngFor="let region of regionList" >
+        <app-region-resume [region]="region" (onView)="view($event)"></app-region-resume>
+    </div>
+</div>

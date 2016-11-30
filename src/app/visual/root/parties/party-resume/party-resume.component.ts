@@ -1,5 +1,4 @@
 import {Component, Input, EventEmitter, Output} from '@angular/core';
-import {Router} from "@angular/router";
 import {Party} from "../../../../dao/model/party";
 
 @Component({
@@ -11,7 +10,8 @@ export class PartyResumeComponent {
 
 
     @Input() party: Party;
-    @Input() editable?: boolean;
+    @Input() editable: boolean;
+
     @Output() onRemove = new EventEmitter<Party>();
     @Output() onView = new EventEmitter<Party>();
 
