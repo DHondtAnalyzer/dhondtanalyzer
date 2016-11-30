@@ -10,6 +10,8 @@ import {DaoService} from "../../../../dao/dao.service";
 })
 export class PartyGridComponent implements OnInit {
 
+    private filteredPartyList: Party[];
+
     @Input() partyList: Party[];
     @Input() editable: boolean;
     @Input() searchable: boolean;
@@ -20,7 +22,9 @@ export class PartyGridComponent implements OnInit {
     constructor(private daoService: DaoService) {
     }
 
+
     ngOnInit() {
+        this.filteredPartyList = this.partyList;
     }
 
 
@@ -65,4 +69,7 @@ export class PartyGridComponent implements OnInit {
         }
     }
 
+    search(filtered: Party[]){
+        this.filteredPartyList = filtered;
+    }
 }

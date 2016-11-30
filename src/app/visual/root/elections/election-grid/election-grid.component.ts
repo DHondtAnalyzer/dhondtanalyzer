@@ -10,6 +10,8 @@ import {Election} from "../../../../dao/model/election";
 })
 export class ElectionGridComponent implements OnInit {
 
+    private filteredElectionList: Election[];
+
     @Input() electionList: Election[];
     @Input() searchable: boolean;
     @Input() big: boolean;
@@ -20,6 +22,7 @@ export class ElectionGridComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.filteredElectionList = this.electionList;
     }
 
     /**
@@ -38,6 +41,10 @@ export class ElectionGridComponent implements OnInit {
         } else {
             return 'col-xs-12 col-sm-6 col-md-4';
         }
+    }
+
+    search(filtered: Election[]){
+        this.filteredElectionList = filtered;
     }
 
 }

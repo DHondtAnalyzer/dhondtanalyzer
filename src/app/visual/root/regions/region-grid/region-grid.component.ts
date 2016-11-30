@@ -8,6 +8,8 @@ import {Region} from "../../../../dao/model/region";
 })
 export class RegionGridComponent implements OnInit {
 
+    private filteredRegionList: Region[];
+
 
     @Input() regionList: Region[];
     @Input() searchable: boolean;
@@ -19,6 +21,7 @@ export class RegionGridComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.filteredRegionList = this.regionList;
     }
 
 
@@ -34,4 +37,9 @@ export class RegionGridComponent implements OnInit {
         }
     }
 
+
+
+    search(filtered: Region[]){
+        this.filteredRegionList = filtered;
+    }
 }
