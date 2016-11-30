@@ -3,11 +3,11 @@ import {District} from "../../../../dao/model/district";
 import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-district-detail',
+  selector: 'app-district-resume',
   templateUrl: 'district-detail.component.html',
   styleUrls: ['district-detail.component.css']
 })
-export class DistrictDetailComponent implements OnInit {
+export class DistrictResumeComponent implements OnInit {
 
 
     @Input() district: District;
@@ -19,7 +19,9 @@ export class DistrictDetailComponent implements OnInit {
     constructor(private route: Router) { }
 
     ngOnInit() {
-        if (!this.district.name) {
+        if (!this.district.region || ! this.district.census ||
+            !this.district.seats) {
+
             this.editing = true;
         }
     }
@@ -40,17 +42,5 @@ export class DistrictDetailComponent implements OnInit {
 
     private remove() {
         this.onRemove.emit(this.district);
-    }
-
-    /**
-     * Función gotoElection.
-     *
-     * Cambia la ruta de la web hacia la elección seleccionada.
-     * @param district
-     */
-    private goToDistrict(district: District): void {
-        //this.route.navigate(['/app/elections']);
-        //this.closeDialog();
-        console.log(district);
     }
 }

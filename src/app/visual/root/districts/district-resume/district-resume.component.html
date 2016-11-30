@@ -1,4 +1,4 @@
-<md-card>
+<md-card role="button">
     <md-card-title>
         <md-input [disabled]="!editing" placeholder="Name"
                   [(ngModel)]="district.name" name="name"></md-input>
@@ -23,9 +23,10 @@
     </md-card-content>
 
     <md-card-actions>
-        <button *ngIf="!editing" (click)="edit()" md-button>Edit</button>
         <button *ngIf="!editing" (click)="view()" md-button>View</button>
-        <button *ngIf="editing" (click)="save()" md-button>Save</button>
+        <button *ngIf="!editing" (click)="edit()" md-button>Edit</button>
+
         <button *ngIf="editing" (click)="remove()" md-button>Remove</button>
+        <button *ngIf="editing" (click)="save()" md-button>Save</button>
     </md-card-actions>
 </md-card>

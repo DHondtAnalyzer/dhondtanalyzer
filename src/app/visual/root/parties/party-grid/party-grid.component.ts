@@ -1,6 +1,7 @@
 import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {Party} from "../../../../dao/model/party";
 import {Router} from "@angular/router";
+import {DaoService} from "../../../../dao/dao.service";
 
 @Component({
     selector: 'app-party-grid',
@@ -13,27 +14,44 @@ export class PartyGridComponent implements OnInit {
     @Input() editable: boolean;
     @Output() onRoute = new EventEmitter<void>();
 
-    constructor(private route: Router) {
+    constructor(private daoService: DaoService) {
     }
 
     ngOnInit() {
     }
 
 
-    private addParty(): void {
-        //this.partyList.push(new District());
+    private addParty(party: Party): void {
+        if (party) {
+            this.partyList.push(party);
+        }
     }
 
 
-    /**
-     * Función gotoElection.
-     *
-     * Cambia la ruta de la web hacia la elección seleccionada.
-     * @param party
-     */
-    private goToParty(party: Party): void {
-        this.route.navigate(['/app/parties', party.id]);
-        this.onRoute.emit();
+    private remove(party: Party) {
+        this.partyList.splice(this.partyList.indexOf(party, 0), 1);
+    }
+
+
+    private routeChanged(): void {
+        this.onRoute.emit()
+    }
+
+
+    private get posibleParties(): Party[] {
+
+        // Necessary because of JS function scope
+        let self: PartyGridComponent = this;
+
+        return this.daoService.partyList.filter(function (value) {
+                for (let i: number = 0; i < self.partyList.length; i++) {
+                    if (self.partyList[i].id === value.id) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        );
     }
 
 }

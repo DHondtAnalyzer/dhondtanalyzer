@@ -1,17 +1,15 @@
 <div class="row is-flex">
     <div class="col-xs-12 col-sm-6 col-md-4" *ngFor="let party of partyList">
-        <md-card>
-            <md-card-title>{{party.name}}</md-card-title>
-            <md-card-actions>
-                <button (click)="goToParty(party)" md-button>View</button>
-            </md-card-actions>
-        </md-card>
+        <app-party-resume [party]="party" [editable]="editable"
+                          (onRoute)="routeChanged" (onRemove)="remove($event)"></app-party-resume>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4" *ngIf="editable">
-        <md-card (click)="addParty()">
+        <md-card role="button">
             <md-card-title>
-                <md-input placeholder="Add Party"
-                          name="newParty"></md-input>
+                <app-autocomplete-input [items]="posibleParties" [findAttribute]="'name'"
+                                        [placeholder]="'Add Party'"
+                                        (selectedItem)="addParty($event)" [autoClean]="true">
+                </app-autocomplete-input>
             </md-card-title>
         </md-card>
     </div>

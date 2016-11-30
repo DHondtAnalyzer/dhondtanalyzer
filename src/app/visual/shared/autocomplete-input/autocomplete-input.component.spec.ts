@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { DistrictDetailComponent } from './district-detail.component';
+import { AutoCompleteInputComponent } from './autocomplete-input.component';
 
-describe('DistrictDetailComponent', () => {
-  let component: DistrictDetailComponent;
-  let fixture: ComponentFixture<DistrictDetailComponent>;
+describe('AutoCompleteInputComponent', () => {
+  let component: AutoCompleteInputComponent;
+  let fixture: ComponentFixture<AutoCompleteInputComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DistrictDetailComponent ]
+      declarations: [ AutoCompleteInputComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DistrictDetailComponent);
+    fixture = TestBed.createComponent(AutoCompleteInputComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

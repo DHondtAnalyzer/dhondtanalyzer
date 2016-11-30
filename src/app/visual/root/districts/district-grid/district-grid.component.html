@@ -1,13 +1,15 @@
-<div class="row is-flex" >
+<div class="row is-flex">
     <div class="col-xs-12 col-sm-6 col-md-4" *ngFor="let district of districtList">
-        <app-district-detail (onRemove)="remove($event)" (onRoute)="routeChanged()"
-                             [district]="district"></app-district-detail>
+        <app-district-resume (onRemove)="remove($event)" (onRoute)="routeChanged()"
+                             [district]="district"></app-district-resume>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4" *ngIf="editable">
-        <md-card (click)="addDistrict()">
+        <md-card role="button">
             <md-card-title>
-                <md-input placeholder="Add District"
-                          name="newDistrict"></md-input>
+                <app-autocomplete-input [items]="posibleRegions" [findAttribute]="'name'"
+                                        [placeholder]="'Add District'"
+                                        (selectedItem)="addDistrict($event)" [autoClean]="true">
+                </app-autocomplete-input>
             </md-card-title>
         </md-card>
     </div>

@@ -20,8 +20,6 @@ md-dialog-container.md-dialog-container {
 .md-overlay-pane {
     max-width: 960px;
     width: 90%;
-    max-height: 95vh;
-    overflow: scroll;
 }
 div.content {
     background-color: whitesmoke;
@@ -64,4 +62,9 @@ md-card {
 }
 md-card-title{
     text-align: center;
+}
+
+md-dialog-container {
+    max-height: 95vh;
+    overflow: scroll !important;
 }

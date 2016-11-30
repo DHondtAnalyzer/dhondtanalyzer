@@ -5,6 +5,10 @@ import {FormsModule} from "@angular/forms";
 import {MaterialModule} from "@angular/material";
 
 import {PartyGridComponent} from './party-grid/party-grid.component';
+import {AutoCompleteInputComponent} from "../../shared/autocomplete-input/autocomplete-input.component";
+import {SharedModule} from "../../shared/shared.module";
+import {DaoModule} from "../../../dao/dao.module";
+import {PartyResumeComponent} from "./party-resume/party-resume.component";
 
 
 /**
@@ -16,11 +20,14 @@ import {PartyGridComponent} from './party-grid/party-grid.component';
 @NgModule({
     declarations: [
         PartyGridComponent,
+        PartyResumeComponent,
     ],
     imports: [
         CommonModule,
         FormsModule,
         MaterialModule,
+        SharedModule,
+        DaoModule
     ],
     exports: [
         PartyGridComponent,

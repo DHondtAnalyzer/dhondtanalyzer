@@ -10,6 +10,7 @@ import {RootComponent} from "./root.component";
 import {RootRoutingModule} from "./root-routing.module";
 import {DialogService} from "../shared/dialog/dialog.service";
 import {RouterService} from "../shared/router/router.service";
+import {SharedModule} from "../shared/shared.module";
 
 
 /**
@@ -20,15 +21,14 @@ import {RouterService} from "../shared/router/router.service";
  */
 @NgModule({
     declarations: [
-        ToolbarComponent,
-        ContainerComponent,
         HomeComponent,
         RootComponent,
     ],
     imports: [
         CommonModule,
         MaterialModule,
-        RootRoutingModule
+        RootRoutingModule,
+        SharedModule,
     ],
     providers: [
         DialogService,
