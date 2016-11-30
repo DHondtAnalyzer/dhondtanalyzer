@@ -1,10 +1,12 @@
 <div class="row is-flex">
-    <div class="col-xs-12 col-sm-6 col-md-4" *ngFor="let election of electionList">
-        <md-card role="button">
-            <md-card-title>{{election.name}}</md-card-title>
-            <md-card-actions>
-                <button (click)="goToElection(election)" md-button>View</button>
-            </md-card-actions>
-        </md-card>
+
+    <div class="col-xs-12" *ngIf="searchable">
+        <app-search [placeholder]="'Search elections...'" [initialList]="electionList"
+                    (onSearch)="search($event)"></app-search>
+    </div>
+
+
+    <div class="{{cardColClass}}" *ngFor="let election of filteredElectionList">
+        <app-election-resume [election]="election" (onView)="goToElection($event)"></app-election-resume>
     </div>
 </div>

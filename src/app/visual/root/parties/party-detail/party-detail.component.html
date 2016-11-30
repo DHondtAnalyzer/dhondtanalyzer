@@ -42,7 +42,8 @@
             </template>
 
             <template md-tab-content>
-                <app-election-grid [electionList]="party.electionList" (onRoute)="closeDialog()"></app-election-grid>
+                <app-election-grid [electionList]="party.electionList"
+                                   (onView)="navigateToElection($event)"></app-election-grid>
 
             </template>
         </md-tab>

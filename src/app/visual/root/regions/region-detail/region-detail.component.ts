@@ -26,7 +26,8 @@ export class RegionDetailComponent implements ComponentWithParams, OnInit {
     /**
      * Constructor de la clase.
      */
-    constructor(private dialogRef: MdDialogRef<RegionDetailComponent>) {
+    constructor(private dialogRef: MdDialogRef<RegionDetailComponent>,
+                private router: Router) {
     }
 
 
@@ -93,6 +94,13 @@ export class RegionDetailComponent implements ComponentWithParams, OnInit {
     private closeDialog(): void {
         this.dialogRef.close();
     }
+
+
+    private navigateToElection(election: Election) {
+        this.closeDialog();
+        this.router.navigate(['/app/elections', election.id]);
+    }
+
 
 
     /**

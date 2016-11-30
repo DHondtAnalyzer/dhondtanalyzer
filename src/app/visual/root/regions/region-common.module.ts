@@ -4,10 +4,10 @@ import {FormsModule} from "@angular/forms";
 
 import {MaterialModule} from "@angular/material";
 
-import {PartyGridComponent} from './party-grid/party-grid.component';
 import {SharedModule} from "../../shared/shared.module";
 import {DaoModule} from "../../../dao/dao.module";
-import {PartyResumeComponent} from "./party-resume/party-resume.component";
+import {RegionGridComponent} from "./region-grid/region-grid.component";
+import {RegionResumeComponent} from "./region-resume/region-resume.component";
 
 
 /**
@@ -18,8 +18,8 @@ import {PartyResumeComponent} from "./party-resume/party-resume.component";
  */
 @NgModule({
     declarations: [
-        PartyGridComponent,
-        PartyResumeComponent,
+        RegionGridComponent,
+        RegionResumeComponent,
     ],
     imports: [
         CommonModule,
@@ -29,11 +29,11 @@ import {PartyResumeComponent} from "./party-resume/party-resume.component";
         DaoModule
     ],
     exports: [
-        PartyGridComponent,
+        RegionGridComponent,
     ],
     providers: [],
 })
-export class PartyCommonModule {
+export class RegionCommonModule {
 
 
     /**

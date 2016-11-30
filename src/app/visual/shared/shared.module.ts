@@ -7,6 +7,7 @@ import {ToolbarComponent} from "./toolbar/toolbar.component";
 import {ContainerComponent} from "./container/container.component";
 import {AutoCompleteInputComponent} from "./autocomplete-input/autocomplete-input.component";
 import {CommonModule} from "@angular/common";
+import {SearchComponent} from "./search/search.component";
 
 
 /**
@@ -19,6 +20,7 @@ import {CommonModule} from "@angular/common";
         ToolbarComponent,
         ContainerComponent,
         AutoCompleteInputComponent,
+        SearchComponent,
     ],
     imports: [
         CommonModule,
@@ -29,6 +31,7 @@ import {CommonModule} from "@angular/common";
         ToolbarComponent,
         ContainerComponent,
         AutoCompleteInputComponent,
+        SearchComponent,
     ],
 })
 export class SharedModule {

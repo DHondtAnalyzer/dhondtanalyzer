@@ -33,7 +33,8 @@ export class PartyDetailComponent implements ComponentWithParams, OnInit {
     /**
      * Constructor de la clase.
      */
-    constructor(private dialogRef: MdDialogRef<PartyDetailComponent>) {
+    constructor(private dialogRef: MdDialogRef<PartyDetailComponent>,
+                private router: Router) {
     }
 
 
@@ -99,6 +100,11 @@ export class PartyDetailComponent implements ComponentWithParams, OnInit {
      */
     private closeDialog(): void {
         this.dialogRef.close();
+    }
+
+    private navigateToElection(election: Election) {
+        this.closeDialog();
+        this.router.navigate(['/app/elections', election.id]);
     }
 
 

@@ -7,6 +7,7 @@ import {MaterialModule} from "@angular/material";
 
 import {ElectionGridComponent} from './election-grid/election-grid.component';
 import {SharedModule} from "../../shared/shared.module";
+import {ElectionResumeComponent} from "./election-resume/election-resume.component";
 
 /**
  * Clase ElectionModule. Implementa la funcionalidad de un Modulo.
@@ -17,6 +18,7 @@ import {SharedModule} from "../../shared/shared.module";
 @NgModule({
     declarations: [
         ElectionGridComponent,
+        ElectionResumeComponent,
     ],
     imports: [
         CommonModule,
