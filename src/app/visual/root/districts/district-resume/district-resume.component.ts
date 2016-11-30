@@ -3,11 +3,11 @@ import {District} from "../../../../dao/model/district";
 import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-district-detail',
+  selector: 'app-district-resume',
   templateUrl: 'district-detail.component.html',
   styleUrls: ['district-detail.component.css']
 })
-export class DistrictDetailComponent implements OnInit {
+export class DistrictResumeComponent implements OnInit {
 
 
     @Input() district: District;

@@ -14,8 +14,7 @@ export class PartyGridComponent implements OnInit {
     @Input() editable: boolean;
     @Output() onRoute = new EventEmitter<void>();
 
-    constructor(private daoService: DaoService,
-                private route: Router) {
+    constructor(private daoService: DaoService) {
     }
 
     ngOnInit() {

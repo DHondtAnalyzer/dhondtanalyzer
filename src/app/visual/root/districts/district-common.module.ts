@@ -5,7 +5,7 @@ import {MaterialModule} from "@angular/material";
 
 import {DistrictGridComponent} from "./district-grid/district-grid.component";
 import {FormsModule} from "@angular/forms";
-import {DistrictDetailComponent} from './district-detail/district-detail.component';
+import {DistrictResumeComponent} from './district-resume/district-resume.component';
 import {SharedModule} from "../../shared/shared.module";
 import {DaoModule} from "../../../dao/dao.module";
 
@@ -19,7 +19,7 @@ import {DaoModule} from "../../../dao/dao.module";
     ],
     declarations: [
         DistrictGridComponent,
-        DistrictDetailComponent
+        DistrictResumeComponent
     ],
     exports: [
         DistrictGridComponent
