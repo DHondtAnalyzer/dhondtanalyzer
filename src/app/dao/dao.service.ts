@@ -1,17 +1,13 @@
-import { Election } from "./model/election";
-import { Party } from "./model/party";
-import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptions } from '@angular/http';
-import { AngularFire } from 'angularfire2';
-import 'angularfire2/node_modules/firebase';
-import {FirebaseListObservable, FirebaseObjectObservable} from 'angularfire2';
-// import 'firebase';
-import 'rxjs/add/operator/toPromise';
+import {Election} from "./model/election";
+import {Party} from "./model/party";
+import {Injectable} from "@angular/core";
+import {AngularFire, FirebaseListObservable, FirebaseObjectObservable} from "angularfire2";
+import "rxjs/add/operator/toPromise";
 
 @Injectable()
 export class DaoService {
 
-  constructor(private af: AngularFire) { }
+  constructor(private af: AngularFire) {  }
 
   ///////////
   // CRUD: Election

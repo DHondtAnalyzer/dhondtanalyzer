@@ -12,6 +12,7 @@ import {AuthGuard} from "./shared/auth/auth.guard";
 // import { DaoComponent } from './dao/dao.component';
 import { DaoModule } from "./dao/dao.module";
 import { AngularFireModule } from 'angularfire2';
+import {firebaseConfig} from "../environments/firebase.config";
 
 
 @NgModule({
@@ -26,7 +27,7 @@ import { AngularFireModule } from 'angularfire2';
         MaterialModule.forRoot(),
         AppRoutingModule,
         DaoModule,
-        // AngularFireModule.initializeApp(firebaseConfig)
+        AngularFireModule.initializeApp(firebaseConfig)
     ],
     providers: [AuthGuard],
     bootstrap: [AppComponent]
