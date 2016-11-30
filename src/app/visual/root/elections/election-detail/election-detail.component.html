@@ -51,7 +51,7 @@
             </template>
             <template md-tab-content>
                 <app-party-grid [editable]="true" [partyList]="election.partyList"
-                                (onRoute)="closeDialog()"></app-party-grid>
+                                (onView)="navigateToParty($event)"></app-party-grid>
 
             </template>
         </md-tab>

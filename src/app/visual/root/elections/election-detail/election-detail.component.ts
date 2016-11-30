@@ -33,7 +33,8 @@ export class ElectionDetailComponent implements ComponentWithParams, OnInit {
     /**
      * Constructor de la clase.
      */
-    constructor(private dialogRef: MdDialogRef<ElectionDetailComponent>) {
+    constructor(private dialogRef: MdDialogRef<ElectionDetailComponent>,
+                private router: Router) {
     }
 
 
@@ -57,7 +58,6 @@ export class ElectionDetailComponent implements ComponentWithParams, OnInit {
     set model(value: Election) {
         this._model = value;
     }
-
 
 
     /**
@@ -87,7 +87,7 @@ export class ElectionDetailComponent implements ComponentWithParams, OnInit {
 
 
     ngOnInit(): void {
-        if(!this.model.name){
+        if (!this.model.name) {
             this.editing = true;
         }
     }
@@ -102,6 +102,10 @@ export class ElectionDetailComponent implements ComponentWithParams, OnInit {
         this.dialogRef.close();
     }
 
+    private navigateToParty(party: Party): void {
+        this.closeDialog();
+        this.router.navigate(['/app/parties', party.id]);
+    }
 
     /**
      * Función fabIcon.

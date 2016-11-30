@@ -13,14 +13,13 @@ export class PartyResumeComponent {
     @Input() party: Party;
     @Input() editable?: boolean;
     @Output() onRemove = new EventEmitter<Party>();
-    @Output() onRoute = new EventEmitter<void>();
+    @Output() onView = new EventEmitter<Party>();
 
-    constructor(private route: Router) { }
+    constructor() { }
 
 
     private view() {
-        this.onRoute.emit();
-        this.route.navigate(['/app/parties', this.party.id]);
+        this.onView.emit(this.party);
     }
 
 

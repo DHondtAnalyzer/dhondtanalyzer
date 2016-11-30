@@ -11,7 +11,10 @@ import {Election} from "../../../../dao/model/election";
 export class ElectionGridComponent implements OnInit {
 
     @Input() electionList: Election[];
-    @Output() onRoute = new EventEmitter<void>();
+    @Input() searchable: boolean;
+    @Input() big: boolean;
+
+    @Output() onView = new EventEmitter<Election>();
 
     constructor(private route: Router) {
     }
@@ -26,8 +29,15 @@ export class ElectionGridComponent implements OnInit {
      * @param election
      */
     private goToElection(election: Election): void {
-        this.route.navigate(['/app/elections', election.id]);
-        this.onRoute.emit();
+        this.onView.emit(election);
+    }
+
+    get cardColClass(): string {
+        if (this.big) {
+            return 'col-xs-12 col-sm-6 col-md-4 col-lg-3';
+        } else {
+            return 'col-xs-12 col-sm-6 col-md-4';
+        }
     }
 
 }

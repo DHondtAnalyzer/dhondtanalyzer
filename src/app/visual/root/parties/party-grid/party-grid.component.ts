@@ -12,7 +12,10 @@ export class PartyGridComponent implements OnInit {
 
     @Input() partyList: Party[];
     @Input() editable: boolean;
-    @Output() onRoute = new EventEmitter<void>();
+    @Input() searchable: boolean;
+    @Input() big: boolean;
+
+    @Output() onView = new EventEmitter<Party>();
 
     constructor(private daoService: DaoService) {
     }
@@ -33,8 +36,8 @@ export class PartyGridComponent implements OnInit {
     }
 
 
-    private routeChanged(): void {
-        this.onRoute.emit()
+    private view(party: Party) {
+        this.onView.emit(party)
     }
 
 
@@ -52,6 +55,14 @@ export class PartyGridComponent implements OnInit {
                 return true;
             }
         );
+    }
+
+    get cardColClass(): string {
+        if (this.big) {
+            return 'col-xs-12 col-sm-6 col-md-4 col-lg-3';
+        } else {
+            return 'col-xs-12 col-sm-6 col-md-4';
+        }
     }
 
 }
