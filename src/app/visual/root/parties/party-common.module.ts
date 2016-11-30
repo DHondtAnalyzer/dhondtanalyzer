@@ -8,6 +8,7 @@ import {PartyGridComponent} from './party-grid/party-grid.component';
 import {AutoCompleteInputComponent} from "../../shared/autocomplete-input/autocomplete-input.component";
 import {SharedModule} from "../../shared/shared.module";
 import {DaoModule} from "../../../dao/dao.module";
+import {PartyResumeComponent} from "./party-resume/party-resume.component";
 
 
 /**
@@ -19,6 +20,7 @@ import {DaoModule} from "../../../dao/dao.module";
 @NgModule({
     declarations: [
         PartyGridComponent,
+        PartyResumeComponent,
     ],
     imports: [
         CommonModule,

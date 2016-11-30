@@ -37,11 +37,16 @@ export class DistrictGridComponent implements OnInit {
     }
 
     private get posibleRegions(): Region[] {
-
-        //TODO FILTER REGIONS!!!!
+        // Necessary because of JS function scope
+        let self:DistrictGridComponent = this;
 
         return this.daoService.regionList.filter(
             function (value) {
+                for(let i: number = 0; i < self.districtList.length; i++){
+                    if (self.districtList[i].region.id === value.id){
+                        return false;
+                    }
+                }
                 return true;
             }
         );

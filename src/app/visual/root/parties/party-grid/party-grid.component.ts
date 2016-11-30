@@ -29,21 +29,29 @@ export class PartyGridComponent implements OnInit {
     }
 
 
-    /**
-     * Función gotoElection.
-     *
-     * Cambia la ruta de la web hacia la elección seleccionada.
-     * @param party
-     */
-    private goToParty(party: Party): void {
-        this.route.navigate(['/app/parties', party.id]);
-        this.onRoute.emit();
+    private remove(party: Party) {
+        this.partyList.splice(this.partyList.indexOf(party, 0), 1);
+    }
+
+
+    private routeChanged(): void {
+        this.onRoute.emit()
     }
 
 
     private get posibleParties(): Party[] {
-        return this.daoService.partyList.filter(
-            (value) => this.partyList.indexOf(value) < 0
+
+        // Necessary because of JS function scope
+        let self: PartyGridComponent = this;
+
+        return this.daoService.partyList.filter(function (value) {
+                for (let i: number = 0; i < self.partyList.length; i++) {
+                    if (self.partyList[i].id === value.id) {
+                        return false;
+                    }
+                }
+                return true;
+            }
         );
     }
 
