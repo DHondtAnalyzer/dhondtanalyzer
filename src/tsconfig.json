@@ -15,6 +15,7 @@
         ],
         "types": [
 //            "firebase"
+          "jasmine", "hammerjs"
         ]
     }
 }
