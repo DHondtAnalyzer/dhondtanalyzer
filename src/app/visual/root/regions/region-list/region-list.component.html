@@ -1,0 +1,6 @@
+<app-region-grid [big]="true" [regionList]="regionList" [searchable]="true"
+                 (onView)="openDialog($event)"></app-region-grid>
+
+<button md-fab class="md-fab-create md-fab" (click)="create()">
+    <md-icon class="md-24">add</md-icon>
+</button>

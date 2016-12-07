@@ -1,0 +1,29 @@
+.content {
+    padding: 24px;
+}
+
+md-input {
+    width: 100%;
+}
+
+.md-fab-editing {
+    top: 100px;
+}
+
+
+md-grid-tile md-card {
+    width: 95%;
+    height: 95%;
+}
+
+md-input.toolbar-input {
+    font-size: 28px
+}
+
+table {
+    width: 100%;
+}
+
+md-tab-group {
+    width: 100%;
+}

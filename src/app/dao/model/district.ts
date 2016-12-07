@@ -8,6 +8,8 @@ import {VoteCount} from "./vote-count";
 
 export class District {
 
+    id: string;
+
     seats: number;
     census: number;
 
@@ -16,10 +18,25 @@ export class District {
     region: Region;
     voteCountList: VoteCount[];
 
-    constructor(election: Election, region:Region, seats: number, census: number){
-        this.election = election;
+    public static newInstance(region?:Region, seats?: number, census?: number): District {
+        let district = new District(region, seats, census);
+
+        region.districtList.push(district);
+
+        return district;
+    }
+    constructor(region?:Region, seats?: number, census?: number){
         this.region = region;
         this.seats = seats;
         this.census = census;
+        this.voteCountList = [];
+    }
+
+    get name(){
+        if (this.region){
+            return this.region.name;
+        } else {
+            return '';
+        }
     }
 }

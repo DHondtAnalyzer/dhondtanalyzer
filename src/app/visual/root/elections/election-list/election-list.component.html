@@ -1,27 +1,6 @@
-<md-grid-list cols="6" >
-    <md-grid-tile>
-        <md-card>
-            Basic card.
-        </md-card>
-    </md-grid-tile>
-    <md-grid-tile>
-        <md-card>
-            Basic card.
-        </md-card>
-    </md-grid-tile>
-    <md-grid-tile>
-        <md-card>
-            Basic card.
-        </md-card>
-    </md-grid-tile>
-    <md-grid-tile>
-        <md-card>
-            Basic card.
-        </md-card>
-    </md-grid-tile>
-    <md-grid-tile>
-        <md-card>
-            Basic card.
-        </md-card>
-    </md-grid-tile>
-</md-grid-list>
+<app-election-grid [searchable]="true" [big]="true" [electionList]="electionList"
+                   (onView)="openDialog($event)"></app-election-grid>
+
+<button md-fab class="md-fab-create md-fab" (click)="create()">
+    <md-icon class="md-24">add</md-icon>
+</button>

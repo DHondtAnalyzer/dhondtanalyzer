@@ -11,6 +11,12 @@ import {AngularFireModule} from "angularfire2";
 import {firebaseConfig} from "../environments/firebase.config";
 
 
+
+/**
+ * Clase AppModule. Implementa la funcionalidad de un Modulo.
+ *
+ * AppModule es el módulo raíz de la aplicación.
+ */
 @NgModule({
     declarations: [
         AppComponent,
@@ -28,4 +34,11 @@ import {firebaseConfig} from "../environments/firebase.config";
     bootstrap: [AppComponent]
 })
 export class AppModule {
+
+
+    /**
+     * Constructor de la clase.
+     */
+    constructor() {
+    }
 }

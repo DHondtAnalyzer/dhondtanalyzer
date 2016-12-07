@@ -1,8 +1,4 @@
-/**
- * Created by garciparedes on 10/11/2016.
- */
-
-import { NgModule } from '@angular/core';
+import {NgModule} from '@angular/core';
 
 import {CommonModule} from "@angular/common";
 import {MaterialModule} from "@angular/material";
@@ -12,20 +8,39 @@ import {ContainerComponent} from "../shared/container/container.component";
 import {HomeComponent} from "./home/home.component";
 import {RootComponent} from "./root.component";
 import {RootRoutingModule} from "./root-routing.module";
+import {DialogService} from "../shared/dialog/dialog.service";
+import {RouterService} from "../shared/router/router.service";
+import {SharedModule} from "../shared/shared.module";
 
 
+/**
+ * Clase RootModule. Implementa la funcionalidad de un Modulo.
+ *
+ * RootModule es el módulo raíz de la aplicación una vez el usuario se ha
+ * identificado en el sistema.
+ */
 @NgModule({
     declarations: [
-        ToolbarComponent,
-        ContainerComponent,
         HomeComponent,
         RootComponent,
     ],
     imports: [
         CommonModule,
         MaterialModule,
-        RootRoutingModule
+        RootRoutingModule,
+        SharedModule,
     ],
-    providers: []
+    providers: [
+        DialogService,
+        RouterService
+    ]
 })
-export class RootModule { }
+export class RootModule {
+
+
+    /**
+     * Constructor de la clase.
+     */
+    constructor() {
+    }
+}

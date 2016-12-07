@@ -1,12 +1,16 @@
+import {NgModule}     from '@angular/core';
+
+import {RouterModule} from '@angular/router';
+
+import {LandingComponent} from "./landing.component";
+
+
 /**
- * Created by garciparedes on 10/11/2016.
+ * Clase LandingRoutingModule. Implementa la funcionalidad de un Módulo.
+ *
+ * LandingRoutingModule es la clase encarga de redistribuir el tráfico principal
+ * de la aplicación dentro del módulo Landing.
  */
-import { NgModule }     from '@angular/core';
-
-import { RouterModule } from '@angular/router';
-
-import { LandingComponent } from "./landing.component";
-
 @NgModule({
     imports: [
         RouterModule.forChild([
@@ -19,4 +23,12 @@ import { LandingComponent } from "./landing.component";
         RouterModule
     ]
 })
-export class LandingRoutingModule {}
+export class LandingRoutingModule {
+
+
+    /**
+     * Constructor de la clase.
+     */
+    constructor() {
+    }
+}
