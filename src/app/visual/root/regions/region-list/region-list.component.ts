@@ -66,7 +66,7 @@ export class RegionListComponent implements OnInit, ObjectFromRoute {
      * Implementa la función de la interfaz OnInit
      */
     ngOnInit() {
-        this.regionList = this.daoService.regionList;
+        this.regionList = this.daoService.getRegions();
         this.initRouterHelper();
         this.initDialogHelper();
         this.readRoute();

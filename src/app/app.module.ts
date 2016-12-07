@@ -1,15 +1,15 @@
-import {NgModule} from '@angular/core';
-
-import {BrowserModule} from '@angular/platform-browser';
-import {FormsModule} from '@angular/forms';
-import {HttpModule} from '@angular/http';
-
-import {MaterialModule} from '@angular/material';
-
-import {AppComponent} from './app.component';
+import {NgModule} from "@angular/core";
+import {BrowserModule} from "@angular/platform-browser";
+import {FormsModule} from "@angular/forms";
+import {HttpModule} from "@angular/http";
+import {MaterialModule} from "@angular/material";
+import {AppComponent} from "./app.component";
 import {AppRoutingModule} from "./app-routing.module";
 import {AuthGuard} from "./shared/auth/auth.guard";
 import {DaoModule} from "./dao/dao.module";
+import {AngularFireModule} from "angularfire2";
+import {firebaseConfig} from "../environments/firebase.config";
+
 
 
 /**
@@ -27,7 +27,8 @@ import {DaoModule} from "./dao/dao.module";
         HttpModule,
         MaterialModule.forRoot(),
         AppRoutingModule,
-        DaoModule
+        DaoModule,
+        AngularFireModule.initializeApp(firebaseConfig)
     ],
     providers: [AuthGuard],
     bootstrap: [AppComponent]

@@ -76,7 +76,7 @@ export class PartyListComponent implements OnInit, ObjectFromRoute {
      * Implementa la función de la interfaz OnInit
      */
     ngOnInit() {
-        this.partyList = this.daoService.partyList;
+        this.partyList = this.daoService.getParties();
         this.initRouterHelper();
         this.initDialogHelper();
         this.readRoute();

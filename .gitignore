@@ -29,6 +29,9 @@ testem.log
 /e2e/*.js
 /e2e/*.map
 
-#System Files
+# System Files
 .DS_Store
 Thumbs.db
+
+# Application configure
+src/environments/firebase.config.ts

@@ -6,10 +6,16 @@ import {ElectionType} from "./election-type";
 import {District} from "./district";
 import {Party} from "./party";
 
+export interface ElectionRaw{
+  id: string;
+  name: string;
+  date: Date;
+  seats: number;
+  type: ElectionType;
+}
+
 export class Election {
-
     id: string;
-
     name: string;
     date: Date;
     seats: number;
@@ -43,5 +49,4 @@ export class Election {
         this.districtList = districtList;
         this.partyList = partyList;
     }
-
 }

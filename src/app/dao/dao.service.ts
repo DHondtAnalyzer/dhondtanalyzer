@@ -1,116 +1,107 @@
-import {Injectable} from '@angular/core';
 import {Election} from "./model/election";
 import {Party} from "./model/party";
+import {Injectable} from "@angular/core";
+import "rxjs/add/operator/toPromise";
 import {Region} from "./model/region";
-import {ElectionType} from "./model/election-type";
-import {District} from "./model/district";
+import {AngularFire} from "angularfire2";
 
 @Injectable()
 export class DaoService {
 
+  private _electionList: Election[];
+  private _partyList: Party[];
+  private _regionList: Region[];
 
-    private _partyList: Party[];
-    private _electionList: Election[];
-    private _regionList: Region[];
+  constructor(private af: AngularFire) {
+    this.af.database.list('/rest/elections').subscribe(elections => {
+      this._electionList = elections;
+    });
+    this.af.database.list('/rest/partys').subscribe(parties => {
+      this._partyList = parties;
+    });
+    this.af.database.list('/rest/regions').subscribe(regions => {
+      this._regionList = regions;
+    });
+  }
 
-    constructor() {
-        this.partyList = [
-            Party.newInstance("Partido Popular", "PP", "azul"),
-            Party.newInstance("Partido Socialista", "PSOE", "rojo"),
-            Party.newInstance("Podemos", "P", "morado"),
-            Party.newInstance("Ciudadanos", "C", "naranja"),
-        ];
+  ///////////
+  // CRUD: Election
+  //
 
-        this.partyList[0].id = "partido-popular";
-        this.partyList[1].id = "partido-socialista";
-        this.partyList[2].id = "podemos";
-        this.partyList[3].id = "ciudadanos";
+  createElection(id: string, election: Election): firebase.Promise<void> {
+    return this.af.database.object('/rest/elections/' + id).set(election);
+  }
 
-        this.regionList = [
-            Region.newInstance("Madrid"),
-            Region.newInstance("Barcelona"),
-            Region.newInstance("Castilla y León"),
-            Region.newInstance("Andalucia"),
-        ];
+  getElections(): Election[] {
+    return this._electionList;
+  }
 
-        this.regionList[0].id = 'madrid';
-        this.regionList[1].id = 'barcelona';
-        this.regionList[2].id = 'castilla-y-leon';
-        this.regionList[3].id = 'andalucia';
+  getElectionById(id: string): Election {
+    for(let election of this._electionList)
+      if(election.id == id)
+        return election;
+    return null;
+  }
 
-        this.electionList = [
-            Election.newInstance(
-                "generales 2016",
-                new Date("2016"),
-                250,
-                ElectionType.GENERALES,
-                [
-                    District.newInstance(this.regionList[0], 21, 3123123),
-                    District.newInstance(this.regionList[1], 21, 3123123),
-                    District.newInstance(this.regionList[2], 21, 3123123),
-                    District.newInstance(this.regionList[3], 21, 3123123),
-                ],
-                [
-                    this.partyList[0],
-                    this.partyList[1],
-                    this.partyList[2],
-                    this.partyList[3],
-                ]
-            )
-        ];
-        this._electionList[0].id = "generales-2016";
+  updateElection(id: string, election: Election): firebase.Promise<void> {
+    return this.af.database.object('/rest/rest/elections/' + id).update(election);
+  }
 
-    }
+  deleteElection(id: string): firebase.Promise<void> {
+    return this.af.database.object('/rest/elections/' + id).remove();
+  }
 
-    get electionList(): Election[] {
-        return this._electionList;
-    }
+  ///////////
+  // CRUD: Party
+  //
 
-    set electionList(value: Election[]) {
-        this._electionList = value;
-    }
+  createParty(id: string, party: Party): firebase.Promise<void> {
+    return this.af.database.object('/rest/parties/' + id).set(party);
+  }
 
+  getParties(): Party[] {
+    return this._partyList;
+  }
 
-    get partyList(): Party[] {
-        return this._partyList;
-    }
-    set partyList(value: Party[]) {
-        this._partyList = value;
-    }
+  getPartyById(id: string): Party {
+    for(let party of this._partyList)
+      if(party.id == id)
+        return party;
+    return null;
+  }
 
+  updateParty(id: string, party: Party): firebase.Promise<void> {
+    return this.af.database.object('/rest/parties/' + id).update(party);
+  }
 
-    get regionList(): Region[] {
-        return this._regionList;
-    }
+  deleteParty(id: string): firebase.Promise<void> {
+    return this.af.database.object('/rest/parties/' + id).remove();
+  }
 
-    set regionList(value: Region[]) {
-        this._regionList = value;
-    }
+  ///////////
+  // CRUD: Region
+  //
 
-    getElectionById(id: string): Election {
-        for(let i:number = 0; i <this.electionList.length; i++){
-            if (this.electionList[i].id == id){
-                return this.electionList[i];
-            }
-        }
-        return null;
-    }
+  createRegion(id: string, region: Region): firebase.Promise<void> {
+    return this.af.database.object('/rest/regions/' + id).set(region);
+  }
 
-    getPartyById(id: string): Party {
-        for(let i:number = 0; i < this.partyList.length; i++){
-            if (this.partyList[i].id == id){
-                return this.partyList[i];
-            }
-        }
-        return null;
-    }
+  getRegions(): Region[] {
+    return this._regionList;
+  }
 
-    getRegionById(id: string): Region {
-        for(let i:number = 0; i < this.regionList.length; i++){
-            if (this.regionList[i].id == id){
-                return this.regionList[i];
-            }
-        }
-        return null;
-    }
+  getRegionById(id: string): Region {
+    for(let region of this._regionList)
+      if(region.id == id)
+        return region;
+    return null;
+  }
+
+  updateRegion(id: string, region: Region): firebase.Promise<void> {
+    return this.af.database.object('/rest/regions/' + id).update(region);
+  }
+
+  deleteRegion(id: string): firebase.Promise<void> {
+    return this.af.database.object('/rest/regions/' + id).remove();
+  }
 }

@@ -40,7 +40,7 @@ export class DistrictGridComponent implements OnInit {
         // Necessary because of JS function scope
         let self:DistrictGridComponent = this;
 
-        return this.daoService.regionList.filter(
+        return this.daoService.getRegions().filter(
             function (value) {
                 for(let i: number = 0; i < self.districtList.length; i++){
                     if (self.districtList[i].region.id === value.id){
