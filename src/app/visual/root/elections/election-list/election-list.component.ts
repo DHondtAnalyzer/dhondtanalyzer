@@ -77,7 +77,7 @@ export class ElectionListComponent implements OnInit, ObjectFromRoute {
      * Implementa la función de la interfaz OnInit
      */
     ngOnInit() {
-        this.electionList = this.daoService.electionList;
+        this.electionList = this.daoService.getElections();
         this.initRouterHelper();
         this.initDialogService();
         this.readRoute();

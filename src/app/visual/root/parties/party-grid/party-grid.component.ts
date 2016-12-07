@@ -50,7 +50,7 @@ export class PartyGridComponent implements OnInit {
         // Necessary because of JS function scope
         let self: PartyGridComponent = this;
 
-        return this.daoService.partyList.filter(function (value) {
+        return this.daoService.getParties().filter(function (value) {
                 for (let i: number = 0; i < self.partyList.length; i++) {
                     if (self.partyList[i].id === value.id) {
                         return false;
