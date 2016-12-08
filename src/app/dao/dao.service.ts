@@ -4,7 +4,7 @@ import {District} from "./model";
 import {Injectable} from "@angular/core";
 import "rxjs/add/operator/toPromise";
 import {Region} from "./model/region";
-import {AngularFire} from "angularfire2";
+import {AngularFire, FirebaseListObservable} from "angularfire2";
 
 @Injectable()
 export class DaoService {
@@ -49,8 +49,12 @@ export class DaoService {
         return this.af.database.object('/rest/elections/' + id).set(election);
     }
 
-    getElections(): Election[] {
+    get elections(): Election[]  {
         return this._electionList;
+    }
+
+    getElections(): FirebaseListObservable<Election[]>{
+        return this.af.database.list('/rest/elections');
     }
 
     getElectionById(id: string): Election {
@@ -61,7 +65,7 @@ export class DaoService {
     }
 
     updateElection(id: string, election: Election): firebase.Promise<void> {
-        return this.af.database.object('/rest/rest/elections/' + id).update(election);
+        return this.af.database.object('/rest/elections/' + id).update(election);
     }
 
     deleteElection(id: string): firebase.Promise<void> {

@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewContainerRef} from '@angular/core';
+import {Component, OnInit, ViewContainerRef, ChangeDetectorRef} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 
 import {DialogService} from "../../../shared/dialog/dialog.service";
@@ -9,6 +9,7 @@ import {ElectionDetailComponent} from "../election-detail/election-detail.compon
 import {Model} from "../../../../dao/model/model";
 import {RouterService} from "../../../shared/router/router.service";
 import {ObjectFromRoute} from "../../../shared/router/object-from-route";
+import {Subscription} from "rxjs";
 
 
 /**
@@ -32,6 +33,7 @@ export class ElectionListComponent implements OnInit, ObjectFromRoute {
      * El tipo es Array<Election>
      */
     private _electionList: Array<Election>;
+    private _electionListSubscription: Subscription;
 
 
     /**
@@ -47,7 +49,8 @@ export class ElectionListComponent implements OnInit, ObjectFromRoute {
                 private route: ActivatedRoute,
                 private daoService: DaoService,
                 private routerHelper: RouterService<Election>,
-                private dialogService: DialogService) {
+                private dialogService: DialogService,
+                private cd: ChangeDetectorRef) {
     }
 
 
@@ -77,7 +80,12 @@ export class ElectionListComponent implements OnInit, ObjectFromRoute {
      * Implementa la función de la interfaz OnInit
      */
     ngOnInit() {
-        this.electionList = this.daoService.getElections();
+        this._electionListSubscription = this.daoService.getElections().subscribe(elections => {
+            console.log(elections);
+            this._electionList = elections;
+            this.cd.markForCheck();
+        })
+        // this.electionList = this.daoService.getElections();
         this.initRouterHelper();
         this.initDialogService();
         this.readRoute();
@@ -149,6 +157,7 @@ export class ElectionListComponent implements OnInit, ObjectFromRoute {
 
     private create(navigated = false) {
         let election = Election.newInstance();
+        election.id = 'election'+(this._electionList.length+1);
         this.openDialog(election, navigated, true);
     }
 }

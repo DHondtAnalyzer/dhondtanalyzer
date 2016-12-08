@@ -4,6 +4,7 @@ import {Election} from "../../../../dao/model/election";
 import {Router} from "@angular/router";
 import {MdDialogRef} from "@angular/material";
 import {Party} from "../../../../dao/model/party";
+import {DaoService} from "../../../../dao/dao.service";
 
 
 /**
@@ -34,6 +35,7 @@ export class ElectionDetailComponent implements ComponentWithParams, OnInit {
      * Constructor de la clase.
      */
     constructor(private dialogRef: MdDialogRef<ElectionDetailComponent>,
+                private daoService: DaoService,
                 private router: Router) {
     }
 
@@ -144,6 +146,27 @@ export class ElectionDetailComponent implements ComponentWithParams, OnInit {
      * Es la encargada de guardar los datos después de una modificación o creación.
      */
     private saveChanges(): void {
-        // TODO
+        if (this.editing)
+            this.daoService.createElection(this.model.id, this.model).catch(reason => {
+                console.error(reason.message);
+            });
+        else
+            this.daoService.updateElection(this.model.id, this.model).catch(reason => {
+                console.error(reason.message);
+            });
+
+    }
+
+    /**
+     * Función delete.
+     *
+     * Es la encargada de eliminar la elección de la persistencia de la aplicación.
+     */
+    private delete(): void {
+        this.daoService.deleteElection(this.model.id).then(_ => {
+            this.closeDialog();
+        }).catch(reason => {
+            console.error(reason.message);
+        });
     }
 }

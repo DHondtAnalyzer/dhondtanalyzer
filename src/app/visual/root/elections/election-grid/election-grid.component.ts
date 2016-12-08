@@ -1,4 +1,4 @@
-import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
+import {Component, OnInit, EventEmitter, Input, Output, OnChanges} from '@angular/core';
 import {Router} from "@angular/router";
 
 import {Election} from "../../../../dao/model/election";
@@ -8,7 +8,7 @@ import {Election} from "../../../../dao/model/election";
     templateUrl: './election-grid.component.html',
     styleUrls: ['./election-grid.component.css']
 })
-export class ElectionGridComponent implements OnInit {
+export class ElectionGridComponent implements OnInit, OnChanges {
 
     private filteredElectionList: Election[];
 
@@ -23,6 +23,11 @@ export class ElectionGridComponent implements OnInit {
 
     ngOnInit() {
         this.filteredElectionList = this.electionList;
+    }
+
+    ngOnChanges(changes){
+        if('electionList' in changes)
+            this.filteredElectionList = this.electionList;
     }
 
     /**
