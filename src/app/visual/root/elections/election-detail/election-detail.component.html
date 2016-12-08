@@ -40,20 +40,15 @@
                 Districts
             </template>
 
-            <template md-tab-content>
-                <app-district-grid [editable]="true" [districtList]="election.districtList"
-                                   (onRoute)="closeDialog()"></app-district-grid>
-            </template>
+            <app-district-grid [editable]="true" [districtList]="election.districtList"
+                               (onRoute)="closeDialog()"></app-district-grid>
         </md-tab>
         <md-tab>
             <template md-tab-label>
                 Parties
             </template>
-            <template md-tab-content>
-                <app-party-grid [editable]="true" [partyList]="election.partyList"
-                                (onView)="navigateToParty($event)"></app-party-grid>
-
-            </template>
+            <app-party-grid [editable]="true" [partyList]="election.partyList"
+                            (onView)="navigateToParty($event)"></app-party-grid>
         </md-tab>
     </md-tab-group>
 </div>
