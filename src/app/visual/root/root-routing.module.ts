@@ -33,15 +33,15 @@ import {RootComponent} from "./root.component";
                     },
                     {
                         path: 'elections',
-                        loadChildren: 'app/visual/root/elections/election.module#ElectionModule'
+                        loadChildren: 'app/visual/root/elections/election/election.module#ElectionModule'
                     },
                     {
                         path: 'parties',
-                        loadChildren: 'app/visual/root/parties/party.module#PartyModule'
+                        loadChildren: 'app/visual/root/parties/party/party.module#PartyModule'
                     },
                     {
                         path: 'regions',
-                        loadChildren: 'app/visual/root/regions/region.module#RegionModule'
+                        loadChildren: 'app/visual/root/regions/region/region.module#RegionModule'
                     },
                 ]
             }
