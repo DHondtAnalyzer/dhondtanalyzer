@@ -18,7 +18,7 @@ export class RegionListComponent implements OnInit, ObjectFromRoute {
     /**
      * Atributo regionList.
      *
-     * El tipo es Array<REgion>
+     * El tipo es Array<Region>
      */
     private _regionList: Array<Region>;
 
