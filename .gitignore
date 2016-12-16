@@ -35,3 +35,7 @@ Thumbs.db
 
 # Application configure
 src/environments/firebase.config.ts
+
+
+# Compiled JavaScript files in source code folder
+/src/app/**/*.js
