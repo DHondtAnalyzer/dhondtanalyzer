@@ -20,7 +20,7 @@ export class ElectionDetailComponent implements ComponentWithParams, OnInit {
 
 
     private editing: boolean;
-
+    private isFullScreen: boolean;
 
     /**
      * Atributo model.
@@ -123,6 +123,18 @@ export class ElectionDetailComponent implements ComponentWithParams, OnInit {
         }
     }
 
+    private get iconScreenChange(){
+      if(this.isFullScreen){
+        return 'fullscreen_exit';
+      } else {
+        return 'fullscreen';
+      }
+    }
+
+    private screenStateChange() {
+      this.isFullScreen = !this.isFullScreen;
+
+    }
 
     /**
      * Función editingChange.
