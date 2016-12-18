@@ -1,70 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
-@import '~@angular/material/core/theming/prebuilt/deeppurple-amber.css';
+@import '../node_modules/@angular/material/core/theming/prebuilt/deeppurple-amber.css';
 
-body {
-    margin: 0;
-    width: 100%;
-    height: 100vh;
-    background-color: whitesmoke;
-}
-
-.flex {
-    flex: 1 1 auto;
-}
-button:focus {outline:0;}
-
-md-dialog-container.md-dialog-container {
-    padding: 0;
-}
-
-.md-overlay-pane {
-    max-width: 960px;
-    width: 90%;
-}
-div.content {
-    background-color: whitesmoke;
-}
-
-md-toolbar label.md-input-placeholder {
-    color: rgba(255, 255, 255, 0.87);
-}
-md-toolbar div.md-input-underline {
-    border-color: rgba(255, 255, 255, 0.87);
-}
-
-.md-fab {
-    z-index: 1;
-}
-
-md-card {
-    width: 100%;
-    height: 100%;
-}
-
-.row {
-    padding: 10px;
-}
-.row >[class*='col-'] {
-    padding: 10px;
-}
-
-.row {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display:         flex;
-    flex-wrap: wrap;
-}
-
-.row > [class*='col-'] {
-    display: flex;
-    flex-direction: column;
-}
-md-card-title{
-    text-align: center;
-}
-
-md-dialog-container {
-    max-height: 95vh;
-    overflow: scroll !important;
-}
+@import './styles/bootstrap-column.css';
+@import './styles/common.css';
+@import './styles/material-button.css';
+@import './styles/material-card.css';
+@import './styles/material-dialog.css';
+@import './styles/material-toolbar.css';
