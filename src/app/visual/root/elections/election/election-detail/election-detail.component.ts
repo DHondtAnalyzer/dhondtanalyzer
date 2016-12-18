@@ -13,8 +13,8 @@ import {Party} from "../../../../../dao/model/party";
  */
 @Component({
     selector: 'app-election-detail',
-    templateUrl: 'election-detail.component.html',
-    styleUrls: ['election-detail.component.css']
+    templateUrl: './election-detail.component.html',
+    styleUrls: ['./election-detail.component.css']
 })
 export class ElectionDetailComponent implements ComponentWithParams, OnInit {
 

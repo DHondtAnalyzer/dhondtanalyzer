@@ -3,8 +3,8 @@ import {Election} from "../../../../../dao/model/election";
 
 @Component({
     selector: 'app-election-resume',
-    templateUrl: 'election-resume.component.html',
-    styleUrls: ['election-resume.component.css']
+    templateUrl: './election-resume.component.html',
+    styleUrls: ['./election-resume.component.css']
 })
 export class ElectionResumeComponent {
 

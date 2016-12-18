@@ -19,8 +19,8 @@ import {ObjectFromRoute} from "../../../../shared/router/object-from-route";
  */
 @Component({
     selector: 'app-party-list',
-    templateUrl: 'party-list.component.html',
-    styleUrls: ['party-list.component.css']
+    templateUrl: './party-list.component.html',
+    styleUrls: ['./party-list.component.css']
 })
 export class PartyListComponent implements OnInit, ObjectFromRoute {
 
