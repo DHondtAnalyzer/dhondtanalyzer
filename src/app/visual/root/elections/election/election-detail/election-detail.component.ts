@@ -45,6 +45,8 @@ export class ElectionDetailComponent implements DialogComponent, OnInit {
      */
     constructor(private dialogRef: MdDialogRef<ElectionDetailComponent>,
                 private router: Router) {
+      this.resizableSubsriber = new BehaviorSubject<boolean>(false)
+      this.onResize = this.resizableSubsriber.asObservable()
     }
 
 
@@ -122,8 +124,6 @@ export class ElectionDetailComponent implements DialogComponent, OnInit {
         if (!this.model.name) {
             this.editing = true;
         }
-        this.resizableSubsriber = new BehaviorSubject<boolean>(false)
-        this.onResize = this.resizableSubsriber.asObservable()
     }
 
 

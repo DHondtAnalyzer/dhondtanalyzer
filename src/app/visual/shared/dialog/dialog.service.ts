@@ -1,9 +1,11 @@
 import {Injectable, ViewContainerRef} from '@angular/core';
 import {Location} from '@angular/common';
 
-import {MdDialog, MdDialogRef, ComponentType} from "@angular/material";
+import {MdDialog, MdDialogRef, ComponentType, MdDialogConfig} from "@angular/material";
 import {Model} from "../../../dao/model/model";
 import {DialogComponent} from "./dialog-component";
+import {JQueryService} from "../jquery.service";
+import {JQueryStyleEventEmitter} from "rxjs/observable/FromEventObservable";
 
 
 /**
@@ -52,7 +54,8 @@ export class DialogService {
      * @param location
      */
     constructor(private dialog: MdDialog,
-                private location: Location) {
+                private location: Location,
+                private jQueryService: JQueryService) {
     }
 
 
@@ -114,10 +117,12 @@ export class DialogService {
         }
 
 
-        this.dialogRef = this.dialog.open(this.componentType, {
+        let config: MdDialogConfig ={
             viewContainerRef: this.viewContainerRef,
             role: 'dialog'
-        });
+        };
+
+        this.dialogRef = this.dialog.open(this.componentType, config);
 
 
         this.dialogRef.componentInstance.model = model;
@@ -130,8 +135,22 @@ export class DialogService {
             this.dialogRef = null;
         });
 
-    this.dialogRef.componentInstance.onResize.subscribe(isFullScreen => {
-      console.log(isFullScreen);
-    })
+        let cont = this.jQueryService.getElement('md-dialog-container');
+        let overlay = this.jQueryService.getElement('.md-overlay-pane');
+
+        this.dialogRef.componentInstance.onResize.subscribe(isFullScreen => {
+            if(isFullScreen) {
+                cont.addClass('md-dialog-container-full-size');
+                cont.removeClass('md-dialog-container-normal-size');
+                overlay.addClass('md-overlay-pane-full-size');
+                overlay.removeClass('md-overlay-pane-normal-size');
+            } else {
+                cont.addClass('md-dialog-container-normal-size');
+                cont.removeClass('md-dialog-container-full-size');
+                overlay.removeClass('md-overlay-pane-full-size');
+                overlay.addClass('md-overlay-pane-normal-size');
+            }
+
+        });
     }
 }
