@@ -3,8 +3,8 @@ import {Party} from "../../../../../dao/model/party";
 
 @Component({
     selector: 'app-party-resume',
-    templateUrl: 'party-resume.component.html',
-    styleUrls: ['party-resume.component.css']
+    templateUrl: './party-resume.component.html',
+    styleUrls: ['./party-resume.component.css']
 })
 export class PartyResumeComponent {
 
