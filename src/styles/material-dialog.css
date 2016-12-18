@@ -1,0 +1,20 @@
+
+md-dialog-container {
+  max-height: 95vh;
+  overflow: scroll !important;
+}
+
+md-dialog-container.md-dialog-container {
+  padding: 0;
+}
+
+.md-overlay-pane {
+    max-width: 960px;
+    width: 90%;
+}
+
+.content-dialog {
+  padding: 24px;
+  height: 100%;
+}
+
