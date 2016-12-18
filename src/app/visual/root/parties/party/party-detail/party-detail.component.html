@@ -1,51 +1,45 @@
 <md-toolbar color="primary">
 
-    <span class="flex"></span>
+  <span class="flex"></span>
 
-    <button md-fab class="md-fab-editing md-fab" (click)="editingChange()">
-        <md-icon class="md-24">{{fabIcon()}}</md-icon>
-    </button>
+  <button md-fab class="md-fab-editing md-fab" (click)="editingChange()">
+    <md-icon class="md-24">{{fabIcon()}}</md-icon>
+  </button>
 
-    <button md-icon-button (click)=closeDialog()>
-        <md-icon>close</md-icon>
-    </button>
+  <button md-icon-button (click)=closeDialog()>
+    <md-icon>close</md-icon>
+  </button>
 
-    <md-toolbar-row>
-        <md-input [disabled]="!editing" placeholder="Name" class="toolbar-input"
-                  [(ngModel)]="party.name" name="name"></md-input>
-    </md-toolbar-row>
+  <md-toolbar-row>
+    <md-input [disabled]="!editing" placeholder="Name" class="toolbar-input"
+              [(ngModel)]="party.name" name="name"></md-input>
+  </md-toolbar-row>
 
 </md-toolbar>
 
 <div class="content">
 
-    <table cellspacing="0">
-        <tr>
-            <td>
-                <md-input [disabled]="!editing" placeholder="Abbreviation"
-                          [(ngModel)]="party.abbreviation" name="abbreviation"></md-input>
-            </td>
+  <table cellspacing="0">
+    <tr>
+      <td>
+        <md-input [disabled]="!editing" placeholder="Abbreviation"
+                  [(ngModel)]="party.abbreviation" name="abbreviation"></md-input>
+      </td>
 
-            <td>
-                <md-input [disabled]="!editing" placeholder="Color"
-                          [(ngModel)]="party.color" name="color"></md-input>
-            </td>
-        </tr>
-    </table>
+      <td>
+        <md-input [disabled]="!editing" placeholder="Color"
+                  [(ngModel)]="party.color" name="color"></md-input>
+      </td>
+    </tr>
+  </table>
 
-
-
-    <md-tab-group>
-        <md-tab>
-            <template md-tab-label>
-                Elections
-            </template>
-
-            <template md-tab-content>
-                <app-election-grid [electionList]="party.electionList"
-                                   (onView)="navigateToElection($event)"></app-election-grid>
-
-            </template>
-        </md-tab>
-    </md-tab-group>
+  <md-tab-group>
+    <md-tab>
+      <template md-tab-label>
+        Elections
+      </template>
+      <app-election-grid [electionList]="party.electionList"
+                         (onView)="navigateToElection($event)"></app-election-grid>
+    </md-tab>
+  </md-tab-group>
 </div>
