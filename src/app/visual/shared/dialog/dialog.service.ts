@@ -2,9 +2,8 @@ import {Injectable, ViewContainerRef} from '@angular/core';
 import {Location} from '@angular/common';
 
 import {MdDialog, MdDialogRef, ComponentType} from "@angular/material";
-import {ComponentWithParams} from "../component-with-params";
 import {Model} from "../../../dao/model/model";
-import {ObjectFromRoute} from "../router/object-from-route";
+import {DialogComponent} from "./dialog-component";
 
 
 /**
@@ -22,19 +21,19 @@ export class DialogService {
     /**
      * Atributo dialogRef.
      *
-     * El tipo es MdDialogRef<ComponentWithParams>.
+     * El tipo es MdDialogRef<DialogComponent>.
      *
      */
-    private dialogRef: MdDialogRef<ComponentWithParams>;
+    private dialogRef: MdDialogRef<DialogComponent>;
 
 
     /**
      * Atributo componentType.
      *
-     * El tipo es ComponentType<ComponentWithParams>.
+     * El tipo es ComponentType<DialogComponent>.
      *
      */
-    private componentType: ComponentType<ComponentWithParams>;
+    private componentType: ComponentType<DialogComponent>;
 
 
     /**
@@ -70,9 +69,9 @@ export class DialogService {
      * @param componentType tipo del componente que esta dentro del dialog.
      */
     public init(viewContainerRef: ViewContainerRef,
-                componentType: ComponentType<ComponentWithParams>) {
-        this.viewContainerRef = viewContainerRef;
-        this.componentType = componentType;
+                componentType: ComponentType<DialogComponent>) {
+      this.viewContainerRef = viewContainerRef;
+      this.componentType = componentType;
     }
 
 
@@ -131,5 +130,8 @@ export class DialogService {
             this.dialogRef = null;
         });
 
+    this.dialogRef.componentInstance.onResize.subscribe(isFullScreen => {
+      console.log(isFullScreen);
+    })
     }
 }
