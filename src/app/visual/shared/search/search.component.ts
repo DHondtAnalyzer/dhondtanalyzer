@@ -3,8 +3,8 @@ import {Model} from "../../../dao/model/model";
 
 @Component({
     selector: 'app-search',
-    templateUrl: 'search.component.html',
-    styleUrls: ['search.component.css']
+    templateUrl: './search.component.html',
+    styleUrls: ['./search.component.css']
 })
 export class SearchComponent {
 

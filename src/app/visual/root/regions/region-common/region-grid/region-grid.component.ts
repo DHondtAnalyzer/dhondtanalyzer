@@ -3,8 +3,8 @@ import {Region} from "../../../../../dao/model/region";
 
 @Component({
     selector: 'app-region-grid',
-    templateUrl: 'region-grid.component.html',
-    styleUrls: ['region-grid.component.css']
+    templateUrl: './region-grid.component.html',
+    styleUrls: ['./region-grid.component.css']
 })
 export class RegionGridComponent implements OnInit {
 

@@ -9,8 +9,8 @@ import {RegionDetailComponent} from "../region-detail/region-detail.component";
 
 @Component({
   selector: 'app-region-list',
-  templateUrl: 'region-list.component.html',
-  styleUrls: ['region-list.component.css']
+  templateUrl: './region-list.component.html',
+  styleUrls: ['./region-list.component.css']
 })
 export class RegionListComponent implements OnInit, ObjectFromRoute {
 

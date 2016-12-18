@@ -3,8 +3,8 @@ import {Region} from "../../../../../dao/model/region";
 
 @Component({
   selector: 'app-region-resume',
-  templateUrl: 'region-resume.component.html',
-  styleUrls: ['region-resume.component.css']
+  templateUrl: './region-resume.component.html',
+  styleUrls: ['./region-resume.component.css']
 })
 export class RegionResumeComponent {
 

@@ -4,8 +4,8 @@ import {DaoService} from "../../../../../dao/dao.service";
 
 @Component({
     selector: 'app-party-grid',
-    templateUrl: 'party-grid.component.html',
-    styleUrls: ['party-grid.component.css']
+    templateUrl: './party-grid.component.html',
+    styleUrls: ['./party-grid.component.css']
 })
 export class PartyGridComponent implements OnInit {
 
