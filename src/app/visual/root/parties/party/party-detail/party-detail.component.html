@@ -33,18 +33,13 @@
     </tr>
   </table>
 
-
   <md-tab-group>
     <md-tab>
       <template md-tab-label>
         Elections
       </template>
-
-      <template md-tab-content>
-        <app-election-grid [electionList]="party.electionList"
-                           (onView)="navigateToElection($event)"></app-election-grid>
-
-      </template>
+      <app-election-grid [electionList]="party.electionList"
+                         (onView)="navigateToElection($event)"></app-election-grid>
     </md-tab>
   </md-tab-group>
 </div>
