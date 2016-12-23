@@ -8,12 +8,12 @@ md-dialog-container.md-dialog-container {
   padding: 0;
 }
 
-md-dialog-container.md-dialog-container > focus-trap > div:nth-child(2){
-  height: 100%;
+.cdk-overlay-pane {
+  transition: width 0.5s ease;
 }
 
-.md-overlay-pane {
-  transition: width 0.5s ease;
+md-dialog-container.md-dialog-container > focus-trap > div:nth-child(2){
+  height: 100%;
 }
 
 .content-dialog {
