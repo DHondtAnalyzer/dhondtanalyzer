@@ -136,7 +136,7 @@ export class DialogService {
         });
 
         let cont = this.jQueryService.getElement('md-dialog-container');
-        let overlay = this.jQueryService.getElement('.md-overlay-pane');
+        let overlay = this.jQueryService.getElement('.cdk-overlay-pane');
 
         this.dialogRef.componentInstance.onResize.subscribe(isFullScreen => {
             if(isFullScreen) {

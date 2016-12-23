@@ -22,7 +22,7 @@ export class ElectionDetailComponent implements DialogComponent, OnInit {
 
   private editing: boolean;
   private isFullScreen: boolean;
-  private resizableSubsriber:BehaviorSubject<boolean>;
+  private resizableSubscriber:BehaviorSubject<boolean>;
 
   /**
    * Atributo model.
@@ -45,8 +45,8 @@ export class ElectionDetailComponent implements DialogComponent, OnInit {
      */
     constructor(private dialogRef: MdDialogRef<ElectionDetailComponent>,
                 private router: Router) {
-      this.resizableSubsriber = new BehaviorSubject<boolean>(false)
-      this.onResize = this.resizableSubsriber.asObservable()
+      this.resizableSubscriber = new BehaviorSubject<boolean>(false)
+      this.onResize = this.resizableSubscriber.asObservable()
     }
 
 
@@ -167,7 +167,7 @@ export class ElectionDetailComponent implements DialogComponent, OnInit {
 
   private screenStateChange() {
     this.isFullScreen = !this.isFullScreen;
-    this.resizableSubsriber.next(this.isFullScreen);
+    this.resizableSubscriber.next(this.isFullScreen);
   }
 
     /**
