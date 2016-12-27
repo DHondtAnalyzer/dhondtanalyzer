@@ -1,5 +1,6 @@
 import {Election} from "./model/election";
 import {Party} from "./model/party";
+import {District} from "./model";
 import {Injectable} from "@angular/core";
 import "rxjs/add/operator/toPromise";
 import {Region} from "./model/region";
@@ -13,17 +14,9 @@ export class DaoService {
   private _electionList: Election[];
   private _partyList: Party[];
   private _regionList: Region[];
+  private _districtList: District[];
 
   constructor(private af: AngularFire) {
-    this.af.database.list('/rest/elections').subscribe(elections => {
-      this._electionList = elections;
-    });
-    this.af.database.list('/rest/partys').subscribe(parties => {
-      this._partyList = parties;
-    });
-    this.af.database.list('/rest/regions').subscribe(regions => {
-      this._regionList = regions;
-    });
   }
 
   ///////////
@@ -39,8 +32,8 @@ export class DaoService {
   }
 
   getElectionById(id: string): Election {
-    for(let election of this._electionList)
-      if(election.id == id)
+    for (let election of this._electionList)
+      if (election.id == id)
         return election;
     return null;
   }
@@ -70,7 +63,7 @@ export class DaoService {
   }
 
   getParties(): Party[] {
-    if(this._partyList === undefined) {
+    if (this._partyList === undefined) {
       this._partyList = [];
     }
     return this._partyList;
@@ -100,7 +93,7 @@ export class DaoService {
   }
 
   getRegions(): Region[] {
-    if(this._regionList === undefined) {
+    if (this._regionList === undefined) {
       this._regionList = [];
     }
     return this._regionList;
@@ -119,5 +112,36 @@ export class DaoService {
 
   deleteRegion(id: string): firebase.Promise<void> {
     return this.af.database.object('/rest/regions/' + id).remove();
+  }
+
+
+  ///////////
+  // CRUD: District
+  //
+
+  createDistrict(id: string, district: District): firebase.Promise<void> {
+    return this.af.database.object('/rest/districts/' + id).set(district);
+  }
+
+  getDistricts(): District[] {
+    if (this._districtList === undefined) {
+      this._districtList = [];
+    }
+    return this._districtList;
+  }
+
+  getDistrictById(id: string): District {
+    for (let district of this._districtList)
+      if (district.id == id)
+        return district;
+    return null;
+  }
+
+  updateDistrict(id: string, district: District): firebase.Promise<void> {
+    return this.af.database.object('/rest/districts/' + id).update(district);
+  }
+
+  deleteDistrict(id: string): firebase.Promise<void> {
+    return this.af.database.object('/rest/districts/' + id).remove();
   }
 }

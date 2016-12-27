@@ -49,7 +49,7 @@ export class ElectionDetailComponent implements DialogComponent, OnInit {
                 private daoService: DaoService,
                 private router: Router) {
       this.resizableSubscriber = new BehaviorSubject<boolean>(false);
-      this.onResize = this.resizableSubscriber.asObservable()
+      this.onResize = this.resizableSubscriber.asObservable();
     }
 
 
@@ -127,8 +127,7 @@ export class ElectionDetailComponent implements DialogComponent, OnInit {
 
       this.election = Election.newInstance();
       this.daoService.getElectionObjectObservable(this.id)
-        .subscribe( election => {this.election = election});
-
+        .subscribe( election => {this.election = election;});
       /*
       if (!this.election.name) {
         this.editing = true;
@@ -200,6 +199,27 @@ export class ElectionDetailComponent implements DialogComponent, OnInit {
      * Es la encargada de guardar los datos después de una modificación o creación.
      */
     private saveChanges(): void {
-        // TODO
+        if (this.editing)
+            this.daoService.createElection(this.election.id, this.election).catch(reason => {
+                console.error(reason.message);
+            });
+        else
+            this.daoService.updateElection(this.election.id, this.election).catch(reason => {
+                console.error(reason.message);
+            });
+
+    }
+
+    /**
+     * Función delete.
+     *
+     * Es la encargada de eliminar la elección de la persistencia de la aplicación.
+     */
+    private delete(): void {
+        this.daoService.deleteElection(this.election.id).then(_ => {
+            this.closeDialog();
+        }).catch(reason => {
+            console.error(reason.message);
+        });
     }
 }

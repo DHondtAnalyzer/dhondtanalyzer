@@ -96,6 +96,7 @@ export class DialogService {
         let basePath = this.location.path();
         let extensionPath;
 
+
         if (navigated) {
             let temp;
 

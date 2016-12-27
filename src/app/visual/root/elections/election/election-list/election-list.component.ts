@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewContainerRef} from '@angular/core';
+import {Component, OnInit, ViewContainerRef, ChangeDetectorRef} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 
 import {DialogService} from "../../../../shared/dialog/dialog.service";
@@ -6,9 +6,10 @@ import {DaoService} from "../../../../../dao/dao.service";
 
 import {Election} from "../../../../../dao/model/election";
 import {ElectionDetailComponent} from "../election-detail/election-detail.component";
-import {RouterService} from "../../../../shared/router/router.service";
-import {ObjectFromRoute} from "../../../../shared/router/object-from-route";
+import {Subscription} from "rxjs";
 import {AppListObservable} from "../../../../../dao/app-list-observable";
+import {ObjectFromRoute} from "../../../../shared/router/object-from-route";
+import {RouterService} from "../../../../shared/router/router.service";
 
 
 /**
@@ -27,17 +28,27 @@ export class ElectionListComponent implements OnInit, ObjectFromRoute {
 
 
     /**
+     * Atributo electionList.
+     *
+     * El tipo es Array<Election>
+     */
+    private _electionList: Array<Election>;
+
+
+    /**
      * Constructor de la clase.
      *
      * @param daoService
      * @param viewContainerRef
      * @param route
+     * @param cd
      * @param routerHelper
      * @param dialogService
      */
     constructor(private viewContainerRef: ViewContainerRef,
                 private route: ActivatedRoute,
                 private daoService: DaoService,
+                private cd: ChangeDetectorRef,
                 private routerHelper: RouterService,
                 private dialogService: DialogService) {
     }
@@ -59,6 +70,7 @@ export class ElectionListComponent implements OnInit, ObjectFromRoute {
      * Implementa la función de la interfaz OnInit
      */
     ngOnInit() {
+        // this.electionList = this.daoService.getElections();
         this.initRouterHelper();
         this.initDialogService();
         this.readRoute();
