@@ -1,0 +1,8 @@
+
+md-toolbar label.md-input-placeholder {
+  color: rgba(255, 255, 255, 0.87);
+}
+
+md-toolbar div.md-input-underline {
+  border-color: rgba(255, 255, 255, 0.87);
+}

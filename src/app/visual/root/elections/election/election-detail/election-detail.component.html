@@ -1,0 +1,57 @@
+<md-toolbar color="primary">
+
+  <span class="flex"></span>
+
+
+  <button md-fab class="md-fab-editing md-fab" (click)="editingChange()">
+    <md-icon class="md-24">{{fabIcon()}}</md-icon>
+  </button>
+
+  <button md-icon-button (click)=screenStateChange()>
+    <md-icon>{{iconScreenChange}}</md-icon>
+  </button>
+
+  <button md-icon-button (click)=closeDialog()>
+    <md-icon>close</md-icon>
+  </button>
+
+  <md-toolbar-row>
+    <md-input [disabled]="!editing" placeholder="Name" class="toolbar-input"
+              [(ngModel)]="election.name" name="name"></md-input>
+  </md-toolbar-row>
+
+</md-toolbar>
+
+
+<div class="content content-dialog">
+  <table cellspacing="0">
+    <tr>
+      <td>
+        <md-input [disabled]="!editing" placeholder="Date"
+                  [(ngModel)]="election.date" name="date"></md-input>
+      </td>
+
+      <td>
+        <md-input [disabled]="!editing" placeholder="Type"
+                  [(ngModel)]="election.type" name="type"></md-input>
+      </td>
+    </tr>
+  </table>
+
+  <md-tab-group>
+    <md-tab>
+      <template md-tab-label>
+        Districts
+      </template>
+      <app-district-grid [editable]="true" [districtList]="election.districtList"
+                         (onRoute)="closeDialog()"></app-district-grid>
+    </md-tab>
+    <md-tab>
+      <template md-tab-label>
+        Parties
+      </template>
+      <app-party-grid [editable]="true" [partyList]="election.partyList"
+                      (onView)="navigateToParty($event)"></app-party-grid>
+    </md-tab>
+  </md-tab-group>
+</div>

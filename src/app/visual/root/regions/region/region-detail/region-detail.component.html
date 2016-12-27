@@ -1,0 +1,37 @@
+<md-toolbar color="primary">
+
+  <span class="flex"></span>
+
+  <button md-fab class="md-fab-editing md-fab" (click)="editingChange()">
+    <md-icon class="md-24">{{fabIcon()}}</md-icon>
+  </button>
+
+  <button md-icon-button (click)=screenStateChange()>
+    <md-icon>{{iconScreenChange}}</md-icon>
+  </button>
+
+  <button md-icon-button (click)=closeDialog()>
+    <md-icon>close</md-icon>
+  </button>
+
+  <md-toolbar-row>
+    <md-input [disabled]="!editing" placeholder="Name" class="toolbar-input"
+              [(ngModel)]="region.name" name="name"></md-input>
+  </md-toolbar-row>
+
+</md-toolbar>
+
+<div class="content content-dialog">
+
+  <md-tab-group>
+    <md-tab>
+      <template md-tab-label>
+        Elections
+      </template>
+      <!--
+      <app-election-grid [electionList]="region.electionList"
+                         (onView)="navigateToElection($event)"></app-election-grid>
+      -->
+    </md-tab>
+  </md-tab-group>
+</div>

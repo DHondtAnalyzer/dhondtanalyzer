@@ -1,0 +1,11 @@
+<div class="row is-flex">
+  <div class="col-xs-12" *ngIf="searchable">
+    <app-search [placeholder]="'Search regions...'" [initialList]="regionList"
+                (onSearch)="search($event)"></app-search>
+  </div>
+
+
+  <div class="{{cardColClass}}" *ngFor="let region of filteredRegionList">
+    <app-region-resume [region]="region" (onView)="view($event)"></app-region-resume>
+  </div>
+</div>
