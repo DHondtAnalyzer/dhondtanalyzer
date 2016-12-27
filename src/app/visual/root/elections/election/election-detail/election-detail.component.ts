@@ -7,6 +7,7 @@ import {DialogComponent} from "../../../../shared/dialog/dialog-component";
 import {Observable, BehaviorSubject} from "rxjs";
 import {DaoService} from "../../../../../dao/dao.service";
 import {AppListObservable} from "../../../../../dao/app-list-observable";
+import {District} from "../../../../../dao/model/district";
 
 
 /**
@@ -135,6 +136,8 @@ export class ElectionDetailComponent implements DialogComponent, OnInit {
       }
       */
     }
+
+    
   get districtList(): AppListObservable<District[]> {
     //TODO
     return null;
