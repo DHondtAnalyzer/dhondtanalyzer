@@ -4,16 +4,22 @@ import {ComponentWithParams} from "../../../../shared/component-with-params";
 import {MdDialogRef} from "@angular/material";
 import {Router} from "@angular/router";
 import {Election} from "../../../../../dao/model/election";
+import {DialogComponent} from "../../../../shared/dialog/dialog-component";
+import {BehaviorSubject, Observable} from "rxjs";
 
 @Component({
     selector: 'app-region-detail',
     templateUrl: './region-detail.component.html',
     styleUrls: ['./region-detail.component.css']
 })
-export class RegionDetailComponent implements ComponentWithParams, OnInit {
+export class RegionDetailComponent implements DialogComponent, OnInit {
 
 
     private editing: boolean;
+
+  private isFullScreen: boolean;
+  private resizableSubscriber:BehaviorSubject<boolean>;
+
 
     /**
      * Atributo model.
@@ -22,12 +28,22 @@ export class RegionDetailComponent implements ComponentWithParams, OnInit {
      */
     private _model: Region;
 
+    /**
+     *
+     * @type {"../../Observable".Observable<T>}
+     * @private
+     */
+    private _onResize;
 
     /**
      * Constructor de la clase.
      */
     constructor(private dialogRef: MdDialogRef<RegionDetailComponent>,
                 private router: Router) {
+      this.resizableSubscriber = new BehaviorSubject<boolean>(false)
+
+      this.onResize = this.resizableSubscriber.asObservable()
+
     }
 
 
@@ -79,6 +95,28 @@ export class RegionDetailComponent implements ComponentWithParams, OnInit {
     }
 
 
+  /**
+   * Getter del atributo onResize.
+   * (necesario por la interfaz DialogComponent)
+   *
+   * @returns {Observable<boolean>}
+   */
+  get onResize(): Observable<boolean> {
+    return this._onResize;
+  }
+
+
+  /**
+   * Setter del atributo onResize.
+   * (necesario por la interfaz DialogComponent)
+   *
+   * @param value
+   */
+  set onResize(value: Observable<boolean>) {
+    this._onResize = value;
+  }
+
+
     ngOnInit(): void {
         if (!this.model.name) {
             this.editing = true;
@@ -120,7 +158,22 @@ export class RegionDetailComponent implements ComponentWithParams, OnInit {
     }
 
 
-    /**
+  private get iconScreenChange(){
+    if(this.isFullScreen){
+      return 'fullscreen_exit';
+    } else {
+      return 'fullscreen';
+    }
+  }
+
+  private screenStateChange() {
+    this.isFullScreen = !this.isFullScreen;
+    this.resizableSubscriber.next(this.isFullScreen);
+  }
+
+
+
+  /**
      * Función editingChange.
      *
      * Es la función encargada de cambiar el estado de edición a visualización

@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {ComponentWithParams} from "../../../../shared/component-with-params";
 import {Election} from "../../../../../dao/model/election";
 import {Router} from "@angular/router";
 import {MdDialogRef} from "@angular/material";
 import {Party} from "../../../../../dao/model/party";
+import {DialogComponent} from "../../../../shared/dialog/dialog-component";
+import {Observable, BehaviorSubject} from "rxjs";
 
 
 /**
@@ -12,22 +13,31 @@ import {Party} from "../../../../../dao/model/party";
  * ElectionDetailComponent se encarga de representar visualmente una elección.
  */
 @Component({
-    selector: 'app-election-detail',
-    templateUrl: './election-detail.component.html',
-    styleUrls: ['./election-detail.component.css']
+  selector: 'app-election-detail',
+  templateUrl: './election-detail.component.html',
+  styleUrls: ['./election-detail.component.css']
 })
-export class ElectionDetailComponent implements ComponentWithParams, OnInit {
+export class ElectionDetailComponent implements DialogComponent, OnInit {
 
 
-    private editing: boolean;
-    private isFullScreen: boolean;
+  private editing: boolean;
+  private isFullScreen: boolean;
+  private resizableSubscriber:BehaviorSubject<boolean>;
 
-    /**
-     * Atributo model.
-     *
-     * El tipo es string.
-     */
-    private _model: Election;
+  /**
+   * Atributo model.
+   *
+   * El tipo es string.
+   */
+  private _model: Election;
+
+
+  /**
+   *
+   * @type {"../../Observable".Observable<T>}
+   * @private
+   */
+  private _onResize;
 
 
     /**
@@ -35,6 +45,8 @@ export class ElectionDetailComponent implements ComponentWithParams, OnInit {
      */
     constructor(private dialogRef: MdDialogRef<ElectionDetailComponent>,
                 private router: Router) {
+      this.resizableSubscriber = new BehaviorSubject<boolean>(false)
+      this.onResize = this.resizableSubscriber.asObservable()
     }
 
 
@@ -58,6 +70,28 @@ export class ElectionDetailComponent implements ComponentWithParams, OnInit {
     set model(value: Election) {
         this._model = value;
     }
+
+
+  /**
+   * Getter del atributo onResize.
+   * (necesario por la interfaz DialogComponent)
+   *
+   * @returns {Observable<boolean>}
+   */
+  get onResize(): Observable<boolean> {
+    return this._onResize;
+  }
+
+
+  /**
+   * Setter del atributo onResize.
+   * (necesario por la interfaz DialogComponent)
+   *
+   * @param value
+   */
+  set onResize(value: Observable<boolean>) {
+    this._onResize = value;
+  }
 
 
     /**
@@ -131,10 +165,10 @@ export class ElectionDetailComponent implements ComponentWithParams, OnInit {
       }
     }
 
-    private screenStateChange() {
-      this.isFullScreen = !this.isFullScreen;
-
-    }
+  private screenStateChange() {
+    this.isFullScreen = !this.isFullScreen;
+    this.resizableSubscriber.next(this.isFullScreen);
+  }
 
     /**
      * Función editingChange.
