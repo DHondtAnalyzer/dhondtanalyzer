@@ -1,7 +1,7 @@
 import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
-import {Router} from "@angular/router";
 
 import {Election} from "../../../../../dao/model/election";
+import {AppListObservable} from "../../../../../dao/app-list-observable";
 
 @Component({
     selector: 'app-election-grid',
@@ -10,20 +10,27 @@ import {Election} from "../../../../../dao/model/election";
 })
 export class ElectionGridComponent implements OnInit {
 
-    private filteredElectionList: Election[];
+    private _filteredElectionList: Election[];
 
-    @Input() electionList: Election[];
+    @Input() electionList: AppListObservable<Election[]>;
     @Input() searchable: boolean;
     @Input() big: boolean;
 
     @Output() onView = new EventEmitter<Election>();
 
-    constructor(private route: Router) {
+    constructor() {
     }
 
     ngOnInit() {
-        this.filteredElectionList = this.electionList;
     }
+
+  get filteredElectionList(): Election[] {
+    return this._filteredElectionList;
+  }
+
+  set filteredElectionList(value: Election[]) {
+    this._filteredElectionList = value;
+  }
 
     /**
      * Función gotoElection.
@@ -43,8 +50,9 @@ export class ElectionGridComponent implements OnInit {
         }
     }
 
-    search(filtered: Election[]){
-        this.filteredElectionList = filtered;
-    }
-
+  search(filtered: AppListObservable<Election[]>){
+    filtered.subscribe(elections => {
+      this.filteredElectionList = elections;
+    });
+  }
 }

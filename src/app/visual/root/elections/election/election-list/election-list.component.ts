@@ -6,9 +6,9 @@ import {DaoService} from "../../../../../dao/dao.service";
 
 import {Election} from "../../../../../dao/model/election";
 import {ElectionDetailComponent} from "../election-detail/election-detail.component";
-import {Model} from "../../../../../dao/model/model";
 import {RouterService} from "../../../../shared/router/router.service";
 import {ObjectFromRoute} from "../../../../shared/router/object-from-route";
+import {AppListObservable} from "../../../../../dao/app-list-observable";
 
 
 /**
@@ -24,14 +24,6 @@ import {ObjectFromRoute} from "../../../../shared/router/object-from-route";
     styleUrls: ['./election-list.component.css']
 })
 export class ElectionListComponent implements OnInit, ObjectFromRoute {
-
-
-    /**
-     * Atributo electionList.
-     *
-     * El tipo es Array<Election>
-     */
-    private _electionList: Array<Election>;
 
 
     /**
@@ -56,18 +48,8 @@ export class ElectionListComponent implements OnInit, ObjectFromRoute {
      *
      * @returns {Array<Election>}
      */
-    get electionList(): Array<Election> {
-        return this._electionList;
-    }
-
-
-    /**
-     * Setter del atributo electionList.
-     *
-     * @param value
-     */
-    set electionList(value: Array<Election>) {
-        this._electionList = value;
+    get electionList(): AppListObservable<Array<Election>> {
+        return this.daoService.getElectionListObservable();
     }
 
 
@@ -77,7 +59,6 @@ export class ElectionListComponent implements OnInit, ObjectFromRoute {
      * Implementa la función de la interfaz OnInit
      */
     ngOnInit() {
-        this.electionList = this.daoService.getElections();
         this.initRouterHelper();
         this.initDialogService();
         this.readRoute();
