@@ -38,7 +38,7 @@ export class ElectionListComponent implements OnInit, ObjectFromRoute {
     constructor(private viewContainerRef: ViewContainerRef,
                 private route: ActivatedRoute,
                 private daoService: DaoService,
-                private routerHelper: RouterService<Election>,
+                private routerHelper: RouterService,
                 private dialogService: DialogService) {
     }
 
@@ -107,19 +107,19 @@ export class ElectionListComponent implements OnInit, ObjectFromRoute {
      * elección a partir de un diálogo que contiene el contenido del
      * component ElectionDetailComponent.
      *
-     * @param election
+     * @param id
      * @param navigated boolean que indica si se ha hacedido a la url por
      * navegación.
      * @param newElection
      */
-    private openDialog(election: Election, navigated = false,
+    private openDialog(id: string, navigated = false,
                        newElection = false): void {
-        this.dialogService.openDialog(election, navigated, newElection);
+        this.dialogService.openDialog(id, navigated, newElection);
     }
 
 
     objectIdCallback(id: string): void {
-        this.openDialog(this.daoService.getElectionById(id), true);
+        this.openDialog(id, true);
     }
 
 
@@ -129,7 +129,7 @@ export class ElectionListComponent implements OnInit, ObjectFromRoute {
 
 
     private create(navigated = false) {
-        let election = Election.newInstance();
-        this.openDialog(election, navigated, true);
+        //let election = Election.newInstance();
+        this.openDialog('', navigated, true);
     }
 }

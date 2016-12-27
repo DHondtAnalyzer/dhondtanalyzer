@@ -70,6 +70,9 @@ export class DaoService {
   }
 
   getParties(): Party[] {
+    if(this._partyList === undefined) {
+      this._partyList = [];
+    }
     return this._partyList;
   }
 
@@ -97,6 +100,9 @@ export class DaoService {
   }
 
   getRegions(): Region[] {
+    if(this._regionList === undefined) {
+      this._regionList = [];
+    }
     return this._regionList;
   }
 

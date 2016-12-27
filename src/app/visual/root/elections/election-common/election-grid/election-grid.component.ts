@@ -16,7 +16,7 @@ export class ElectionGridComponent implements OnInit {
     @Input() searchable: boolean;
     @Input() big: boolean;
 
-    @Output() onView = new EventEmitter<Election>();
+    @Output() onView = new EventEmitter<string>();
 
     constructor() {
     }
@@ -36,10 +36,10 @@ export class ElectionGridComponent implements OnInit {
      * Función gotoElection.
      *
      * Cambia la ruta de la web hacia la elección seleccionada.
-     * @param election
+     * @param id
      */
-    private goToElection(election: Election): void {
-        this.onView.emit(election);
+    private goToElection(id: string): void {
+        this.onView.emit(id);
     }
 
     get cardColClass(): string {

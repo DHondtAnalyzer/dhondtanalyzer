@@ -27,12 +27,12 @@ export class PartyDetailComponent implements DialogComponent, OnInit {
   private resizableSubscriber:BehaviorSubject<boolean>;
 
     /**
-     * Atributo model.
+     * Atributo id.
      *
      * El tipo es Party.
      */
     private _model: Party;
-
+    private _id: string;
 
 
     /**
@@ -54,24 +54,24 @@ export class PartyDetailComponent implements DialogComponent, OnInit {
 
 
     /**
-     * Getter del atributo model.
+     * Getter del atributo id.
      * (Necesario por la interfaz ComponentWithParams)
      *
      * @returns {string}
      */
-    get model(): Party {
-        return this._model;
+    get id(): string {
+        return this._id;
     }
 
 
     /**
-     * Setter del atributo model
+     * Setter del atributo id
      * (Necesario por la interfaz ComponentWithParams)
      *
      * @param value
      */
-    set model(value: Party) {
-        this._model = value;
+    set id(value: string) {
+        this._id = value;
     }
 
 
@@ -84,7 +84,7 @@ export class PartyDetailComponent implements DialogComponent, OnInit {
      * @returns {Party}
      */
     get party(): Party {
-        return this.model;
+        return this._model;
     }
 
 
@@ -97,7 +97,7 @@ export class PartyDetailComponent implements DialogComponent, OnInit {
      * @returns {Party}
      */
     set party(value: Party) {
-        this.model = value;
+        this._model = value;
     }
 
 
@@ -124,7 +124,7 @@ export class PartyDetailComponent implements DialogComponent, OnInit {
 
 
     ngOnInit(): void {
-        if(!this.model.name){
+        if(!this.party.name){
             this.editing = true;
         }
     }

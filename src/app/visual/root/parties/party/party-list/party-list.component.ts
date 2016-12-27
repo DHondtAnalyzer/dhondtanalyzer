@@ -45,7 +45,7 @@ export class PartyListComponent implements OnInit, ObjectFromRoute {
     constructor(private viewContainerRef: ViewContainerRef,
                 private route: ActivatedRoute,
                 private daoService: DaoService,
-                private routerService: RouterService<Party>,
+                private routerService: RouterService,
                 private dialogService: DialogService,) {
     }
 
@@ -125,24 +125,24 @@ export class PartyListComponent implements OnInit, ObjectFromRoute {
      * partido político a partir de un diálogo que contiene el contenido del
      * component PartyDetailComponent.
      *
-     * @param party string que representa el id del partido a mostrar.
+     * @param id string que representa el id del partido a mostrar.
      * @param navigated boolean que indica si se ha hacedido a la url por
      * navegación.
      * @param newParty
      */
-    private openDialog(party: Party, navigated = false,
+    private openDialog(id: string, navigated = false,
                        newParty = false): void {
-        this.dialogService.openDialog(party, navigated, newParty);
+        this.dialogService.openDialog(id, navigated, newParty);
     }
 
 
     private create(navigated = false) {
-        let party = Party.newInstance();
-        this.openDialog(party, navigated, true);
+        //let party = Party.newInstance();
+        this.openDialog('', navigated, true);
     }
 
     objectIdCallback(id: string): void {
-        this.openDialog(this.daoService.getPartyById(id), true);
+        this.openDialog(id, true);
     }
 
     createCallback(): void {

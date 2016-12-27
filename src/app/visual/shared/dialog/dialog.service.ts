@@ -2,10 +2,9 @@ import {Injectable, ViewContainerRef} from '@angular/core';
 import {Location} from '@angular/common';
 
 import {MdDialog, MdDialogRef, ComponentType, MdDialogConfig} from "@angular/material";
-import {Model} from "../../../dao/model/model";
 import {DialogComponent} from "./dialog-component";
 import {JQueryService} from "../jquery.service";
-import {JQueryStyleEventEmitter} from "rxjs/observable/FromEventObservable";
+import {Router, ActivatedRoute} from "@angular/router";
 
 
 /**
@@ -52,6 +51,7 @@ export class DialogService {
      *
      * @param dialog
      * @param location
+     * @param jQueryService
      */
     constructor(private dialog: MdDialog,
                 private location: Location,
@@ -85,17 +85,16 @@ export class DialogService {
      * partido político a partir de un diálogo que contiene el contenido del
      * component PartyDetailComponent.
      *
-     * @param model string que representa el id del objeto a mostrar.
+     * @param id string que representa el id del objeto a mostrar.
      * @param navigated boolean que indica si se ha hacedido a la url por
      * navegación.
      * @param newModel
      */
-    public openDialog(model: Model, navigated = false, newModel = false) {
+    public openDialog(id: string, navigated = false, newModel = false) {
 
 
         let basePath = this.location.path();
         let extensionPath;
-
 
         if (navigated) {
             let temp;
@@ -104,7 +103,7 @@ export class DialogService {
                 temp = basePath.split('/new');
 
             } else {
-                temp = basePath.split('/' + model.id);
+                temp = basePath.split('/' + id);
             }
             basePath = temp[0];
             extensionPath = temp[1];
@@ -112,7 +111,7 @@ export class DialogService {
             if (newModel){
                 extensionPath = "/new";
             } else {
-                extensionPath = "/" + model.id;
+                extensionPath = "/" + id;
             }
         }
 
@@ -125,7 +124,7 @@ export class DialogService {
         this.dialogRef = this.dialog.open(this.componentType, config);
 
 
-        this.dialogRef.componentInstance.model = model;
+        this.dialogRef.componentInstance.id = id;
         if (!navigated) {
             this.location.go(basePath + extensionPath );
         }

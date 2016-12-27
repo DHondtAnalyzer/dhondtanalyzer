@@ -14,7 +14,7 @@ import {ObjectFromRoute} from "./object-from-route";
  * interfaz ObjectFromRoute con objeto de dicho modelo.
  */
 @Injectable()
-export class RouterService<T extends Model> {
+export class RouterService {
 
 
     /**
@@ -30,7 +30,7 @@ export class RouterService<T extends Model> {
      * Constructor de la clase.
      *
      */
-    constructor(private daoService: DaoService) {
+    constructor() {
     }
 
 

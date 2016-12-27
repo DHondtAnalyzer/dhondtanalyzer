@@ -22,11 +22,12 @@ export class RegionDetailComponent implements DialogComponent, OnInit {
 
 
     /**
-     * Atributo model.
+     * Atributo id.
      *
      * El tipo es Party.
      */
     private _model: Region;
+    private _id: string;
 
     /**
      *
@@ -48,24 +49,24 @@ export class RegionDetailComponent implements DialogComponent, OnInit {
 
 
     /**
-     * Getter del atributo model.
+     * Getter del atributo id.
      * (Necesario por la interfaz ComponentWithParams)
      *
      * @returns {string}
      */
-    get model(): Region {
-        return this._model;
+    get id(): string {
+        return this._id;
     }
 
 
     /**
-     * Setter del atributo model
+     * Setter del atributo id
      * (Necesario por la interfaz ComponentWithParams)
      *
      * @param value
      */
-    set model(value: Region) {
-        this._model = value;
+    set id(value: string) {
+        this._id = value;
     }
 
 
@@ -78,7 +79,7 @@ export class RegionDetailComponent implements DialogComponent, OnInit {
      * @returns {Party}
      */
     get region(): Region {
-        return this.model;
+        return this.region;
     }
 
 
@@ -91,7 +92,7 @@ export class RegionDetailComponent implements DialogComponent, OnInit {
      * @returns {Party}
      */
     set region(value: Region) {
-        this.model = value;
+        this.region = value;
     }
 
 
@@ -118,7 +119,7 @@ export class RegionDetailComponent implements DialogComponent, OnInit {
 
 
     ngOnInit(): void {
-        if (!this.model.name) {
+        if (!this.region.name) {
             this.editing = true;
         }
     }

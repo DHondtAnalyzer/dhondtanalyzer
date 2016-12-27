@@ -31,6 +31,7 @@ export class ElectionDetailComponent implements DialogComponent, OnInit {
    * El tipo es string.
    */
   private _model: Election;
+  private _id: string;
 
 
   /**
@@ -53,24 +54,24 @@ export class ElectionDetailComponent implements DialogComponent, OnInit {
 
 
     /**
-     * Getter del atributo model.
+     * Getter del atributo id.
      * (Necesario por la interfaz ComponentWithParams)
      *
      * @returns {Election}
      */
-    get model(): Election {
-        return this._model;
+    get id(): string {
+        return this._id;
     }
 
 
     /**
-     * Setter del atributo model
+     * Setter del atributo id
      * (Necesario por la interfaz ComponentWithParams)
      *
      * @param value
      */
-    set model(value: Election) {
-        this._model = value;
+    set id(value: string) {
+        this._id = value;
     }
 
 
@@ -105,7 +106,7 @@ export class ElectionDetailComponent implements DialogComponent, OnInit {
      * @returns {Party}
      */
     get election(): Election {
-        return this.model;
+        return this._model;
     }
 
 
@@ -118,16 +119,21 @@ export class ElectionDetailComponent implements DialogComponent, OnInit {
      * @returns {Party}
      */
     set election(value: Election) {
-        this.model = value;
+        this._model = value;
     }
 
 
     ngOnInit(): void {
-        if (!this.model.name) {
-            this.editing = true;
-        }
-        this.daoService.getElectionObjectObservable(this.model.id)
-          .subscribe( election => {console.log(election)})
+
+      this.election = Election.newInstance();
+      this.daoService.getElectionObjectObservable(this.id)
+        .subscribe( election => {this.election = election});
+
+      /*
+      if (!this.election.name) {
+        this.editing = true;
+      }
+      */
     }
 
 
