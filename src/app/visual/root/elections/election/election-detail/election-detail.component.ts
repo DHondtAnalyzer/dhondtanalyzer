@@ -6,6 +6,7 @@ import {Party} from "../../../../../dao/model/party";
 import {DialogComponent} from "../../../../shared/dialog/dialog-component";
 import {Observable, BehaviorSubject} from "rxjs";
 import {DaoService} from "../../../../../dao/dao.service";
+import {AppListObservable} from "../../../../../dao/app-list-observable";
 
 
 /**
@@ -134,7 +135,15 @@ export class ElectionDetailComponent implements DialogComponent, OnInit {
       }
       */
     }
+  get districtList(): AppListObservable<District[]> {
+    //TODO
+    return null;
+  }
 
+  get partyList(): AppListObservable<Party[]> {
+    //TODO
+    return null;
+  }
 
     /**
      * Función closeDialog.

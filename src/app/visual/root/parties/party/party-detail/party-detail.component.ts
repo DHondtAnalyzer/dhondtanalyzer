@@ -6,6 +6,8 @@ import {Router} from "@angular/router";
 import {Election} from "../../../../../dao/model/election";
 import {DialogComponent} from "../../../../shared/dialog/dialog-component";
 import {Observable, BehaviorSubject} from "rxjs";
+import {DaoService} from "../../../../../dao/dao.service";
+import {AppListObservable} from "../../../../../dao/app-list-observable";
 
 
 /**
@@ -47,6 +49,7 @@ export class PartyDetailComponent implements DialogComponent, OnInit {
      * Constructor de la clase.
      */
     constructor(private dialogRef: MdDialogRef<PartyDetailComponent>,
+                private daoService: DaoService,
                 private router: Router) {
       this.resizableSubscriber = new BehaviorSubject<boolean>(false)
       this.onResize = this.resizableSubscriber.asObservable()
@@ -124,9 +127,19 @@ export class PartyDetailComponent implements DialogComponent, OnInit {
 
 
     ngOnInit(): void {
-        if(!this.party.name){
-            this.editing = true;
-        }
+        this.party = Party.newInstance();
+        this.daoService.getPartyObjectObservable(this.id)
+          .subscribe( party => {this.party = party;});
+        /*
+         if (!this.party.name) {
+         this.editing = true;
+         }
+         */
+    }
+
+    get electionList(): AppListObservable<Election[]> {
+      //TODO
+      return null;
     }
 
 

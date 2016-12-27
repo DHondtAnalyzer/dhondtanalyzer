@@ -8,6 +8,7 @@ import {Party} from "../../../../../dao/model/party";
 import {PartyDetailComponent} from "../party-detail/party-detail.component";
 import {RouterService} from "../../../../shared/router/router.service";
 import {ObjectFromRoute} from "../../../../shared/router/object-from-route";
+import {AppListObservable} from "../../../../../dao/app-list-observable";
 
 
 /**
@@ -50,24 +51,14 @@ export class PartyListComponent implements OnInit, ObjectFromRoute {
     }
 
 
-    /**
-     * Getter del atributo partyList.
-     *
-     * @returns {Array<Party>}
-     */
-    get partyList(): Array<Party> {
-        return this._partyList;
-    }
-
-
-    /**
-     * Setter del atributo partyList.
-     *
-     * @param value
-     */
-    set partyList(value: Array<Party>) {
-        this._partyList = value;
-    }
+  /**
+   * Getter del atributo partyList.
+   *
+   * @returns {Array<Party>}
+   */
+  get partyList(): AppListObservable<Array<Party>> {
+    return this.daoService.getPartyListObservable();
+  }
 
 
     /**
@@ -76,7 +67,6 @@ export class PartyListComponent implements OnInit, ObjectFromRoute {
      * Implementa la función de la interfaz OnInit
      */
     ngOnInit() {
-        this.partyList = this.daoService.getParties();
         this.initRouterHelper();
         this.initDialogHelper();
         this.readRoute();

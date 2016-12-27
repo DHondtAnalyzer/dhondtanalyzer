@@ -28,6 +28,16 @@ export class DaoService {
   }
 
   getElections(): Election[] {
+
+    if (this._electionList === undefined) {
+      this._electionList = [];
+      this.getElectionListObservable().subscribe(elections => {
+        if(elections)
+          this._electionList = elections;
+        else
+          this._electionList = [];
+      });
+    }
     return this._electionList;
   }
 
@@ -65,6 +75,12 @@ export class DaoService {
   getParties(): Party[] {
     if (this._partyList === undefined) {
       this._partyList = [];
+      this.getPartyListObservable().subscribe(parties => {
+        if(parties)
+          this._partyList = parties;
+        else
+          this._partyList = [];
+      });
     }
     return this._partyList;
   }
@@ -76,12 +92,20 @@ export class DaoService {
     return null;
   }
 
+  getPartyListObservable(): AppListObservable<Party[]> {
+    return this.af.database.list('/rest/parties');
+  }
+
+  getPartyObjectObservable(id: string): AppObjectObservable<Party> {
+    return this.af.database.object(`/rest/parties/${id}`);
+  }
+
   updateParty(id: string, party: Party): firebase.Promise<void> {
-    return this.af.database.object('/rest/parties/' + id).update(party);
+    return this.getPartyObjectObservable(id).update(party);
   }
 
   deleteParty(id: string): firebase.Promise<void> {
-    return this.af.database.object('/rest/parties/' + id).remove();
+    return this.getPartyObjectObservable(id).remove();
   }
 
   ///////////
@@ -95,6 +119,12 @@ export class DaoService {
   getRegions(): Region[] {
     if (this._regionList === undefined) {
       this._regionList = [];
+      this.getRegionListObservable().subscribe(regions => {
+        if(regions)
+          this._regionList = regions;
+        else
+          this._regionList = [];
+      });
     }
     return this._regionList;
   }
@@ -106,12 +136,20 @@ export class DaoService {
     return null;
   }
 
+  getRegionListObservable(): AppListObservable<Region[]> {
+    return this.af.database.list('/rest/regions');
+  }
+
+  getRegionObjectObservable(id: string): AppObjectObservable<Region> {
+    return this.af.database.object(`/rest/regions/${id}`);
+  }
+
   updateRegion(id: string, region: Region): firebase.Promise<void> {
-    return this.af.database.object('/rest/regions/' + id).update(region);
+    return this.getRegionObjectObservable(id).update(region);
   }
 
   deleteRegion(id: string): firebase.Promise<void> {
-    return this.af.database.object('/rest/regions/' + id).remove();
+    return this.getRegionObjectObservable(id).remove();
   }
 
 
@@ -126,6 +164,12 @@ export class DaoService {
   getDistricts(): District[] {
     if (this._districtList === undefined) {
       this._districtList = [];
+      this.getDistrictListObservable().subscribe(districts => {
+        if(districts)
+          this._districtList = districts;
+        else
+          this._districtList = [];
+      });
     }
     return this._districtList;
   }
@@ -137,11 +181,19 @@ export class DaoService {
     return null;
   }
 
+  getDistrictListObservable(): AppListObservable<District[]> {
+    return this.af.database.list('/rest/districts');
+  }
+
+  getDistrictObjectObservable(id: string): AppObjectObservable<District> {
+    return this.af.database.object(`/rest/districts/${id}`);
+  }
+
   updateDistrict(id: string, district: District): firebase.Promise<void> {
-    return this.af.database.object('/rest/districts/' + id).update(district);
+    return this.getDistrictObjectObservable(id).update(district);
   }
 
   deleteDistrict(id: string): firebase.Promise<void> {
-    return this.af.database.object('/rest/districts/' + id).remove();
+    return this.getDistrictObjectObservable(id).remove();
   }
 }

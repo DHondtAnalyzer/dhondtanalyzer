@@ -1,6 +1,7 @@
 import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {Party} from "../../../../../dao/model/party";
 import {DaoService} from "../../../../../dao/dao.service";
+import {AppListObservable} from "../../../../../dao/app-list-observable";
 
 @Component({
     selector: 'app-party-grid',
@@ -9,23 +10,30 @@ import {DaoService} from "../../../../../dao/dao.service";
 })
 export class PartyGridComponent implements OnInit {
 
-    private filteredPartyList: Party[];
 
-    @Input() partyList: Party[];
+    private _filteredPartyList: Party[];
+
+    @Input() partyList: AppListObservable<Party[]>;
     @Input() editable: boolean;
     @Input() searchable: boolean;
     @Input() big: boolean;
 
-    @Output() onView = new EventEmitter<Party>();
+    @Output() onView = new EventEmitter<string>();
 
     constructor(private daoService: DaoService) {
     }
 
 
     ngOnInit() {
-        this.filteredPartyList = this.partyList;
     }
 
+  get filteredPartyList(): Party[] {
+    return this._filteredPartyList;
+  }
+
+  set filteredPartyList(value: Party[]) {
+    this._filteredPartyList = value;
+  }
 
     private addParty(party: Party): void {
         if (party) {
@@ -35,12 +43,12 @@ export class PartyGridComponent implements OnInit {
 
 
     private remove(party: Party) {
-        this.partyList.splice(this.partyList.indexOf(party, 0), 1);
+        this.filteredPartyList.splice(this.filteredPartyList.indexOf(party, 0), 1);
     }
 
 
-    private view(party: Party) {
-        this.onView.emit(party)
+    private view(id: string) {
+        this.onView.emit(id)
     }
 
 
@@ -50,7 +58,7 @@ export class PartyGridComponent implements OnInit {
         let self: PartyGridComponent = this;
 
         return this.daoService.getParties().filter(function (value) {
-                for (let i: number = 0; i < self.partyList.length; i++) {
+                for (let i: number = 0; i < self.filteredPartyList.length; i++) {
                     if (self.partyList[i].id === value.id) {
                         return false;
                     }
@@ -68,7 +76,9 @@ export class PartyGridComponent implements OnInit {
         }
     }
 
-    search(filtered: Party[]){
-        this.filteredPartyList = filtered;
+    search(filtered: AppListObservable<Party[]>){
+      filtered.subscribe(parties => {
+        this.filteredPartyList = parties;
+      });
     }
 }

@@ -13,13 +13,13 @@ export class PartyResumeComponent {
     @Input() editable: boolean;
 
     @Output() onRemove = new EventEmitter<Party>();
-    @Output() onView = new EventEmitter<Party>();
+    @Output() onView = new EventEmitter<string>();
 
     constructor() { }
 
 
     private view() {
-        this.onView.emit(this.party);
+        this.onView.emit(this.party.id);
     }
 
 

@@ -28,14 +28,6 @@ export class ElectionListComponent implements OnInit, ObjectFromRoute {
 
 
     /**
-     * Atributo electionList.
-     *
-     * El tipo es Array<Election>
-     */
-    private _electionList: Array<Election>;
-
-
-    /**
      * Constructor de la clase.
      *
      * @param daoService
@@ -70,7 +62,6 @@ export class ElectionListComponent implements OnInit, ObjectFromRoute {
      * Implementa la función de la interfaz OnInit
      */
     ngOnInit() {
-        // this.electionList = this.daoService.getElections();
         this.initRouterHelper();
         this.initDialogService();
         this.readRoute();
@@ -141,6 +132,7 @@ export class ElectionListComponent implements OnInit, ObjectFromRoute {
 
 
     private create(navigated = false) {
+        // TODO
         //let election = Election.newInstance();
         this.openDialog('', navigated, true);
     }
