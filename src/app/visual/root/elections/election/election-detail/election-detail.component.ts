@@ -5,6 +5,7 @@ import {MdDialogRef} from "@angular/material";
 import {Party} from "../../../../../dao/model/party";
 import {DialogComponent} from "../../../../shared/dialog/dialog-component";
 import {Observable, BehaviorSubject} from "rxjs";
+import {DaoService} from "../../../../../dao/dao.service";
 
 
 /**
@@ -44,8 +45,9 @@ export class ElectionDetailComponent implements DialogComponent, OnInit {
      * Constructor de la clase.
      */
     constructor(private dialogRef: MdDialogRef<ElectionDetailComponent>,
+                private daoService: DaoService,
                 private router: Router) {
-      this.resizableSubscriber = new BehaviorSubject<boolean>(false)
+      this.resizableSubscriber = new BehaviorSubject<boolean>(false);
       this.onResize = this.resizableSubscriber.asObservable()
     }
 
@@ -124,6 +126,8 @@ export class ElectionDetailComponent implements DialogComponent, OnInit {
         if (!this.model.name) {
             this.editing = true;
         }
+        this.daoService.getElectionObjectObservable(this.model.id)
+          .subscribe( election => {console.log(election)})
     }
 
 

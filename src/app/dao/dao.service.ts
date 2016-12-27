@@ -5,6 +5,7 @@ import "rxjs/add/operator/toPromise";
 import {Region} from "./model/region";
 import {AngularFire} from "angularfire2";
 import {AppListObservable} from "./app-list-observable";
+import {AppObjectObservable} from "./model/app-object-observable";
 
 @Injectable()
 export class DaoService {
@@ -48,12 +49,16 @@ export class DaoService {
     return this.af.database.list('/rest/elections');
   }
 
+  getElectionObjectObservable(id: string): AppObjectObservable<Election> {
+    return this.af.database.object(`/rest/elections/${id}`);
+  }
+
   updateElection(id: string, election: Election): firebase.Promise<void> {
-    return this.af.database.object('/rest/rest/elections/' + id).update(election);
+    return this.getElectionObjectObservable(id).update(election);
   }
 
   deleteElection(id: string): firebase.Promise<void> {
-    return this.af.database.object('/rest/elections/' + id).remove();
+    return this.getElectionObjectObservable(id).remove();
   }
 
   ///////////
