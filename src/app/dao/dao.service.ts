@@ -53,7 +53,61 @@ export class DaoService {
   }
 
   getElectionObjectObservable(id: string): AppObjectObservable<Election> {
-    return this.af.database.object(`/rest/elections/${id}`);
+    let observable = this.af.database.object(`/rest/elections/${id}`);
+
+    observable.subscribe(election => {
+      console.log(election.partyList);
+
+      if (election.partyList == undefined){
+        election.partyList = []
+      } else {
+
+        for (let key in election.partyList) {
+
+
+
+          if (election.partyList.hasOwnProperty(key) &&
+            election.partyList[key] === true
+          ) {
+            election.partyList[key] = this.getPartyObjectObservable(key);
+          }
+
+        }
+
+
+        /*
+        this.af.database.list(`/rest/elections/${election.$key}/partyList`).subscribe(parties => {
+          parties.map(party => {
+            this.getPartyObjectObservable(party.$key).subscribe(partyObject =>{
+                party = partyObject;
+              console.log(parties);
+              }
+            )
+          });
+
+        })
+        */
+      }
+
+      /*
+      election.partyList.subscribe(party => {
+        console.log(party);
+      });
+      */
+
+      console.log(election.partyList);
+
+      for (let key in election.partyList) {
+        if (election.partyList.hasOwnProperty(key)) {
+          election.partyList[key].subscribe(party => {
+            console.log(party);
+          })
+        }
+      }
+
+    });
+
+    return observable;
   }
 
   updateElection(id: string, election: Election): firebase.Promise<void> {
