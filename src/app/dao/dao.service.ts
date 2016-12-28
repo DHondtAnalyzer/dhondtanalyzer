@@ -6,7 +6,7 @@ import "rxjs/add/operator/toPromise";
 import {Region} from "./model/region";
 import {AngularFire} from "angularfire2";
 import {AppListObservable} from "./app-list-observable";
-import {AppObjectObservable} from "./model/app-object-observable";
+import {AppObjectObservable} from "./app-object-observable";
 
 @Injectable()
 export class DaoService {

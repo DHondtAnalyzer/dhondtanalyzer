@@ -11,14 +11,14 @@ export class RegionResumeComponent {
     @Input() region: Region;
 
     @Output() onRemove = new EventEmitter<Region>();
-    @Output() onView = new EventEmitter<Region>();
+  @Output() onView = new EventEmitter<string>();
 
     constructor() { }
 
 
-    private view() {
-        this.onView.emit(this.region);
-    }
+  private view() {
+    this.onView.emit(this.region.id);
+  }
 
 
     private remove() {

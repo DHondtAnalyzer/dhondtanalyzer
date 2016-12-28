@@ -27,14 +27,6 @@ export class PartyListComponent implements OnInit, ObjectFromRoute {
 
 
     /**
-     * Atributo partyList.
-     *
-     * El tipo es Array<Party>
-     */
-    private _partyList: Array<Party>;
-
-
-    /**
      * Constructor de la clase.
      *
      * @param viewContainerRef

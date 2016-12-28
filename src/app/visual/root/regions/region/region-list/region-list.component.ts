@@ -6,6 +6,7 @@ import {DaoService} from "../../../../../dao/dao.service";
 import {RouterService} from "../../../../shared/router/router.service";
 import {DialogService} from "../../../../shared/dialog/dialog.service";
 import {RegionDetailComponent} from "../region-detail/region-detail.component";
+import {AppListObservable} from "../../../../../dao/app-list-observable";
 
 @Component({
   selector: 'app-region-list',
@@ -13,14 +14,6 @@ import {RegionDetailComponent} from "../region-detail/region-detail.component";
   styleUrls: ['./region-list.component.css']
 })
 export class RegionListComponent implements OnInit, ObjectFromRoute {
-
-
-    /**
-     * Atributo regionList.
-     *
-     * El tipo es Array<Region>
-     */
-    private _regionList: Array<Region>;
 
 
     /**
@@ -40,25 +33,14 @@ export class RegionListComponent implements OnInit, ObjectFromRoute {
     }
 
 
-    /**
-     * Getter del atributo regionList.
-     *
-     * @returns {Array<Party>}
-     */
-    get regionList(): Array<Region> {
-        return this._regionList;
-    }
-
-
-    /**
-     * Setter del atributo regionList.
-     *
-     * @param value
-     */
-    set regionList(value: Array<Region>) {
-        this._regionList = value;
-    }
-
+  /**
+   * Getter del atributo regionList.
+   *
+   * @returns {Array<Party>}
+   */
+  get regionList(): AppListObservable<Array<Region>> {
+    return this.daoService.getRegionListObservable();
+  }
 
     /**
      * Función ngOnInit.
@@ -66,7 +48,6 @@ export class RegionListComponent implements OnInit, ObjectFromRoute {
      * Implementa la función de la interfaz OnInit
      */
     ngOnInit() {
-        this.regionList = this.daoService.getRegions();
         this.initRouterHelper();
         this.initDialogHelper();
         this.readRoute();
@@ -108,22 +89,22 @@ export class RegionListComponent implements OnInit, ObjectFromRoute {
     }
 
 
-    /**
-     * Función openDialog.
-     *
-     * Es la función encargada de mostrar en pantalla el detalle de un
-     * partido político a partir de un diálogo que contiene el contenido del
-     * component PartyDetailComponent.
-     *
-     * @param id string que representa el id del partido a mostrar.
-     * @param navigated boolean que indica si se ha hacedido a la url por
-     * navegación.
-     * @param newParty
-     */
-    private openDialog(id: string, navigated = false,
-                       newParty = false): void {
-        this.dialogService.openDialog(id, navigated, newParty);
-    }
+  /**
+   * Función openDialog.
+   *
+   * Es la función encargada de mostrar en pantalla el detalle de un
+   * partido político a partir de un diálogo que contiene el contenido del
+   * component PartyDetailComponent.
+   *
+   * @param id string que representa el id del partido a mostrar.
+   * @param navigated boolean que indica si se ha hacedido a la url por
+   * navegación.
+   * @param newModel
+   */
+  private openDialog(id: string, navigated = false,
+                     newModel = false): void {
+    this.dialogService.openDialog(id, navigated, newModel);
+  }
 
 
     private create(navigated = false) {

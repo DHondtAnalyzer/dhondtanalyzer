@@ -6,6 +6,8 @@ import {Router} from "@angular/router";
 import {Election} from "../../../../../dao/model/election";
 import {DialogComponent} from "../../../../shared/dialog/dialog-component";
 import {BehaviorSubject, Observable} from "rxjs";
+import {DaoService} from "../../../../../dao/dao.service";
+import {AppListObservable} from "../../../../../dao/app-list-observable";
 
 @Component({
     selector: 'app-region-detail',
@@ -36,16 +38,17 @@ export class RegionDetailComponent implements DialogComponent, OnInit {
      */
     private _onResize;
 
-    /**
-     * Constructor de la clase.
-     */
-    constructor(private dialogRef: MdDialogRef<RegionDetailComponent>,
-                private router: Router) {
-      this.resizableSubscriber = new BehaviorSubject<boolean>(false)
+  /**
+   * Constructor de la clase.
+   */
+  constructor(private dialogRef: MdDialogRef<RegionDetailComponent>,
+              private daoService: DaoService,
+              private router: Router) {
+    this.resizableSubscriber = new BehaviorSubject<boolean>(false)
 
-      this.onResize = this.resizableSubscriber.asObservable()
+    this.onResize = this.resizableSubscriber.asObservable()
 
-    }
+  }
 
 
     /**
@@ -70,30 +73,35 @@ export class RegionDetailComponent implements DialogComponent, OnInit {
     }
 
 
-    /**
-     * Getter del atributo party.
-     *
-     * Se ha creado para facilitar la comprensión del código refiriendose
-     * directamente como un partido y no como un modelo.
-     *
-     * @returns {Party}
-     */
-    get region(): Region {
-        return this.region;
-    }
+  /**
+   * Getter del atributo party.
+   *
+   * Se ha creado para facilitar la comprensión del código refiriendose
+   * directamente como un partido y no como un modelo.
+   *
+   * @returns {Party}
+   */
+  get region(): Region {
+      return this._model;
+  }
 
 
-    /**
-     * Setter del atributo party.
-     *
-     * Se ha creado para facilitar la comprensión del código refiriendose
-     * directamente como un partido y no como un modelo.
-     *
-     * @returns {Party}
-     */
-    set region(value: Region) {
-        this.region = value;
-    }
+  /**
+   * Setter del atributo party.
+   *
+   * Se ha creado para facilitar la comprensión del código refiriendose
+   * directamente como un partido y no como un modelo.
+   *
+   * @returns {Party}
+   */
+  set region(value: Region) {
+      this._model = value;
+  }
+
+  get electionList(): AppListObservable<Election[]> {
+    //TODO
+    return this.daoService.getElectionListObservable();
+  }
 
 
   /**
@@ -118,11 +126,18 @@ export class RegionDetailComponent implements DialogComponent, OnInit {
   }
 
 
-    ngOnInit(): void {
-        if (!this.region.name) {
-            this.editing = true;
-        }
-    }
+  ngOnInit(): void {
+    this.region = Region.newInstance();
+    this.daoService.getRegionObjectObservable(this.id)
+      .subscribe(item => {
+        this.region = item;
+      });
+    /*
+     if (!this.region.name) {
+     this.editing = true;
+     }
+     */
+  }
 
 
     /**
@@ -135,10 +150,10 @@ export class RegionDetailComponent implements DialogComponent, OnInit {
     }
 
 
-    private navigateToElection(election: Election) {
-        this.closeDialog();
-        this.router.navigate(['/app/elections', election.id]);
-    }
+  private navigateToElection(id: string) {
+    this.closeDialog();
+    this.router.navigate(['/app/elections', id]);
+  }
 
 
 
