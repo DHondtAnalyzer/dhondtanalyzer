@@ -61,12 +61,16 @@ export class PartyGridComponent implements OnInit {
         let self: PartyGridComponent = this;
 
         return this.daoService.getParties().filter(function (value) {
+          //TODO
+          return true;
+                /*
                 for (let i: number = 0; i < self.filteredPartyList.length; i++) {
                     if (self.partyList[i].id === value.id) {
                         return false;
                     }
                 }
                 return true;
+                */
             }
         );
     }

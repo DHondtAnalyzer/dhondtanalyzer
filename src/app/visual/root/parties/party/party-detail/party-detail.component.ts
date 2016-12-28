@@ -152,9 +152,9 @@ export class PartyDetailComponent implements DialogComponent, OnInit {
         this.dialogRef.close();
     }
 
-    private navigateToElection(election: Election) {
+    private navigateToElection(id: string) {
         this.closeDialog();
-        this.router.navigate(['/app/elections', election.id]);
+        this.router.navigate(['/app/elections', id]);
     }
 
 
