@@ -21,8 +21,11 @@ export class ElectionGridComponent implements OnInit {
     constructor() {
     }
 
-    ngOnInit() {
-    }
+  ngOnInit() {
+    this.electionList.subscribe(elections => {
+      this.filteredElectionList = elections;
+    });
+  }
 
   get filteredElectionList(): Election[] {
     return this._filteredElectionList;

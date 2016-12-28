@@ -137,7 +137,7 @@ export class ElectionDetailComponent implements DialogComponent, OnInit {
       */
     }
 
-    
+
   get districtList(): AppListObservable<District[]> {
     //TODO
     return null;
@@ -145,7 +145,7 @@ export class ElectionDetailComponent implements DialogComponent, OnInit {
 
   get partyList(): AppListObservable<Party[]> {
     //TODO
-    return null;
+    return this.daoService.getPartyListObservable();
   }
 
     /**

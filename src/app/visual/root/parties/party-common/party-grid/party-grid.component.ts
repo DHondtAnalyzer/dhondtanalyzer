@@ -25,6 +25,9 @@ export class PartyGridComponent implements OnInit {
 
 
     ngOnInit() {
+      this.partyList.subscribe(parties => {
+        this.filteredPartyList = parties;
+      });
     }
 
   get filteredPartyList(): Party[] {

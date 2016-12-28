@@ -139,7 +139,7 @@ export class PartyDetailComponent implements DialogComponent, OnInit {
 
     get electionList(): AppListObservable<Election[]> {
       //TODO
-      return null;
+      return this.daoService.getElectionListObservable();
     }
 
 
