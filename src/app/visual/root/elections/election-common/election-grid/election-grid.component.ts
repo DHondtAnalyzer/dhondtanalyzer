@@ -1,4 +1,4 @@
-import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
+import {Component, OnInit, EventEmitter, Input, Output, OnChanges, SimpleChanges} from '@angular/core';
 
 import {Election} from "../../../../../dao/model/election";
 import {AppListObservable} from "../../../../../dao/app-list-observable";
@@ -9,8 +9,7 @@ import {AppList} from "../../../../../dao/app-list";
     templateUrl: './election-grid.component.html',
     styleUrls: ['./election-grid.component.css']
 })
-export class ElectionGridComponent implements OnInit {
-
+export class ElectionGridComponent implements OnInit, OnChanges {
   private _filteredElectionList: AppList<Election>;
 
   @Input() electionList: AppList<Election>;
@@ -23,6 +22,10 @@ export class ElectionGridComponent implements OnInit {
     }
 
   ngOnInit() {
+    this.filteredElectionList = this.electionList;
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
     this.filteredElectionList = this.electionList;
   }
 

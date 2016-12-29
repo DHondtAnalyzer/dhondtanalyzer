@@ -7,6 +7,9 @@ import {DialogComponent} from "../../../../shared/dialog/dialog-component";
 import {BehaviorSubject, Observable} from "rxjs";
 import {DaoService} from "../../../../../dao/dao.service";
 import {AppList} from "../../../../../dao/app-list";
+import 'rxjs/add/operator/map';
+import {District} from "../../../../../dao/model/district";
+import {AppListObservableObject} from "../../../../../dao/app-list-observable-object";
 
 @Component({
     selector: 'app-region-detail',
@@ -29,7 +32,7 @@ export class RegionDetailComponent implements DialogComponent, OnInit {
      */
     private _model: Region;
     private _id: string;
-
+    private _electionList: AppList<Election>;
     /**
      *
      * @type {"../../Observable".Observable<T>}
@@ -98,8 +101,11 @@ export class RegionDetailComponent implements DialogComponent, OnInit {
   }
 
   get electionList(): AppList<Election> {
-    //TODO
-    return this.daoService.getElectionListObservable();
+    return this._electionList;
+  }
+
+  set electionList(value: AppList<Election>) {
+    this._electionList = value;
   }
 
 
@@ -130,6 +136,14 @@ export class RegionDetailComponent implements DialogComponent, OnInit {
     this.daoService.getRegionObjectObservable(this.id)
       .subscribe(item => {
         this.region = item;
+        if (!this.electionList) {
+          this.region.districtList.subscribe((districtList: District[]) => {
+            this.electionList = new AppListObservableObject<Election>();
+            districtList.forEach((district: District) => {
+              this.electionList.push(district.election);
+            });
+          });
+        }
       });
     /*
      if (!this.region.name) {
@@ -185,7 +199,6 @@ export class RegionDetailComponent implements DialogComponent, OnInit {
     this.isFullScreen = !this.isFullScreen;
     this.resizableSubscriber.next(this.isFullScreen);
   }
-
 
 
   /**

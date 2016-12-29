@@ -1,6 +1,6 @@
 import {District} from "./district";
 import {Election} from "./election";
-import {Party} from "./party";
+import {AppListObservableObject} from "../app-list-observable-object";
 /**
  * Created by garciparedes on 16/11/2016.
  */
@@ -9,7 +9,7 @@ export class Region {
     id: string;
 
     name: string;
-    districtList: District[];
+    districtList: AppListObservableObject<District>;
 
     public static newInstance(name?:string): Region {
         let region = new Region(name);
@@ -18,14 +18,13 @@ export class Region {
     }
 
 
-    private constructor(name?: string) {
+    private constructor(name?: string, districtList?: AppListObservableObject<District>) {
         this.name = name;
-        this.districtList = [];
+        this.districtList = districtList;
     }
 
     get electionList(): Election[] {
         let electionList: Array<Election> = [];
-
         /*
         //TODO
         this.districtList.forEach(function (value) {

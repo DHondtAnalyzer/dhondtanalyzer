@@ -15,13 +15,10 @@ export class District {
   seats: number;
   census: number;
 
-  election: Election | AppObjectObservable<Election>;
+  election: AppObjectObservable<Election>;
 
   region: AppObjectObservable<Region>;
   voteCountList: VoteCount[];
-
-
-  private nameSubscriber: BehaviorSubject<string>;
 
   public static newInstance(region?: AppObjectObservable<Region>,
                             seats?: number, census?: number): District {

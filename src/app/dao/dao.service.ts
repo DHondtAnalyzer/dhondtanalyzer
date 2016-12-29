@@ -6,7 +6,6 @@ import "rxjs/add/operator/toPromise";
 import 'rxjs/add/operator/map';
 import {Region} from "./model/region";
 import {AngularFire} from "angularfire2";
-import {AppListObservable} from "./app-list-observable";
 import {AppObjectObservable} from "./app-object-observable";
 import {AppListObservableObject} from "./app-list-observable-object";
 import {AppList} from "./app-list";
@@ -211,7 +210,26 @@ export class DaoService {
   }
 
   getRegionObjectObservable(id: string, deep: number = 1): AppObjectObservable<Region> {
-    return this.af.database.object(`/rest/regions/${id}`);
+    return <AppObjectObservable<Region>>this.af.database.object(`/rest/regions/${id}`).map((region: Region) => {
+
+      // TODO Refactor code to extract it in functions.
+      if (deep) {
+        let electionKeys: string[];
+        if (region.districtList) {
+          electionKeys = Object.keys(region.districtList);
+        } else {
+          electionKeys = [];
+        }
+
+        region.districtList = new AppListObservableObject<District>();
+        electionKeys.map(key => {
+          region.districtList.push(this.getDistrictObjectObservable(key, deep));
+        });
+
+      }
+
+      return region;
+    });
   }
 
   updateRegion(id: string, region: Region): firebase.Promise<void> {

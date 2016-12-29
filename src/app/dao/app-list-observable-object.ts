@@ -1,24 +1,34 @@
 import {AppObjectObservable} from "./app-object-observable";
 import {BehaviorSubject, Subscription} from "rxjs";
+import 'rxjs/add/operator/map';
 
 
 /**
  * Created by garciparedes on 29/12/2016.
  */
-export class AppListObservableObject<T>{
+export class AppListObservableObject<T> {
 
-  private observableList: Array<AppObjectObservable<T>>;
+  private observableList: AppObjectObservable<T>[];
   private itemList: Array<T>;
 
 
   private subscriber: BehaviorSubject<Array<T>>;
 
 
-  constructor() {
+  constructor(observableList: AppObjectObservable<T>[] = []) {
+
     this.subscriber = new BehaviorSubject<Array<T>>([]);
     this.subscriber.asObservable();
-    this.observableList = [];
+    this.observableList = observableList;
     this.itemList = [];
+
+    this.observableList.forEach(obs => {
+      obs.subscribe(i => {
+        this.itemList.push(i);
+        this.subscriber.next(this.itemList);
+      })
+    });
+    this.subscriber.next(this.itemList);
   }
 
   subscribe(next?: (value: T[]) => void, error?: (error: any) => void, complete?: () => void): Subscription {
