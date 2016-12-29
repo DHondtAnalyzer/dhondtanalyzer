@@ -3,10 +3,12 @@ import {Party} from "./model/party";
 import {District} from "./model";
 import {Injectable} from "@angular/core";
 import "rxjs/add/operator/toPromise";
+import 'rxjs/add/operator/map';
 import {Region} from "./model/region";
 import {AngularFire} from "angularfire2";
 import {AppListObservable} from "./app-list-observable";
 import {AppObjectObservable} from "./app-object-observable";
+import {AppListObservableObject} from "./app-list-observable-object";
 
 @Injectable()
 export class DaoService {
@@ -32,7 +34,7 @@ export class DaoService {
     if (this._electionList === undefined) {
       this._electionList = [];
       this.getElectionListObservable().subscribe(elections => {
-        if(elections)
+        if (elections)
           this._electionList = elections;
         else
           this._electionList = [];
@@ -53,61 +55,24 @@ export class DaoService {
   }
 
   getElectionObjectObservable(id: string): AppObjectObservable<Election> {
-    let observable = this.af.database.object(`/rest/elections/${id}`);
+    let observable: AppObjectObservable<Election> = this.af.database.object(`/rest/elections/${id}`);
 
-    observable.subscribe(election => {
-      console.log(election.partyList);
+    return <AppObjectObservable<Election>>observable.map(election => {
 
-      if (election.partyList == undefined){
-        election.partyList = []
-      } else {
+      let keys: string[] = [];
 
-        for (let key in election.partyList) {
-
-
-
-          if (election.partyList.hasOwnProperty(key) &&
-            election.partyList[key] === true
-          ) {
-            election.partyList[key] = this.getPartyObjectObservable(key);
-          }
-
-        }
-
-
-        /*
-        this.af.database.list(`/rest/elections/${election.$key}/partyList`).subscribe(parties => {
-          parties.map(party => {
-            this.getPartyObjectObservable(party.$key).subscribe(partyObject =>{
-                party = partyObject;
-              console.log(parties);
-              }
-            )
-          });
-
-        })
-        */
+      if (election.partyList) {
+        keys = Object.keys(election.partyList);
       }
 
-      /*
-      election.partyList.subscribe(party => {
-        console.log(party);
+      election.partyList = new AppListObservableObject<Party>();
+
+      keys.map(key => {
+        election.partyList.push(this.getPartyObjectObservable(key));
       });
-      */
 
-      console.log(election.partyList);
-
-      for (let key in election.partyList) {
-        if (election.partyList.hasOwnProperty(key)) {
-          election.partyList[key].subscribe(party => {
-            console.log(party);
-          })
-        }
-      }
-
+      return election;
     });
-
-    return observable;
   }
 
   updateElection(id: string, election: Election): firebase.Promise<void> {
@@ -130,7 +95,7 @@ export class DaoService {
     if (this._partyList === undefined) {
       this._partyList = [];
       this.getPartyListObservable().subscribe(parties => {
-        if(parties)
+        if (parties)
           this._partyList = parties;
         else
           this._partyList = [];
@@ -148,6 +113,10 @@ export class DaoService {
 
   getPartyListObservable(): AppListObservable<Party[]> {
     return this.af.database.list('/rest/parties');
+  }
+
+  getElectionFilteredPartyListObservable(key: string): AppListObservable<Party[]> {
+    return this.af.database.list(`/rest/elections/${key}/partyList`);
   }
 
   getPartyObjectObservable(id: string): AppObjectObservable<Party> {
@@ -174,7 +143,7 @@ export class DaoService {
     if (this._regionList === undefined) {
       this._regionList = [];
       this.getRegionListObservable().subscribe(regions => {
-        if(regions)
+        if (regions)
           this._regionList = regions;
         else
           this._regionList = [];
@@ -219,7 +188,7 @@ export class DaoService {
     if (this._districtList === undefined) {
       this._districtList = [];
       this.getDistrictListObservable().subscribe(districts => {
-        if(districts)
+        if (districts)
           this._districtList = districts;
         else
           this._districtList = [];
