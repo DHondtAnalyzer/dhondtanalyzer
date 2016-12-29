@@ -6,7 +6,6 @@ import {Party} from "../../../../../dao/model/party";
 import {DialogComponent} from "../../../../shared/dialog/dialog-component";
 import {Observable, BehaviorSubject} from "rxjs";
 import {DaoService} from "../../../../../dao/dao.service";
-import {AppListObservable} from "../../../../../dao/app-list-observable";
 import {District} from "../../../../../dao/model/district";
 import {AppList} from "../../../../../dao/app-list";
 
@@ -132,9 +131,8 @@ export class ElectionDetailComponent implements DialogComponent, OnInit {
       this.daoService.getElectionObjectObservable(this.id)
         .subscribe( election => {
           this.election = election;
-          this.election.partyList.subscribe( a => {
-            console.log(a);
-            })
+          //this.election.partyList.subscribe( a => { console.log(a); });
+          this.election.districtList.subscribe( a => { console.log(a); })
         });
       /*
       if (!this.election.name) {
@@ -144,9 +142,8 @@ export class ElectionDetailComponent implements DialogComponent, OnInit {
     }
 
 
-  get districtList(): AppListObservable<District[]> {
-    //TODO
-    return null;
+  get districtList(): AppList<District> {
+    return this.election.districtList;
   }
 
   get partyList(): AppList<Party> {

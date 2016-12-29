@@ -16,15 +16,22 @@ export class DistrictResumeComponent implements OnInit {
 
     private editing: boolean;
 
+  private name: string;
+  private id: string;
+
     constructor(private route: Router) { }
 
-    ngOnInit() {
-        if (!this.district.region || ! this.district.census ||
-            !this.district.seats) {
+  ngOnInit() {
+    if (!this.district.region || !this.district.census || !this.district.seats) {
 
-            this.editing = true;
-        }
+      this.editing = true;
     }
+
+    this.district.region.subscribe(r => {
+      this.name = r.name;
+      this.id = r.id;
+    });
+  }
 
     private save(){
         this.editing = false;
@@ -34,10 +41,11 @@ export class DistrictResumeComponent implements OnInit {
         this.editing = true;
     }
 
-    private view() {
-        this.onRoute.emit();
-        this.route.navigate(['/app/regions', this.district.region.id]);
-    }
+
+  private view() {
+    this.onRoute.emit();
+    this.route.navigate(['/app/regions', this.id]);
+  }
 
 
     private remove() {

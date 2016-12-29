@@ -26,10 +26,12 @@ export class Region {
     get electionList(): Election[] {
         let electionList: Array<Election> = [];
 
+        /*
+        //TODO
         this.districtList.forEach(function (value) {
             electionList.push(value.election);
         });
-
+        */
         return electionList
     }
 }

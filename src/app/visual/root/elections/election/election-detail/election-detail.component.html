@@ -43,18 +43,15 @@
       <template md-tab-label>
         Districts
       </template>
-      <!--
-      TODO
       <app-district-grid [editable]="true" [districtList]="districtList"
                          (onRoute)="closeDialog()"></app-district-grid>
-      -->
     </md-tab>
     <md-tab>
       <template md-tab-label>
         Parties
       </template>
       <app-party-grid [editable]="true" [partyList]="partyList"
-                (onView)="navigateToParty($event)"></app-party-grid>
+                      (onView)="navigateToParty($event)"></app-party-grid>
     </md-tab>
   </md-tab-group>
 </div>

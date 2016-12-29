@@ -2,6 +2,7 @@ import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {District} from "../../../../dao/model/district";
 import {DaoService} from "../../../../dao/dao.service";
 import {Region} from "../../../../dao/model/region";
+import {AppList} from "../../../../dao/app-list";
 
 @Component({
     selector: 'app-district-grid',
@@ -11,7 +12,7 @@ import {Region} from "../../../../dao/model/region";
 export class DistrictGridComponent implements OnInit {
 
 
-    @Input() districtList: District[];
+    @Input() districtList: AppList<District>;
     @Input() editable: boolean;
     @Output() onRoute = new EventEmitter<void>();
 
@@ -23,20 +24,26 @@ export class DistrictGridComponent implements OnInit {
 
 
     private addDistrict(region: Region): void {
+      /*
         if (region) {
             this.districtList.push(District.newInstance(region));
         }
+      */
     }
 
     private remove(district: District) {
-        this.districtList.splice(this.districtList.indexOf(district, 0), 1);
+      //TODO
+      //this.districtList.splice(this.districtList.indexOf(district, 0), 1);
     }
 
     private routeChanged(): void {
         this.onRoute.emit()
     }
 
-    private get posibleRegions(): Region[] {
+    private get posibleRegions(): AppList<Region> {
+      return this.daoService.getRegionListObservable();
+
+      /*
         // Necessary because of JS function scope
         let self:DistrictGridComponent = this;
 
@@ -50,6 +57,6 @@ export class DistrictGridComponent implements OnInit {
                 return true;
             }
         );
-
+        */
     }
 }

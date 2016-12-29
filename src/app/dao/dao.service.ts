@@ -92,7 +92,7 @@ export class DaoService {
 
         election.districtList = new AppListObservableObject<District>();
         districtKeys.map(key => {
-          election.districtList.push(this.getDistrictObjectObservable(key, deep - 1));
+          election.districtList.push(this.getDistrictObjectObservable(key, deep));
         });
       }
 
@@ -260,7 +260,32 @@ export class DaoService {
   }
 
   getDistrictObjectObservable(id: string, deep: number = 1): AppObjectObservable<District> {
-    return this.af.database.object(`/rest/districts/${id}`);
+    //return this.af.database.object(`/rest/districts/${id}`);
+
+    return <AppObjectObservable<District>>this.af.database.object(`/rest/districts/${id}`).map((district: District) => {
+
+      // TODO Refactor code to extract it in functions.
+      if (deep) {
+        let electionKeys: string[];
+        if (district.election) {
+          electionKeys = Object.keys(district.election);
+        } else {
+          electionKeys = [];
+        }
+        district.election = this.getElectionObjectObservable(electionKeys[0], deep - 1);
+
+
+        let regionKeys: string[];
+        if (district.region) {
+          regionKeys = Object.keys(district.region);
+        } else {
+          regionKeys = [];
+        }
+        district.region = this.getRegionObjectObservable(regionKeys[0], deep - 1);
+      }
+
+      return district;
+    });
   }
 
   updateDistrict(id: string, district: District): firebase.Promise<void> {
