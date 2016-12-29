@@ -6,7 +6,7 @@ import {DaoService} from "../../../../../dao/dao.service";
 import {RouterService} from "../../../../shared/router/router.service";
 import {DialogService} from "../../../../shared/dialog/dialog.service";
 import {RegionDetailComponent} from "../region-detail/region-detail.component";
-import {AppListObservable} from "../../../../../dao/app-list-observable";
+import {AppList} from "../../../../../dao/app-list";
 
 @Component({
   selector: 'app-region-list',
@@ -38,7 +38,7 @@ export class RegionListComponent implements OnInit, ObjectFromRoute {
    *
    * @returns {Array<Party>}
    */
-  get regionList(): AppListObservable<Array<Region>> {
+  get regionList(): AppList<Region> {
     return this.daoService.getRegionListObservable();
   }
 

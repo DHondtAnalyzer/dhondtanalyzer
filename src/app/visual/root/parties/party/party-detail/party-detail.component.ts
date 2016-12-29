@@ -8,6 +8,7 @@ import {DialogComponent} from "../../../../shared/dialog/dialog-component";
 import {Observable, BehaviorSubject} from "rxjs";
 import {DaoService} from "../../../../../dao/dao.service";
 import {AppListObservable} from "../../../../../dao/app-list-observable";
+import {AppList} from "../../../../../dao/app-list";
 
 
 /**
@@ -137,10 +138,9 @@ export class PartyDetailComponent implements DialogComponent, OnInit {
          */
     }
 
-    get electionList(): AppListObservable<Election[]> {
-      //TODO
-      return this.daoService.getElectionListObservable();
-    }
+  get electionList(): AppList<Election> {
+    return this.party.electionList;
+  }
 
 
     /**

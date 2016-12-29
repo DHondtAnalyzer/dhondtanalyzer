@@ -1,13 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {Region} from "../../../../../dao/model/region";
-import {ComponentWithParams} from "../../../../shared/component-with-params";
 import {MdDialogRef} from "@angular/material";
 import {Router} from "@angular/router";
 import {Election} from "../../../../../dao/model/election";
 import {DialogComponent} from "../../../../shared/dialog/dialog-component";
 import {BehaviorSubject, Observable} from "rxjs";
 import {DaoService} from "../../../../../dao/dao.service";
-import {AppListObservable} from "../../../../../dao/app-list-observable";
+import {AppList} from "../../../../../dao/app-list";
 
 @Component({
     selector: 'app-region-detail',
@@ -98,7 +97,7 @@ export class RegionDetailComponent implements DialogComponent, OnInit {
       this._model = value;
   }
 
-  get electionList(): AppListObservable<Election[]> {
+  get electionList(): AppList<Election> {
     //TODO
     return this.daoService.getElectionListObservable();
   }
