@@ -26,17 +26,34 @@ div.cdk-focus-trap-content {
 }
 
 .md-dialog-container-normal-size {
-  height: 70vh;
+  height: 80vh;
 }
+
 
 .md-dialog-container-full-size {
   height: 100vh;
 }
 
 .md-overlay-pane-normal-size {
-  width: 85%;
+  width: 85vw;
 }
 
 .md-overlay-pane-full-size {
-  width: 100%;
+  width: 100vw;
+}
+
+
+
+@media (max-width: 768px) {
+
+  .md-button-ripple-resizable {
+    visibility: hidden;
+  }
+
+  .md-dialog-container-normal-size {
+    height: 100vh;
+  }
+  .md-overlay-pane-normal-size {
+    width: 100vw;
+  }
 }
