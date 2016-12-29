@@ -9,6 +9,7 @@ import {AngularFire} from "angularfire2";
 import {AppListObservable} from "./app-list-observable";
 import {AppObjectObservable} from "./app-object-observable";
 import {AppListObservableObject} from "./app-list-observable-object";
+import {AppList} from "./app-list";
 
 @Injectable()
 export class DaoService {
@@ -17,6 +18,12 @@ export class DaoService {
   private _partyList: Party[];
   private _regionList: Region[];
   private _districtList: District[];
+
+
+  private electionListObs: AppList<Election>;
+  private partyListObs: AppList<Party>;
+  private regionListObs: AppList<Region>;
+  private districtListObs: AppList<District>;
 
   constructor(private af: AngularFire) {
   }
@@ -50,26 +57,44 @@ export class DaoService {
     return null;
   }
 
-  getElectionListObservable(): AppListObservable<Election[]> {
-    return this.af.database.list('/rest/elections');
+  getElectionListObservable(): AppList<Election> {
+    if (!this.electionListObs) {
+      this.electionListObs = this.af.database.list('/rest/elections')
+    }
+    return this.electionListObs;
   }
 
   getElectionObjectObservable(id: string): AppObjectObservable<Election> {
-    let observable: AppObjectObservable<Election> = this.af.database.object(`/rest/elections/${id}`);
 
-    return <AppObjectObservable<Election>>observable.map(election => {
+    return <AppObjectObservable<Election>>this.af.database.object(`/rest/elections/${id}`).map(election => {
 
-      let keys: string[] = [];
+      // TODO Refactor code to extract it in functions.
 
+      let partyKeys: string[];
       if (election.partyList) {
-        keys = Object.keys(election.partyList);
+        partyKeys = Object.keys(election.partyList);
+      } else {
+        partyKeys = [];
       }
 
       election.partyList = new AppListObservableObject<Party>();
-
-      keys.map(key => {
+      partyKeys.map(key => {
         election.partyList.push(this.getPartyObjectObservable(key));
       });
+
+
+      let districtKeys: string[];
+      if (election.districtList) {
+        districtKeys = Object.keys(election.districtList);
+      } else {
+        districtKeys = [];
+      }
+
+      election.districtList = new AppListObservableObject<District>();
+      districtKeys.map(key => {
+        election.districtList.push(this.getDistrictObjectObservable(key));
+      });
+
 
       return election;
     });
@@ -111,12 +136,12 @@ export class DaoService {
     return null;
   }
 
-  getPartyListObservable(): AppListObservable<Party[]> {
-    return this.af.database.list('/rest/parties');
-  }
+  getPartyListObservable(): AppList<Party> {
 
-  getElectionFilteredPartyListObservable(key: string): AppListObservable<Party[]> {
-    return this.af.database.list(`/rest/elections/${key}/partyList`);
+    if (!this.partyListObs) {
+      this.partyListObs = this.af.database.list('/rest/parties');
+    }
+    return this.partyListObs;
   }
 
   getPartyObjectObservable(id: string): AppObjectObservable<Party> {
@@ -159,8 +184,11 @@ export class DaoService {
     return null;
   }
 
-  getRegionListObservable(): AppListObservable<Region[]> {
-    return this.af.database.list('/rest/regions');
+  getRegionListObservable(): AppList<Region> {
+    if (!this.regionListObs) {
+      this.regionListObs = this.af.database.list('/rest/regions');
+    }
+    return this.regionListObs;
   }
 
   getRegionObjectObservable(id: string): AppObjectObservable<Region> {
@@ -204,8 +232,12 @@ export class DaoService {
     return null;
   }
 
-  getDistrictListObservable(): AppListObservable<District[]> {
-    return this.af.database.list('/rest/districts');
+  getDistrictListObservable(): AppList<District> {
+
+    if (!this.districtListObs) {
+      this.districtListObs = this.af.database.list('/rest/districts');
+    }
+    return this.districtListObs;
   }
 
   getDistrictObjectObservable(id: string): AppObjectObservable<District> {

@@ -9,6 +9,7 @@ import {PartyDetailComponent} from "../party-detail/party-detail.component";
 import {RouterService} from "../../../../shared/router/router.service";
 import {ObjectFromRoute} from "../../../../shared/router/object-from-route";
 import {AppListObservable} from "../../../../../dao/app-list-observable";
+import {AppList} from "../../../../../dao/app-list";
 
 
 /**
@@ -48,7 +49,7 @@ export class PartyListComponent implements OnInit, ObjectFromRoute {
    *
    * @returns {Array<Party>}
    */
-  get partyList(): AppListObservable<Array<Party>> {
+  get partyList(): AppList<Party> {
     return this.daoService.getPartyListObservable();
   }
 

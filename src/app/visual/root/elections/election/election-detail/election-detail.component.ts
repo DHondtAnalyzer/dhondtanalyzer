@@ -151,7 +151,6 @@ export class ElectionDetailComponent implements DialogComponent, OnInit {
 
   get partyList(): AppList<Party> {
     return this.election.partyList;
-    //return this.daoService.getPartyListObservable();
   }
 
     /**

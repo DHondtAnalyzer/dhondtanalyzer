@@ -25,12 +25,8 @@ export class AppListObservableObject<T>{
     return this.subscriber.asObservable().subscribe(next, error, complete);
   }
 
-  map<U>(callbackfn: (value: T, index: number, array: T[]) => U, thisArg?: any): U[]{
-    return this.itemList.map(callbackfn, thisArg);
-  }
 
-
-  push(item: AppObjectObservable<T>) {
+  push(item) {
     this.observableList.push(item);
     item.subscribe(i => {
       this.itemList.push(i);

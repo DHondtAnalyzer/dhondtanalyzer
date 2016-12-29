@@ -5,7 +5,7 @@
   </div>
 
 
-  <div class="{{cardColClass}}" *ngFor="let region of filteredRegionList">
+  <div class="{{cardColClass}}" *ngFor="let region of filteredRegionList | async">
     <app-region-resume [region]="region" (onView)="view($event)"></app-region-resume>
   </div>
 </div>

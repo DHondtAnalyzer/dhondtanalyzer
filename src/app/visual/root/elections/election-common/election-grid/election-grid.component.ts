@@ -2,6 +2,7 @@ import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
 
 import {Election} from "../../../../../dao/model/election";
 import {AppListObservable} from "../../../../../dao/app-list-observable";
+import {AppList} from "../../../../../dao/app-list";
 
 @Component({
     selector: 'app-election-grid',
@@ -10,9 +11,9 @@ import {AppListObservable} from "../../../../../dao/app-list-observable";
 })
 export class ElectionGridComponent implements OnInit {
 
-    private _filteredElectionList: Election[];
+  private _filteredElectionList: AppList<Election>;
 
-    @Input() electionList: AppListObservable<Election[]>;
+  @Input() electionList: AppList<Election>;
     @Input() searchable: boolean;
     @Input() big: boolean;
 
@@ -22,16 +23,14 @@ export class ElectionGridComponent implements OnInit {
     }
 
   ngOnInit() {
-    this.electionList.subscribe(elections => {
-      this.filteredElectionList = elections;
-    });
+    this.filteredElectionList = this.electionList;
   }
 
-  get filteredElectionList(): Election[] {
+  get filteredElectionList(): AppList<Election> {
     return this._filteredElectionList;
   }
 
-  set filteredElectionList(value: Election[]) {
+  set filteredElectionList(value: AppList<Election>) {
     this._filteredElectionList = value;
   }
 
@@ -53,9 +52,7 @@ export class ElectionGridComponent implements OnInit {
         }
     }
 
-  search(filtered: AppListObservable<Election[]>){
-    filtered.subscribe(elections => {
-      this.filteredElectionList = elections;
-    });
+  search(filtered: AppList<Election>){
+      this.filteredElectionList = filtered;
   }
 }

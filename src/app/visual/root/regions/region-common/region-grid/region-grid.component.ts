@@ -1,6 +1,7 @@
 import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {Region} from "../../../../../dao/model/region";
 import {AppListObservable} from "../../../../../dao/app-list-observable";
+import {AppList} from "../../../../../dao/app-list";
 
 @Component({
     selector: 'app-region-grid',
@@ -9,10 +10,10 @@ import {AppListObservable} from "../../../../../dao/app-list-observable";
 })
 export class RegionGridComponent implements OnInit {
 
-  private _filteredRegionList: Region[];
+  private _filteredRegionList: AppList<Region>;
 
 
-  @Input() regionList: AppListObservable<Region[]>;
+  @Input() regionList: AppList<Region>;
     @Input() searchable: boolean;
     @Input() big: boolean;
 
@@ -22,16 +23,14 @@ export class RegionGridComponent implements OnInit {
     }
 
   ngOnInit() {
-    this.regionList.subscribe(items => {
-      this.filteredRegionList = items;
-    });
+    this.filteredRegionList = this.regionList;
   }
 
-  get filteredRegionList(): Region[] {
+  get filteredRegionList(): AppList<Region> {
     return this._filteredRegionList;
   }
 
-  set filteredRegionList(value: Region[]) {
+  set filteredRegionList(value: AppList<Region>) {
     this._filteredRegionList = value;
   }
 
@@ -49,9 +48,7 @@ export class RegionGridComponent implements OnInit {
 
 
 
-  search(filtered: AppListObservable<Region[]>){
-    filtered.subscribe(items => {
-      this.filteredRegionList = items;
-    });
+  search(filtered: AppList<Region>){
+    this.filteredRegionList = filtered
   }
 }

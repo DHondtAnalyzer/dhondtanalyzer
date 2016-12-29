@@ -10,6 +10,7 @@ import {Subscription} from "rxjs";
 import {AppListObservable} from "../../../../../dao/app-list-observable";
 import {ObjectFromRoute} from "../../../../shared/router/object-from-route";
 import {RouterService} from "../../../../shared/router/router.service";
+import {AppList} from "../../../../../dao/app-list";
 
 
 /**
@@ -51,7 +52,7 @@ export class ElectionListComponent implements OnInit, ObjectFromRoute {
      *
      * @returns {Array<Election>}
      */
-    get electionList(): AppListObservable<Array<Election>> {
+    get electionList(): AppList<Election> {
         return this.daoService.getElectionListObservable();
     }
 
