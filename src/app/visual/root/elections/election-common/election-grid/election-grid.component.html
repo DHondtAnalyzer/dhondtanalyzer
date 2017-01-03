@@ -6,7 +6,7 @@
   </div>
 
 
-  <div class="{{cardColClass}}" *ngFor="let election of filteredElectionList">
+  <div class="{{cardColClass}}" *ngFor="let election of filteredElectionList | async">
     <app-election-resume [election]="election" (onView)="goToElection($event)"></app-election-resume>
   </div>
 </div>

@@ -1,7 +1,7 @@
 <md-card role="button">
     <md-card-title>
         <md-input [disabled]="!editing" placeholder="Name"
-                  [(ngModel)]="district.name" name="name"></md-input>
+                  [(ngModel)]="name" name="name"></md-input>
     </md-card-title>
 
     <md-card-content>
@@ -10,12 +10,12 @@
         <table cellspacing="0">
             <tr>
                 <td>
-                    <md-input [disabled]="!editing" placeholder="Seats"
+                    <md-input [disabled]="!editing" placeholder="Seats" type="number" min="0"
                               [(ngModel)]="district.seats" name="seats"></md-input>
                 </td>
 
                 <td>
-                    <md-input [disabled]="!editing" placeholder="Census"
+                    <md-input [disabled]="!editing" placeholder="Census" type="number" min="0"
                               [(ngModel)]="district.census" name="census"></md-input>
                 </td>
             </tr>

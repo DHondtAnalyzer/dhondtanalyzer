@@ -1,61 +1,80 @@
-import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges} from '@angular/core';
 import {Party} from "../../../../../dao/model/party";
 import {DaoService} from "../../../../../dao/dao.service";
+import {AppListObservable} from "../../../../../dao/app-list-observable";
+import {AppList} from "../../../../../dao/app-list";
+import {AppListObservableObject} from "../../../../../dao/app-list-observable-object";
 
 @Component({
     selector: 'app-party-grid',
     templateUrl: './party-grid.component.html',
     styleUrls: ['./party-grid.component.css']
 })
-export class PartyGridComponent implements OnInit {
+export class PartyGridComponent implements OnInit, OnChanges {
 
-    private filteredPartyList: Party[];
 
-    @Input() partyList: Party[];
+  private _filteredPartyList: AppList<Party>;
+
+  @Input() partyList: AppList<Party>;
     @Input() editable: boolean;
     @Input() searchable: boolean;
     @Input() big: boolean;
 
-    @Output() onView = new EventEmitter<Party>();
+  @Output() onView = new EventEmitter<string>();
+  @Output() onPush = new EventEmitter<string>();
+  @Output() onRemove = new EventEmitter<string>();
 
     constructor(private daoService: DaoService) {
     }
 
 
-    ngOnInit() {
-        this.filteredPartyList = this.partyList;
+  ngOnInit() {
+    this.filteredPartyList = this.partyList;
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.filteredPartyList = this.partyList;
+  }
+
+  get filteredPartyList(): AppList<Party> {
+    return this._filteredPartyList;
+  }
+
+  set filteredPartyList(value: AppList<Party>) {
+    this._filteredPartyList = value;
+  }
+
+    private add(id: string): void {
+      this.onPush.emit(id)
     }
 
 
-    private addParty(party: Party): void {
-        if (party) {
-            this.partyList.push(party);
-        }
+  private remove(id: string) {
+    this.onRemove.emit(id)
+  }
+
+
+    private view(id: string) {
+        this.onView.emit(id)
     }
 
 
-    private remove(party: Party) {
-        this.partyList.splice(this.partyList.indexOf(party, 0), 1);
-    }
-
-
-    private view(party: Party) {
-        this.onView.emit(party)
-    }
-
-
-    private get posibleParties(): Party[] {
+    private get posibleParties(): AppList<Party> {
 
         // Necessary because of JS function scope
         let self: PartyGridComponent = this;
 
-        return this.daoService.getParties().filter(function (value) {
-                for (let i: number = 0; i < self.partyList.length; i++) {
+        return <AppList<Party>>this.daoService.getPartyListObservable().filter(function (value) {
+          //TODO
+          return true;
+                /*
+                for (let i: number = 0; i < self.filteredPartyList.length; i++) {
                     if (self.partyList[i].id === value.id) {
                         return false;
                     }
                 }
                 return true;
+                */
             }
         );
     }
@@ -68,7 +87,7 @@ export class PartyGridComponent implements OnInit {
         }
     }
 
-    search(filtered: Party[]){
-        this.filteredPartyList = filtered;
-    }
+  search(filtered: AppListObservable<Party[]>) {
+    this.filteredPartyList = filtered
+  }
 }

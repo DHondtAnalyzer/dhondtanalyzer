@@ -2,6 +2,7 @@ import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {District} from "../../../../dao/model/district";
 import {DaoService} from "../../../../dao/dao.service";
 import {Region} from "../../../../dao/model/region";
+import {AppList} from "../../../../dao/app-list";
 
 @Component({
     selector: 'app-district-grid',
@@ -11,45 +12,33 @@ import {Region} from "../../../../dao/model/region";
 export class DistrictGridComponent implements OnInit {
 
 
-    @Input() districtList: District[];
+    @Input() districtList: AppList<District>;
     @Input() editable: boolean;
     @Output() onRoute = new EventEmitter<void>();
+
+  @Output() onPush = new EventEmitter<string>();
+  @Output() onRemove = new EventEmitter<string>();
 
     constructor(private daoService: DaoService) {
     }
 
-    ngOnInit() {
-    }
+  ngOnInit() {
+  }
 
 
-    private addDistrict(region: Region): void {
-        if (region) {
-            this.districtList.push(District.newInstance(region));
-        }
-    }
+  private addDistrict(regionId: string): void {
+    this.onPush.emit(regionId);
+  }
 
-    private remove(district: District) {
-        this.districtList.splice(this.districtList.indexOf(district, 0), 1);
-    }
+  private remove(districtId: string) {
+    this.onRemove.emit(districtId)
+  }
 
     private routeChanged(): void {
         this.onRoute.emit()
     }
 
-    private get posibleRegions(): Region[] {
-        // Necessary because of JS function scope
-        let self:DistrictGridComponent = this;
-
-        return this.daoService.getRegions().filter(
-            function (value) {
-                for(let i: number = 0; i < self.districtList.length; i++){
-                    if (self.districtList[i].region.id === value.id){
-                        return false;
-                    }
-                }
-                return true;
-            }
-        );
-
-    }
+  private get posibleRegions(): AppList<Region> {
+    return this.daoService.getRegionListObservable();
+  }
 }

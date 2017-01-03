@@ -1,5 +1,7 @@
 import {Component, OnInit, ElementRef, Input, Output, EventEmitter, ViewChild} from '@angular/core';
 import {MdMenuTrigger} from "@angular/material";
+import {AppList} from "../../../dao/app-list";
+import {AppListObservable} from "../../../dao/app-list-observable";
 
 
 /**
@@ -21,56 +23,57 @@ export class AutoCompleteInputComponent {
 
     private query: string = '';
 
-    private filtered: any[] = [];
+    private filtered: AppListObservable<any>;
 
 
-    @Input() items: any[];
+    @Input() items: AppListObservable<any>;
     @Input() findAttribute: string = 'name';
 
     @Input() autoClean?: boolean;
     @Input() placeholder: string;
 
-    @Output() selectedItem = new EventEmitter<Object>();
+    @Output() selectedItem = new EventEmitter<string>();
 
 
     constructor(private elementRef: ElementRef) {
     }
 
-    filter() {
+  filter() {
+    this.filtered = <AppListObservable<any>>this.items.map((items) => {
+      return items.filter((value) => {
+        return value[this.findAttribute].toLowerCase()
+            .indexOf(this.query.toLowerCase()) > -1;
+      });
+    });
+  }
 
-        if (this.query !== "") {
-            this.filtered = this.items.filter(function (value) {
-                return value[this.findAttribute].toLowerCase()
-                        .indexOf(this.query.toLowerCase()) > -1;
-            }.bind(this));
-        } else {
-            this.filtered = [];
-        }
+  select(item) {
+    this.query = item[this.findAttribute];
+    this.selectedItem.emit(item.id);
+
+    if (this.autoClean) {
+      this.query = '';
     }
+    this.filtered = <AppListObservable<any>>this.items.map((items) => {
+      return items.filter((value) => false);
+    });
+  }
 
-    select(item) {
-        this.query = item[this.findAttribute];
-        this.selectedItem.emit(item);
-
-        if (this.autoClean) {
-            this.query = '';
-        }
-        this.filtered = [];
+  handleClick(event) {
+    let clickedComponent = event.target;
+    let inside = false;
+    do {
+      if (clickedComponent === this.elementRef.nativeElement) {
+        inside = true;
+      }
+      clickedComponent = clickedComponent.parentNode;
+    } while (clickedComponent);
+    if (!inside) {
+      this.filtered = <AppListObservable<any>>this.items.map((items) => {
+        return items.filter((value) => false);
+      });
     }
-
-    handleClick(event) {
-        let clickedComponent = event.target;
-        let inside = false;
-        do {
-            if (clickedComponent === this.elementRef.nativeElement) {
-                inside = true;
-            }
-            clickedComponent = clickedComponent.parentNode;
-        } while (clickedComponent);
-        if (!inside) {
-            this.filtered = [];
-        }
-    }
+  }
 
     get inputName() {
         return this.placeholder.replace(/ /g,"-").toLocaleLowerCase()

@@ -5,6 +5,9 @@ import {MdDialogRef} from "@angular/material";
 import {Party} from "../../../../../dao/model/party";
 import {DialogComponent} from "../../../../shared/dialog/dialog-component";
 import {Observable, BehaviorSubject} from "rxjs";
+import {DaoService} from "../../../../../dao/dao.service";
+import {District} from "../../../../../dao/model/district";
+import {AppList} from "../../../../../dao/app-list";
 
 
 /**
@@ -30,6 +33,7 @@ export class ElectionDetailComponent implements DialogComponent, OnInit {
    * El tipo es string.
    */
   private _model: Election;
+  private _id: string;
 
 
   /**
@@ -44,31 +48,32 @@ export class ElectionDetailComponent implements DialogComponent, OnInit {
      * Constructor de la clase.
      */
     constructor(private dialogRef: MdDialogRef<ElectionDetailComponent>,
+                private daoService: DaoService,
                 private router: Router) {
-      this.resizableSubscriber = new BehaviorSubject<boolean>(false)
-      this.onResize = this.resizableSubscriber.asObservable()
+      this.resizableSubscriber = new BehaviorSubject<boolean>(false);
+      this.onResize = this.resizableSubscriber.asObservable();
     }
 
 
     /**
-     * Getter del atributo model.
+     * Getter del atributo id.
      * (Necesario por la interfaz ComponentWithParams)
      *
      * @returns {Election}
      */
-    get model(): Election {
-        return this._model;
+    get id(): string {
+        return this._id;
     }
 
 
     /**
-     * Setter del atributo model
+     * Setter del atributo id
      * (Necesario por la interfaz ComponentWithParams)
      *
      * @param value
      */
-    set model(value: Election) {
-        this._model = value;
+    set id(value: string) {
+        this._id = value;
     }
 
 
@@ -103,7 +108,7 @@ export class ElectionDetailComponent implements DialogComponent, OnInit {
      * @returns {Party}
      */
     get election(): Election {
-        return this.model;
+        return this._model;
     }
 
 
@@ -116,16 +121,30 @@ export class ElectionDetailComponent implements DialogComponent, OnInit {
      * @returns {Party}
      */
     set election(value: Election) {
-        this.model = value;
+        this._model = value;
     }
 
 
-    ngOnInit(): void {
-        if (!this.model.name) {
-            this.editing = true;
-        }
+  ngOnInit(): void {
+    this.election = Election.newInstance();
+    if (this.id) {
+      this.daoService.getElectionObjectObservable(this.id)
+        .subscribe(election => {
+          this.election = election;
+        });
+    } else {
+      this.editing = true;
     }
+  }
 
+
+  get districtList(): AppList<District> {
+    return this.election.districtList;
+  }
+
+  get partyList(): AppList<Party> {
+    return this.election.partyList;
+  }
 
     /**
      * Función closeDialog.
@@ -136,10 +155,30 @@ export class ElectionDetailComponent implements DialogComponent, OnInit {
         this.dialogRef.close();
     }
 
-    private navigateToParty(party: Party): void {
+    private navigateToParty(id: string): void {
         this.closeDialog();
-        this.router.navigate(['/app/parties', party.id]);
+        this.router.navigate(['/app/parties', id]);
     }
+
+  private addParty(id: string): void {
+    this.daoService.addPartyToElection(this.election.id, id);
+  }
+
+  private removeParty(id: string): void {
+    this.daoService.removePartyFromElection(this.election.id, id);
+  }
+
+
+  private addDistrict(regionId: string): void {
+    this.daoService.addDistrictToElection(this.election.id, regionId);
+  }
+
+
+
+  private removeDistrict(districtId: string): void {
+    this.daoService.deleteDistrict(districtId);
+  }
+
 
     /**
      * Función fabIcon.
@@ -184,12 +223,31 @@ export class ElectionDetailComponent implements DialogComponent, OnInit {
     }
 
 
-    /**
-     * Función saveChanges.
-     *
-     * Es la encargada de guardar los datos después de una modificación o creación.
-     */
-    private saveChanges(): void {
-        // TODO
-    }
+  /**
+   * Función saveChanges.
+   *
+   * Es la encargada de guardar los datos después de una modificación o creación.
+   */
+  private saveChanges(): void {
+    this.daoService.saveElection(this.election).then(() => {
+      this.id = this.election.id;
+    }).catch(reason => {
+      console.error(reason.message);
+    });
+  }
+
+
+
+  /**
+   * Función delete.
+   *
+   * Es la encargada de eliminar la elección de la persistencia de la aplicación.
+   */
+  private delete(): void {
+    this.daoService.deleteElection(this.election).then(() => {
+      this.closeDialog();
+    }).catch(reason => {
+      console.error(reason.message);
+    });
+  }
 }

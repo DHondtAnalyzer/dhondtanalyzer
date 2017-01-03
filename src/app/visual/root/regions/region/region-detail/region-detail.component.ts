@@ -1,11 +1,16 @@
 import {Component, OnInit} from '@angular/core';
 import {Region} from "../../../../../dao/model/region";
-import {ComponentWithParams} from "../../../../shared/component-with-params";
 import {MdDialogRef} from "@angular/material";
 import {Router} from "@angular/router";
 import {Election} from "../../../../../dao/model/election";
 import {DialogComponent} from "../../../../shared/dialog/dialog-component";
 import {BehaviorSubject, Observable} from "rxjs";
+import {DaoService} from "../../../../../dao/dao.service";
+import {AppList} from "../../../../../dao/app-list";
+import 'rxjs/add/operator/map';
+import {District} from "../../../../../dao/model/district";
+import {AppListObservableObject} from "../../../../../dao/app-list-observable-object";
+import {AppListObservable} from "../../../../../dao/app-list-observable";
 
 @Component({
     selector: 'app-region-detail',
@@ -22,12 +27,13 @@ export class RegionDetailComponent implements DialogComponent, OnInit {
 
 
     /**
-     * Atributo model.
+     * Atributo id.
      *
      * El tipo es Party.
      */
     private _model: Region;
-
+    private _id: string;
+  private _electionList: AppListObservableObject<Election>;
     /**
      *
      * @type {"../../Observable".Observable<T>}
@@ -35,64 +41,73 @@ export class RegionDetailComponent implements DialogComponent, OnInit {
      */
     private _onResize;
 
+  /**
+   * Constructor de la clase.
+   */
+  constructor(private dialogRef: MdDialogRef<RegionDetailComponent>,
+              private daoService: DaoService,
+              private router: Router) {
+    this.resizableSubscriber = new BehaviorSubject<boolean>(false)
+
+    this.onResize = this.resizableSubscriber.asObservable()
+
+  }
+
+
     /**
-     * Constructor de la clase.
-     */
-    constructor(private dialogRef: MdDialogRef<RegionDetailComponent>,
-                private router: Router) {
-      this.resizableSubscriber = new BehaviorSubject<boolean>(false)
-
-      this.onResize = this.resizableSubscriber.asObservable()
-
-    }
-
-
-    /**
-     * Getter del atributo model.
+     * Getter del atributo id.
      * (Necesario por la interfaz ComponentWithParams)
      *
      * @returns {string}
      */
-    get model(): Region {
-        return this._model;
+    get id(): string {
+        return this._id;
     }
 
 
     /**
-     * Setter del atributo model
+     * Setter del atributo id
      * (Necesario por la interfaz ComponentWithParams)
      *
      * @param value
      */
-    set model(value: Region) {
-        this._model = value;
+    set id(value: string) {
+        this._id = value;
     }
 
 
-    /**
-     * Getter del atributo party.
-     *
-     * Se ha creado para facilitar la comprensión del código refiriendose
-     * directamente como un partido y no como un modelo.
-     *
-     * @returns {Party}
-     */
-    get region(): Region {
-        return this.model;
-    }
+  /**
+   * Getter del atributo party.
+   *
+   * Se ha creado para facilitar la comprensión del código refiriendose
+   * directamente como un partido y no como un modelo.
+   *
+   * @returns {Party}
+   */
+  get region(): Region {
+      return this._model;
+  }
 
 
-    /**
-     * Setter del atributo party.
-     *
-     * Se ha creado para facilitar la comprensión del código refiriendose
-     * directamente como un partido y no como un modelo.
-     *
-     * @returns {Party}
-     */
-    set region(value: Region) {
-        this.model = value;
-    }
+  /**
+   * Setter del atributo party.
+   *
+   * Se ha creado para facilitar la comprensión del código refiriendose
+   * directamente como un partido y no como un modelo.
+   *
+   * @returns {Party}
+   */
+  set region(value: Region) {
+      this._model = value;
+  }
+
+  get electionList(): AppListObservableObject<Election> {
+    return this._electionList;
+  }
+
+  set electionList(value: AppListObservableObject<Election>) {
+    this._electionList = value;
+  }
 
 
   /**
@@ -117,11 +132,25 @@ export class RegionDetailComponent implements DialogComponent, OnInit {
   }
 
 
-    ngOnInit(): void {
-        if (!this.model.name) {
-            this.editing = true;
-        }
+  ngOnInit(): void {
+    this.region = Region.newInstance();
+    if (this.id) {
+      this.daoService.getRegionObjectObservable(this.id)
+        .subscribe(item => {
+          this.region = item;
+          if (!this.electionList) {
+            this.region.districtList.subscribe((districtList: District[]) => {
+              this.electionList = new AppListObservableObject<Election>();
+              districtList.forEach((district: District) => {
+                this.electionList.push(district.election);
+              });
+            });
+          }
+        });
+    } else {
+      this.editing = true;
     }
+  }
 
 
     /**
@@ -134,10 +163,10 @@ export class RegionDetailComponent implements DialogComponent, OnInit {
     }
 
 
-    private navigateToElection(election: Election) {
-        this.closeDialog();
-        this.router.navigate(['/app/elections', election.id]);
-    }
+  private navigateToElection(id: string) {
+    this.closeDialog();
+    this.router.navigate(['/app/elections', id]);
+  }
 
 
 
@@ -172,7 +201,6 @@ export class RegionDetailComponent implements DialogComponent, OnInit {
   }
 
 
-
   /**
      * Función editingChange.
      *
@@ -187,12 +215,30 @@ export class RegionDetailComponent implements DialogComponent, OnInit {
     }
 
 
-    /**
-     * Función saveChanges.
-     *
-     * Es la encargada de guardar los datos después de una modificación o creación.
-     */
-    private saveChanges(): void {
-        // TODO
-    }
+  /**
+   * Función saveChanges.
+   *
+   * Es la encargada de guardar los datos después de una modificación o creación.
+   */
+  private saveChanges(): void {
+    this.daoService.saveRegion(this.region).then(() => {
+      this.id = this.region.id;
+    }).catch(reason => {
+      console.error(reason.message);
+    });
+  }
+
+
+  /**
+   * Función delete.
+   *
+   * Es la encargada de eliminar la elección de la persistencia de la aplicación.
+   */
+  private delete(): void {
+    this.daoService.deleteRegion(this.region).then(() => {
+      this.closeDialog();
+    }).catch(reason => {
+      console.error(reason.message);
+    });
+  }
 }

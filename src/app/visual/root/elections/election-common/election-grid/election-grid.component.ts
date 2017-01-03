@@ -1,38 +1,50 @@
-import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
-import {Router} from "@angular/router";
+import {Component, OnInit, EventEmitter, Input, Output, OnChanges, SimpleChanges} from '@angular/core';
 
 import {Election} from "../../../../../dao/model/election";
+import {AppListObservable} from "../../../../../dao/app-list-observable";
+import {AppList} from "../../../../../dao/app-list";
 
 @Component({
     selector: 'app-election-grid',
     templateUrl: './election-grid.component.html',
     styleUrls: ['./election-grid.component.css']
 })
-export class ElectionGridComponent implements OnInit {
+export class ElectionGridComponent implements OnInit, OnChanges {
+  private _filteredElectionList: AppList<Election>;
 
-    private filteredElectionList: Election[];
-
-    @Input() electionList: Election[];
+  @Input() electionList: AppList<Election>;
     @Input() searchable: boolean;
     @Input() big: boolean;
 
-    @Output() onView = new EventEmitter<Election>();
+    @Output() onView = new EventEmitter<string>();
 
-    constructor(private route: Router) {
+    constructor() {
     }
 
-    ngOnInit() {
-        this.filteredElectionList = this.electionList;
-    }
+  ngOnInit() {
+    this.filteredElectionList = this.electionList;
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.filteredElectionList = this.electionList;
+  }
+
+  get filteredElectionList(): AppList<Election> {
+    return this._filteredElectionList;
+  }
+
+  set filteredElectionList(value: AppList<Election>) {
+    this._filteredElectionList = value;
+  }
 
     /**
      * Función gotoElection.
      *
      * Cambia la ruta de la web hacia la elección seleccionada.
-     * @param election
+     * @param id
      */
-    private goToElection(election: Election): void {
-        this.onView.emit(election);
+    private goToElection(id: string): void {
+        this.onView.emit(id);
     }
 
     get cardColClass(): string {
@@ -43,8 +55,7 @@ export class ElectionGridComponent implements OnInit {
         }
     }
 
-    search(filtered: Election[]){
-        this.filteredElectionList = filtered;
-    }
-
+  search(filtered: AppList<Election>){
+      this.filteredElectionList = filtered;
+  }
 }

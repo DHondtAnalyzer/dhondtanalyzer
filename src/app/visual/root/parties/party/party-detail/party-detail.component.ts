@@ -1,11 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {ComponentWithParams} from "../../../../shared/component-with-params";
 import {Party} from "../../../../../dao/model/party";
 import {MdDialogRef} from "@angular/material";
 import {Router} from "@angular/router";
 import {Election} from "../../../../../dao/model/election";
 import {DialogComponent} from "../../../../shared/dialog/dialog-component";
 import {Observable, BehaviorSubject} from "rxjs";
+import {DaoService} from "../../../../../dao/dao.service";
+import {AppList} from "../../../../../dao/app-list";
 
 
 /**
@@ -27,12 +28,12 @@ export class PartyDetailComponent implements DialogComponent, OnInit {
   private resizableSubscriber:BehaviorSubject<boolean>;
 
     /**
-     * Atributo model.
+     * Atributo id.
      *
      * El tipo es Party.
      */
     private _model: Party;
-
+    private _id: string;
 
 
     /**
@@ -47,6 +48,7 @@ export class PartyDetailComponent implements DialogComponent, OnInit {
      * Constructor de la clase.
      */
     constructor(private dialogRef: MdDialogRef<PartyDetailComponent>,
+                private daoService: DaoService,
                 private router: Router) {
       this.resizableSubscriber = new BehaviorSubject<boolean>(false)
       this.onResize = this.resizableSubscriber.asObservable()
@@ -54,24 +56,24 @@ export class PartyDetailComponent implements DialogComponent, OnInit {
 
 
     /**
-     * Getter del atributo model.
+     * Getter del atributo id.
      * (Necesario por la interfaz ComponentWithParams)
      *
      * @returns {string}
      */
-    get model(): Party {
-        return this._model;
+    get id(): string {
+        return this._id;
     }
 
 
     /**
-     * Setter del atributo model
+     * Setter del atributo id
      * (Necesario por la interfaz ComponentWithParams)
      *
      * @param value
      */
-    set model(value: Party) {
-        this._model = value;
+    set id(value: string) {
+        this._id = value;
     }
 
 
@@ -84,7 +86,7 @@ export class PartyDetailComponent implements DialogComponent, OnInit {
      * @returns {Party}
      */
     get party(): Party {
-        return this.model;
+        return this._model;
     }
 
 
@@ -97,7 +99,7 @@ export class PartyDetailComponent implements DialogComponent, OnInit {
      * @returns {Party}
      */
     set party(value: Party) {
-        this.model = value;
+        this._model = value;
     }
 
 
@@ -123,11 +125,21 @@ export class PartyDetailComponent implements DialogComponent, OnInit {
   }
 
 
-    ngOnInit(): void {
-        if(!this.model.name){
-            this.editing = true;
-        }
+  ngOnInit(): void {
+    this.party = Party.newInstance();
+    if (this.id) {
+      this.daoService.getPartyObjectObservable(this.id)
+        .subscribe((party: Party) => {
+          this.party = party;
+        });
+    } else {
+      this.editing = true;
     }
+  }
+
+  get electionList(): AppList<Election> {
+    return this.party.electionList;
+  }
 
 
     /**
@@ -139,9 +151,9 @@ export class PartyDetailComponent implements DialogComponent, OnInit {
         this.dialogRef.close();
     }
 
-    private navigateToElection(election: Election) {
+    private navigateToElection(id: string) {
         this.closeDialog();
-        this.router.navigate(['/app/elections', election.id]);
+        this.router.navigate(['/app/elections', id]);
     }
 
 
@@ -188,12 +200,28 @@ export class PartyDetailComponent implements DialogComponent, OnInit {
     }
 
 
-    /**
-     * Función saveChanges.
-     *
-     * Es la encargada de guardar los datos después de una modificación o creación.
-     */
-    private saveChanges(): void {
-        // TODO
-    }
+  /**
+   * Función saveChanges.
+   *
+   * Es la encargada de guardar los datos después de una modificación o creación.
+   */
+  private saveChanges(): void {
+    this.daoService.saveParty(this.party).catch(reason => {
+      console.error(reason.message);
+    });
+  }
+
+
+  /**
+   * Función delete.
+   *
+   * Es la encargada de eliminar la elección de la persistencia de la aplicación.
+   */
+  private delete(): void {
+    this.daoService.deleteParty(this.party).then(() => {
+      this.closeDialog();
+    }).catch(reason => {
+      console.error(reason.message);
+    });
+  }
 }

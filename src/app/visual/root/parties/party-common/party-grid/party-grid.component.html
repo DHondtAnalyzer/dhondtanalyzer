@@ -5,7 +5,7 @@
                     (onSearch)="search($event)"></app-search>
     </div>
 
-    <div class="{{cardColClass}}" *ngFor="let party of filteredPartyList">
+    <div class="{{cardColClass}}" *ngFor="let party of filteredPartyList | async">
         <app-party-resume [party]="party" [editable]="editable"
                           (onView)="view($event)" (onRemove)="remove($event)"></app-party-resume>
     </div>
@@ -16,7 +16,7 @@
             <md-card-title>
                 <app-autocomplete-input [items]="posibleParties" [findAttribute]="'name'"
                                         [placeholder]="'Add Party'"
-                                        (selectedItem)="addParty($event)" [autoClean]="true">
+                                        (selectedItem)="add($event)" [autoClean]="true">
                 </app-autocomplete-input>
             </md-card-title>
         </md-card>
