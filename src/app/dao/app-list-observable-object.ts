@@ -35,6 +35,12 @@ export class AppListObservableObject<T> {
     return this.subscriber.asObservable().subscribe(next, error, complete);
   }
 
+  filter(callbackfn: (value: AppObjectObservable<T>, index: number,
+                      array: AppObjectObservable<T>[]) => any,
+         thisArg?: any): AppListObservableObject<T> {
+    return new AppListObservableObject<T>(this.observableList.filter(callbackfn, thisArg));
+  }
+
 
   push(item) {
     this.observableList.push(item);
