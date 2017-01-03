@@ -68,12 +68,21 @@ export class AppListObservableObject<T extends Model> {
 
 
   push(obs: AppObjectObservable<T>) {
-    this.observableList.push(obs);
-    obs.subscribe(i => {
-      this.itemList.push(i);
-      this.subscriber.next(this.itemList);
+    let subs = obs.subscribe(item => {
+      let flag: boolean = false;
+      for (let i = 0; i < this.itemList.length; i++) {
+        if (this.itemList[i].id == item.id) {
+          flag = true;
+        }
+      }
 
+      if (flag) {
+        subs.unsubscribe();
+      } else {
+        this.itemList.push(item);
+        this.observableList.push(obs);
+        this.subscriber.next(this.itemList);
+      }
     });
-
   }
 }
