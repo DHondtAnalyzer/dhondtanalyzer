@@ -48,6 +48,7 @@
         Districts
       </template>
       <app-district-grid [editable]="true" [districtList]="districtList"
+                         (onPush)="addDistrict($event)" (onRemove)="removeDistrict($event)"
                          (onRoute)="closeDialog()"></app-district-grid>
     </md-tab>
     <md-tab>

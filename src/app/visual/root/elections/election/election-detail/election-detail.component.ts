@@ -161,14 +161,24 @@ export class ElectionDetailComponent implements DialogComponent, OnInit {
     }
 
   private addParty(id: string): void {
-    //TODO
     this.daoService.addPartyToElection(this.election.id, id);
   }
 
   private removeParty(id: string): void {
-    //TODO
     this.daoService.removePartyFromElection(this.election.id, id);
   }
+
+
+  private addDistrict(regionId: string): void {
+    this.daoService.addDistrictToElection(this.election.id, regionId);
+  }
+
+
+
+  private removeDistrict(districtId: string): void {
+    this.daoService.deleteDistrict(districtId);
+  }
+
 
     /**
      * Función fabIcon.

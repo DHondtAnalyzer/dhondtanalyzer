@@ -1,6 +1,7 @@
 import {Component, OnInit, Input, EventEmitter, Output} from '@angular/core';
 import {District} from "../../../../dao/model/district";
 import {Router} from "@angular/router";
+import {DaoService} from "../../../../dao/dao.service";
 
 @Component({
   selector: 'app-district-resume',
@@ -11,7 +12,7 @@ export class DistrictResumeComponent implements OnInit {
 
 
     @Input() district: District;
-    @Output() onRemove = new EventEmitter<District>();
+  @Output() onRemove = new EventEmitter<string>();
     @Output() onRoute = new EventEmitter<void>();
 
     private editing: boolean;
@@ -19,7 +20,9 @@ export class DistrictResumeComponent implements OnInit {
   private name: string;
   private id: string;
 
-    constructor(private route: Router) { }
+  constructor(private route: Router,
+              private daoService: DaoService) {
+  }
 
   ngOnInit() {
     if (!this.district.region || !this.district.census || !this.district.seats) {
@@ -33,9 +36,11 @@ export class DistrictResumeComponent implements OnInit {
     });
   }
 
-    private save(){
-        this.editing = false;
-    }
+  private save() {
+    this.daoService.saveDistrict(this.district).then(() => {
+      this.editing = false;
+    })
+  }
 
     private edit() {
         this.editing = true;
@@ -48,7 +53,7 @@ export class DistrictResumeComponent implements OnInit {
   }
 
 
-    private remove() {
-        this.onRemove.emit(this.district);
-    }
+  private remove() {
+    this.onRemove.emit(this.district.id);
+  }
 }

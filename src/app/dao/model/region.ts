@@ -4,6 +4,7 @@ import {AppListObservableObject} from "../app-list-observable-object";
 
 
 export interface RegionRaw {
+  $exists: string;
   $key: string;
   name: string;
   districtList: any;

@@ -8,7 +8,6 @@ import {Region, RegionRaw} from "./model/region";
 import {AngularFire} from "angularfire2";
 import {AppObjectObservable} from "./app-object-observable";
 import {AppListObservableObject} from "./app-list-observable-object";
-import {AppList} from "./app-list";
 import {AppListObservable} from "./app-list-observable";
 import {AppPromise} from "./app-promise";
 import {Subscription} from "rxjs";
@@ -86,7 +85,7 @@ export class DaoService {
 
 
   private getElectionRaw(key: string): AppObjectObservable<ElectionRaw>{
-    return this.af.database.object(`/rest/elections/${key}`);
+    return <AppObjectObservable<ElectionRaw>>this.af.database.object(`/rest/elections/${key}`);
   }
 
 
@@ -183,8 +182,7 @@ export class DaoService {
         })
       });
 
-    let s2: Subscription = this.af.database.object(`/rest/parties/${partyId}`)
-      .subscribe((partyRaw: PartyRaw) => {
+    let s2: Subscription = this.getPartyRaw(partyId).subscribe((partyRaw: PartyRaw) => {
 
         if(partyRaw.electionList && partyRaw.electionList[electionId]){
           delete partyRaw.electionList[electionId];
@@ -223,6 +221,59 @@ export class DaoService {
       });
   }
 
+
+
+
+
+  addDistrictToElection(electionId: string, regionId: string) {
+
+
+    this.createDistrictRaw(<DistrictRaw>{
+      election: {
+        [electionId]: true
+      },
+      region: {
+        [regionId]: true
+      }
+    }).then((resolve) => {
+      let s1 = this.af.database.object(resolve).subscribe((districtRaw: DistrictRaw) => {
+        let flag: boolean = false;
+
+        let s2: Subscription = this.getElectionRaw(electionId).subscribe((electionRaw: ElectionRaw) => {
+
+          if (!electionRaw.districtList) {
+            electionRaw.districtList = {}
+          }
+          electionRaw.districtList[districtRaw.$key] = true;
+          this.updateElectionRaw(electionRaw).then(() => {
+            if (flag) {
+              s1.unsubscribe()
+            } else {
+              flag = true;
+            }
+            s2.unsubscribe();
+          })
+        });
+
+
+        let s3: Subscription = this.getRegionRaw(regionId).subscribe((regionRaw: RegionRaw) => {
+
+          if (!regionRaw.districtList) {
+            regionRaw.districtList = {}
+          }
+          regionRaw.districtList[districtRaw.$key] = true;
+          this.updateRegionRaw(regionRaw).then(() => {
+            if (flag) {
+              s1.unsubscribe()
+            } else {
+              flag = true;
+            }
+            s3.unsubscribe();
+          })
+        });
+      });
+    });
+  }
 
 
 
@@ -274,7 +325,7 @@ export class DaoService {
 
 
   private getPartyRaw(key: string): AppObjectObservable<PartyRaw>{
-    return this.af.database.object(`/rest/parties/${key}`);
+    return <AppObjectObservable<PartyRaw>>this.af.database.object(`/rest/parties/${key}`);
   }
 
 
@@ -363,6 +414,8 @@ export class DaoService {
     });
   }
 
+
+
   getRegions(): Region[] {
     if (this._regionList === undefined) {
       this._regionList = [];
@@ -376,12 +429,16 @@ export class DaoService {
     return this._regionList;
   }
 
+
+
   getRegionById(id: string): Region {
     for (let region of this._regionList)
       if (region.id == id)
         return region;
     return null;
   }
+
+
 
   getRegionListObservable(): AppListObservable<Region[]> {
     if (!this.regionListObs) {
@@ -395,8 +452,16 @@ export class DaoService {
     return this.regionListObs;
   }
 
+
+
+  private getRegionRaw(key: string): AppObjectObservable<RegionRaw>{
+    return <AppObjectObservable<RegionRaw>>this.af.database.object(`/rest/regions/${key}`);
+  }
+
+
+
   getRegionObjectObservable(id: string, deep: number = 1): AppObjectObservable<Region> {
-    return <AppObjectObservable<Region>>this.af.database.object(`/rest/regions/${id}`).map((region: RegionRaw) => {
+    return <AppObjectObservable<Region>>this.getRegionRaw(id).map((region: RegionRaw) => {
 
       // TODO Refactor code to extract it in functions.
       if (deep) {
@@ -418,18 +483,30 @@ export class DaoService {
     });
   }
 
+
+
   updateRegion(region: Region):  AppPromise<void> {
-    return this.getRegionObjectObservable(region.id).update(
-      {
+    return this.updateRegionRaw(<RegionRaw> {
         name: region.name,
         districtList: region.districtList.plainList()
-      }
-    );
+      });
   }
+
+
+
+  private updateRegionRaw(raw: RegionRaw):  AppPromise<void> {
+    let i = this.getRegionRaw(raw.$key);
+    delete raw.$exists;
+    delete raw.$key;
+
+    return i.update(raw);
+  }
+
+
 
   deleteRegion(region: Region): AppPromise<void> {
     if (region.districtList.isEmpty()) {
-      return this.getRegionObjectObservable(region.id).remove();
+      return this.getRegionRaw(region.id).remove();
     } else {
       return new Promise((resolve, reject) => {
         reject({
@@ -438,6 +515,8 @@ export class DaoService {
       });
     }
   }
+
+
 
   saveRegion(region: Region): AppPromise<void> {
     if (region.id) {
@@ -454,7 +533,7 @@ export class DaoService {
 
 
   private createDistrict(district: District): AppPromise<void> {
-    return this.getDistrictListObservable().push({
+    return this.createDistrictRaw(<DistrictRaw>{
       seats: district.seats,
       census: district.census,
       election: district.election,
@@ -462,6 +541,9 @@ export class DaoService {
     });
   }
 
+  private createDistrictRaw(raw: DistrictRaw): AppPromise<any> {
+    return this.getDistrictListObservable().push(raw);
+  }
 
   getDistricts(): District[] {
     if (this._districtList === undefined) {
@@ -495,7 +577,7 @@ export class DaoService {
 
 
   private getDistrictRaw(key: string): AppObjectObservable<DistrictRaw>{
-    return this.af.database.object(`/rest/districts/${key}`);
+    return <AppObjectObservable<DistrictRaw>>this.af.database.object(`/rest/districts/${key}`);
   }
 
 
@@ -530,17 +612,16 @@ export class DaoService {
   private updateDistrict(district: District):  AppPromise<void> {
     return this.updateDistrictRaw(<DistrictRaw>
       {
+        $key: district.id,
         seats: district.seats,
         census: district.census,
-        election: district.election,
-        region: district.region
       }
     );
   }
 
 
   private updateDistrictRaw(raw: DistrictRaw):  AppPromise<void> {
-    let i = this.getPartyRaw(raw.$key);
+    let i = this.getDistrictRaw(raw.$key);
     delete raw.$exists;
     delete raw.$key;
 
@@ -548,8 +629,49 @@ export class DaoService {
   }
 
 
-  deleteDistrict(district: District): AppPromise<void> {
-    return this.getDistrictRaw(district.id).remove();
+
+  deleteDistrict(districtId: string) {
+    let i: Subscription = this.getDistrictRaw(districtId).subscribe(district => {
+      let electionId: string = Object.keys(district.election)[0];
+      let regionId: string = Object.keys(district.region)[0];
+
+      let flag: boolean = false;
+
+      let s1: Subscription = this.getElectionRaw(electionId).subscribe((electionRaw: ElectionRaw) => {
+
+        if(electionRaw.districtList && electionRaw.districtList[districtId]){
+          delete electionRaw.districtList[districtId];
+        }
+
+        this.updateElectionRaw(electionRaw).then(() => {
+          if (flag){
+            i.unsubscribe();
+
+            this.getDistrictRaw(districtId).remove();
+          } else {
+            flag = true;
+          }
+          s1.unsubscribe();
+        })
+      });
+
+      let s2: Subscription = this.getRegionRaw(regionId).subscribe((regionRaw: RegionRaw) => {
+
+        if(regionRaw.districtList && regionRaw.districtList[districtId]){
+          delete regionRaw.districtList[districtId];
+        }
+
+        this.updateRegionRaw(regionRaw).then(() => {
+          if (flag){
+            i.unsubscribe();
+            this.getDistrictRaw(districtId).remove();
+          } else {
+            flag = true;
+          }
+          s2.unsubscribe();
+        })
+      });
+    });
   }
 
 
