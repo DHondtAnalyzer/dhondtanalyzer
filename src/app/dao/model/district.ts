@@ -8,6 +8,18 @@ import {VoteCount} from "./vote-count";
 import {AppObjectObservable} from "../app-object-observable";
 import {BehaviorSubject} from "rxjs";
 
+
+export interface DistrictRaw {
+  $exists: any;
+  $key: string;
+  seats: number;
+  census: number;
+  election: any;
+  region: any;
+}
+
+
+
 export class District {
 
   id: string;
@@ -21,8 +33,9 @@ export class District {
   voteCountList: VoteCount[];
 
   public static newInstance(region?: AppObjectObservable<Region>,
+                            election?: AppObjectObservable<Election>,
                             seats?: number, census?: number): District {
-    let district = new District(region, seats, census);
+    let district = new District(null,region, election, seats, census);
 
     /*
     //TODO
@@ -31,8 +44,21 @@ export class District {
     return district;
   }
 
-  constructor(region?: AppObjectObservable<Region>, seats?: number, census?: number) {
+
+  public static fromRaw(raw: DistrictRaw){
+    return new District(
+      raw.$key,
+      raw.region,
+      raw.election,
+      raw.seats,
+      raw.census
+    );
+  }
+
+  constructor(key?: string, region?: AppObjectObservable<Region>, election?: AppObjectObservable<Election>, seats?: number, census?: number) {
+    this.id = key;
     this.region = region;
+    this.election = election
     this.seats = seats;
     this.census = census;
     this.voteCountList = [];

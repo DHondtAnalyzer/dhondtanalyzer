@@ -12,6 +12,7 @@ import {AppList} from "./app-list";
 import {AppListObservable} from "./app-list-observable";
 import {AppPromise} from "./app-promise";
 import {Subscription} from "rxjs";
+import {DistrictRaw} from "./model/district";
 
 @Injectable()
 export class DaoService {
@@ -451,9 +452,16 @@ export class DaoService {
   // CRUD: District
   //
 
-  createDistrict(id: string, district: District): firebase.Promise<void> {
-    return this.af.database.object('/rest/districts/' + id).set(district);
+
+  private createDistrict(district: District): AppPromise<void> {
+    return this.getDistrictListObservable().push({
+      seats: district.seats,
+      census: district.census,
+      election: district.election,
+      region: district.region
+    });
   }
+
 
   getDistricts(): District[] {
     if (this._districtList === undefined) {
@@ -468,6 +476,7 @@ export class DaoService {
     return this._districtList;
   }
 
+
   getDistrictById(id: string): District {
     for (let district of this._districtList)
       if (district.id == id)
@@ -475,7 +484,8 @@ export class DaoService {
     return null;
   }
 
-  getDistrictListObservable(): AppList<District> {
+
+  getDistrictListObservable(): AppListObservable<District[]> {
 
     if (!this.districtListObs) {
       this.districtListObs = this.af.database.list('/rest/districts');
@@ -483,40 +493,71 @@ export class DaoService {
     return this.districtListObs;
   }
 
-  getDistrictObjectObservable(id: string, deep: number = 1): AppObjectObservable<District> {
-    //return this.af.database.object(`/rest/districts/${id}`);
 
-    return <AppObjectObservable<District>>this.af.database.object(`/rest/districts/${id}`).map((district: District) => {
+  private getDistrictRaw(key: string): AppObjectObservable<DistrictRaw>{
+    return this.af.database.object(`/rest/districts/${key}`);
+  }
+
+
+  getDistrictObjectObservable(id: string, deep: number = 1): AppObjectObservable<District> {
+    return <AppObjectObservable<District>>this.getDistrictRaw(id).map((districtRaw: DistrictRaw) => {
 
       // TODO Refactor code to extract it in functions.
       if (deep) {
         let electionKeys: string[];
-        if (district.election) {
-          electionKeys = Object.keys(district.election);
+        if (districtRaw.election) {
+          electionKeys = Object.keys(districtRaw.election);
         } else {
           electionKeys = [];
         }
-        district.election = this.getElectionObjectObservable(electionKeys[0], deep - 1);
+        districtRaw.election = this.getElectionObjectObservable(electionKeys[0], deep - 1);
 
 
         let regionKeys: string[];
-        if (district.region) {
-          regionKeys = Object.keys(district.region);
+        if (districtRaw.region) {
+          regionKeys = Object.keys(districtRaw.region);
         } else {
           regionKeys = [];
         }
-        district.region = this.getRegionObjectObservable(regionKeys[0], deep - 1);
+        districtRaw.region = this.getRegionObjectObservable(regionKeys[0], deep - 1);
       }
 
-      return district;
+      return District.fromRaw(districtRaw);
     });
   }
 
-  updateDistrict(id: string, district: District): firebase.Promise<void> {
-    return this.getDistrictObjectObservable(id).update(district);
+
+  private updateDistrict(district: District):  AppPromise<void> {
+    return this.updateDistrictRaw(<DistrictRaw>
+      {
+        seats: district.seats,
+        census: district.census,
+        election: district.election,
+        region: district.region
+      }
+    );
   }
 
-  deleteDistrict(id: string): firebase.Promise<void> {
-    return this.getDistrictObjectObservable(id).remove();
+
+  private updateDistrictRaw(raw: DistrictRaw):  AppPromise<void> {
+    let i = this.getPartyRaw(raw.$key);
+    delete raw.$exists;
+    delete raw.$key;
+
+    return i.update(raw);
+  }
+
+
+  deleteDistrict(district: District): AppPromise<void> {
+    return this.getDistrictRaw(district.id).remove();
+  }
+
+
+  saveDistrict(district: District): AppPromise<void> {
+    if (district.id) {
+      return this.updateDistrict(district);
+    } else {
+      return this.createDistrict(district);
+    }
   }
 }
