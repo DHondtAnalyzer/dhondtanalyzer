@@ -40,7 +40,7 @@ export class Party {
     );
   }
 
-  private constructor(key?: string, name?: string, abbreviation?: string, color?: string,
+  private constructor(key?: string, name?: string, abbreviation: string = '', color: string = '',
                       electionList: AppListObservableObject<Election> = new AppListObservableObject<Election>()) {
     this.id = key;
     this.name = name;

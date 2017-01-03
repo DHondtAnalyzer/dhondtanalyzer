@@ -30,8 +30,6 @@ export class PartyGridComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.filteredPartyList = this.partyList;
-
-    this.filteredPartyList.subscribe(e => {console.log(e);})
   }
 
   ngOnChanges(changes: SimpleChanges): void {

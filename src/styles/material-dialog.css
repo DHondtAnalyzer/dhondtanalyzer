@@ -22,7 +22,7 @@ div.cdk-focus-trap-content {
 
 .content-dialog {
   padding: 24px;
-  height: 100%;
+  min-height: 100%;
 }
 
 .md-dialog-container-normal-size {

@@ -55,10 +55,11 @@ export class District {
     );
   }
 
-  constructor(key?: string, region?: AppObjectObservable<Region>, election?: AppObjectObservable<Election>, seats?: number, census?: number) {
+  constructor(key?: string, region?: AppObjectObservable<Region>,
+              election?: AppObjectObservable<Election>, seats: number = 0, census: number = 0) {
     this.id = key;
     this.region = region;
-    this.election = election
+    this.election = election;
     this.seats = seats;
     this.census = census;
     this.voteCountList = [];
