@@ -4,7 +4,7 @@ import {District} from "./model";
 import {Injectable} from "@angular/core";
 import "rxjs/add/operator/toPromise";
 import 'rxjs/add/operator/map';
-import {Region} from "./model/region";
+import {Region, RegionRaw} from "./model/region";
 import {AngularFire} from "angularfire2";
 import {AppObjectObservable} from "./app-object-observable";
 import {AppListObservableObject} from "./app-list-observable-object";
@@ -178,8 +178,8 @@ export class DaoService {
     });
   }
 
-  updateParty(id: string, party: Party):  AppPromise<void> {
-    return this.getPartyObjectObservable(id).update(
+  updateParty(party: Party):  AppPromise<void> {
+    return this.getPartyObjectObservable(party.id).update(
       {
         abbreviation: party.abbreviation,
         color: party.color,
@@ -204,7 +204,7 @@ export class DaoService {
 
   saveParty(party: Party): AppPromise<void> {
     if (party.id) {
-      return this.updateParty(party.id, party);
+      return this.updateParty(party);
     } else {
       return this.createParty(party);
     }
@@ -214,8 +214,11 @@ export class DaoService {
   // CRUD: Region
   //
 
-  createRegion(id: string, region: Region): firebase.Promise<void> {
-    return this.af.database.object('/rest/regions/' + id).set(region);
+  createRegion(region: Region): AppPromise<void> {
+    return this.getRegionListObservable().push({
+      name: region.name,
+      districtList: region.districtList.plainList()
+    });
   }
 
   getRegions(): Region[] {
@@ -238,15 +241,20 @@ export class DaoService {
     return null;
   }
 
-  getRegionListObservable(): AppList<Region> {
+  getRegionListObservable(): AppListObservable<Region[]> {
     if (!this.regionListObs) {
-      this.regionListObs = this.af.database.list('/rest/regions');
+      this.regionListObs = <AppListObservable<Region[]>>
+        this.af.database.list('/rest/regions').map((list: RegionRaw[]) => {
+          return list.map<Region>((item: RegionRaw) => {
+            return Region.fromRaw(item);
+          })
+        });
     }
     return this.regionListObs;
   }
 
   getRegionObjectObservable(id: string, deep: number = 1): AppObjectObservable<Region> {
-    return <AppObjectObservable<Region>>this.af.database.object(`/rest/regions/${id}`).map((region: Region) => {
+    return <AppObjectObservable<Region>>this.af.database.object(`/rest/regions/${id}`).map((region: RegionRaw) => {
 
       // TODO Refactor code to extract it in functions.
       if (deep) {
@@ -264,16 +272,37 @@ export class DaoService {
 
       }
 
-      return region;
+      return Region.fromRaw(region);
     });
   }
 
-  updateRegion(id: string, region: Region): firebase.Promise<void> {
-    return this.getRegionObjectObservable(id).update(region);
+  updateRegion(region: Region):  AppPromise<void> {
+    return this.getRegionObjectObservable(region.id).update(
+      {
+        name: region.name,
+        districtList: region.districtList.plainList()
+      }
+    );
   }
 
-  deleteRegion(id: string): firebase.Promise<void> {
-    return this.getRegionObjectObservable(id).remove();
+  deleteRegion(region: Region): AppPromise<void> {
+    if (region.districtList.isEmpty()) {
+      return this.getRegionObjectObservable(region.id).remove();
+    } else {
+      return new Promise((resolve, reject) => {
+        reject({
+          message: "Party participates in one or more elections"
+        });
+      });
+    }
+  }
+
+  saveRegion(region: Region): AppPromise<void> {
+    if (region.id) {
+      return this.updateRegion(region);
+    } else {
+      return this.createRegion(region);
+    }
   }
 
 

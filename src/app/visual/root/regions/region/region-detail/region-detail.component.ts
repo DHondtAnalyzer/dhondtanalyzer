@@ -132,24 +132,23 @@ export class RegionDetailComponent implements DialogComponent, OnInit {
 
 
   ngOnInit(): void {
-    this.region = Region.newInstance();
-    this.daoService.getRegionObjectObservable(this.id)
-      .subscribe(item => {
-        this.region = item;
-        if (!this.electionList) {
-          this.region.districtList.subscribe((districtList: District[]) => {
-            this.electionList = new AppListObservableObject<Election>();
-            districtList.forEach((district: District) => {
-              this.electionList.push(district.election);
+    if (this.id) {
+      this.daoService.getRegionObjectObservable(this.id)
+        .subscribe(item => {
+          this.region = item;
+          if (!this.electionList) {
+            this.region.districtList.subscribe((districtList: District[]) => {
+              this.electionList = new AppListObservableObject<Election>();
+              districtList.forEach((district: District) => {
+                this.electionList.push(district.election);
+              });
             });
-          });
-        }
-      });
-    /*
-     if (!this.region.name) {
-     this.editing = true;
-     }
-     */
+          }
+        });
+    } else {
+      this.region = Region.newInstance();
+      this.editing = true;
+    }
   }
 
 
@@ -215,12 +214,30 @@ export class RegionDetailComponent implements DialogComponent, OnInit {
     }
 
 
-    /**
-     * Función saveChanges.
-     *
-     * Es la encargada de guardar los datos después de una modificación o creación.
-     */
-    private saveChanges(): void {
-        // TODO
-    }
+  /**
+   * Función saveChanges.
+   *
+   * Es la encargada de guardar los datos después de una modificación o creación.
+   */
+  private saveChanges(): void {
+    this.daoService.saveRegion(this.region).then(() => {
+      this.id = this.region.id;
+    }).catch(reason => {
+      console.error(reason.message);
+    });
+  }
+
+
+  /**
+   * Función delete.
+   *
+   * Es la encargada de eliminar la elección de la persistencia de la aplicación.
+   */
+  private delete(): void {
+    this.daoService.deleteRegion(this.region).then(() => {
+      this.closeDialog();
+    }).catch(reason => {
+      console.error(reason.message);
+    });
+  }
 }
