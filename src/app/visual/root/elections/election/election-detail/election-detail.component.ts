@@ -126,17 +126,13 @@ export class ElectionDetailComponent implements DialogComponent, OnInit {
 
 
   ngOnInit(): void {
+    this.election = Election.newInstance();
     if (this.id) {
       this.daoService.getElectionObjectObservable(this.id)
         .subscribe(election => {
           this.election = election;
-          //this.election.partyList.subscribe( a => { console.log(a); });
-          this.election.districtList.subscribe(a => {
-            console.log(a);
-          })
         });
     } else {
-      this.election = Election.newInstance();
       this.editing = true;
     }
   }
@@ -163,6 +159,16 @@ export class ElectionDetailComponent implements DialogComponent, OnInit {
         this.closeDialog();
         this.router.navigate(['/app/parties', id]);
     }
+
+  private addParty(id: string): void {
+    //TODO
+    this.daoService.addPartyToElection(this.election.id, id);
+  }
+
+  private removeParty(id: string): void {
+    //TODO
+    this.daoService.removePartyFromElection(this.election.id, id);
+  }
 
     /**
      * Función fabIcon.

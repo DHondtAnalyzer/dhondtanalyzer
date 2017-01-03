@@ -12,7 +12,7 @@ export class PartyResumeComponent {
     @Input() party: Party;
     @Input() editable: boolean;
 
-    @Output() onRemove = new EventEmitter<Party>();
+    @Output() onRemove = new EventEmitter<string>();
     @Output() onView = new EventEmitter<string>();
 
     constructor() { }
@@ -24,6 +24,6 @@ export class PartyResumeComponent {
 
 
     private remove() {
-        this.onRemove.emit(this.party);
+        this.onRemove.emit(this.party.id);
     }
 }

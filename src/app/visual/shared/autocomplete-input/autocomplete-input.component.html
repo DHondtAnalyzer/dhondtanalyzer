@@ -2,7 +2,7 @@
     <md-input placeholder="{{placeholder}}"
               [(ngModel)]=query (keyup)=filter() name="{{inputName}}" [md-menu-trigger-for]="menu"></md-input>
     <md-menu #menu="mdMenu">
-        <button md-menu-item *ngFor="let item of filtered"
+        <button md-menu-item *ngFor="let item of filtered | async"
                 (click)="select(item)">{{item[findAttribute]}}
         </button>
     </md-menu>

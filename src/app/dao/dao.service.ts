@@ -11,6 +11,7 @@ import {AppListObservableObject} from "./app-list-observable-object";
 import {AppList} from "./app-list";
 import {AppListObservable} from "./app-list-observable";
 import {AppPromise} from "./app-promise";
+import {Subscription} from "rxjs";
 
 @Injectable()
 export class DaoService {
@@ -36,7 +37,7 @@ export class DaoService {
   // CRUD: Election
   //
 
-  createElection(election: Election): AppPromise<void> {
+  private createElection(election: Election): AppPromise<void> {
     return this.getElectionListObservable().push({
       name: election.name,
       date: election.date,
@@ -46,8 +47,6 @@ export class DaoService {
       partyList: election.partyList.plainList()
     });
   }
-
-
 
 
   getElections(): Election[] {
@@ -85,10 +84,13 @@ export class DaoService {
   }
 
 
+  private getElectionRaw(key: string): AppObjectObservable<ElectionRaw>{
+    return this.af.database.object(`/rest/elections/${key}`);
+  }
 
 
   getElectionObjectObservable(id: string, deep: number = 1): AppObjectObservable<Election> {
-    return <AppObjectObservable<Election>>this.af.database.object(`/rest/elections/${id}`).map((election: ElectionRaw) => {
+    return <AppObjectObservable<Election>>this.getElectionRaw(id).map((election: ElectionRaw) => {
 
       // TODO Refactor code to extract it in functions.
       if (deep) {
@@ -124,8 +126,8 @@ export class DaoService {
 
 
 
-  updateElection(election: Election):  AppPromise<void> {
-    return this.getElectionObjectObservable(election.id).update({
+  private updateElection(election: Election):  AppPromise<void> {
+    return this.getElectionRaw(election.id).update({
         name: election.name,
         date: election.date,
         seats: election.seats,
@@ -136,10 +138,18 @@ export class DaoService {
   }
 
 
+  private updateElectionRaw(raw: ElectionRaw):  AppPromise<void> {
+    let i = this.getElectionRaw(raw.$key);
+    delete raw.$exists;
+    delete raw.$key;
+
+    return i.update(raw);
+  }
+
 
   deleteElection(election: Election): AppPromise<void> {
     if (election.districtList.isEmpty() && election.partyList.isEmpty()) {
-      return this.getElectionObjectObservable(election.id).remove();
+      return this.getElectionRaw(election.id).remove();
     } else {
       return new Promise((resolve, reject) => {
         reject({
@@ -160,13 +170,66 @@ export class DaoService {
   }
 
 
+  removePartyFromElection(electionId: string, partyId: string) {
+    let s1: Subscription = this.getElectionRaw(electionId).subscribe((electionRaw: ElectionRaw) => {
+
+        if(electionRaw.partyList && electionRaw.partyList[partyId]){
+          delete electionRaw.partyList[partyId];
+        }
+
+        this.updateElectionRaw(electionRaw).then(() => {
+          s1.unsubscribe();
+        })
+      });
+
+    let s2: Subscription = this.af.database.object(`/rest/parties/${partyId}`)
+      .subscribe((partyRaw: PartyRaw) => {
+
+        if(partyRaw.electionList && partyRaw.electionList[electionId]){
+          delete partyRaw.electionList[electionId];
+        }
+
+        this.updatePartyRaw(partyRaw).then(() => {
+          s2.unsubscribe();
+        })
+      });
+  }
+
+
+
+  addPartyToElection(electionId: string, partyId: string) {
+    let s1: Subscription = this.getElectionRaw(electionId).subscribe((electionRaw: ElectionRaw) => {
+
+        if (!electionRaw.partyList) {
+          electionRaw.partyList = {}
+        }
+        electionRaw.partyList[partyId] = true;
+        this.updateElectionRaw(electionRaw).then(() => {
+          s1.unsubscribe();
+        })
+      });
+
+    let s2: Subscription = this.getPartyRaw(partyId)
+      .subscribe((partyRaw: PartyRaw) => {
+
+        if (!partyRaw.electionList) {
+          partyRaw.electionList = {}
+        }
+        partyRaw.electionList[electionId] = true;
+        this.updatePartyRaw(partyRaw).then(() => {
+          s2.unsubscribe();
+        })
+      });
+  }
+
+
 
 
   ///////////
   // CRUD: Party
   //
 
-  createParty(party: Party): AppPromise<void> {
+  private createParty(party: Party): AppPromise<void> {
     return this.getPartyListObservable().push({
       abbreviation: party.abbreviation,
       color: party.color,
@@ -208,9 +271,16 @@ export class DaoService {
     return this.partyListObs;
   }
 
+
+  private getPartyRaw(key: string): AppObjectObservable<PartyRaw>{
+    return this.af.database.object(`/rest/parties/${key}`);
+  }
+
+
+
   getPartyObjectObservable(id: string, deep: number = 1): AppObjectObservable<Party> {
 
-    return <AppObjectObservable<Party>> this.af.database.object(`/rest/parties/${id}`).map((party: PartyRaw) => {
+    return <AppObjectObservable<Party>> this.getPartyRaw(id).map((party: PartyRaw) => {
 
       // TODO Refactor code to extract it in functions.
       if (deep) {
@@ -231,21 +301,34 @@ export class DaoService {
     });
   }
 
-  updateParty(party: Party):  AppPromise<void> {
-    return this.getPartyObjectObservable(party.id).update(
+
+
+  private updateParty(party: Party):  AppPromise<void> {
+    return this.updatePartyRaw(<PartyRaw>
       {
         abbreviation: party.abbreviation,
         color: party.color,
         electionList: party.electionList.plainList(),
-        id: party.id,
+        $key: party.id,
         name: party.name,
       }
     );
   }
 
+
+  private updatePartyRaw(raw: PartyRaw):  AppPromise<void> {
+    let i = this.getPartyRaw(raw.$key);
+    delete raw.$exists;
+    delete raw.$key;
+
+    return i.update(raw);
+  }
+
+
+
   deleteParty(party: Party): AppPromise<void> {
     if (party.electionList.isEmpty()) {
-      return this.getPartyObjectObservable(party.id).remove();
+      return this.getPartyRaw(party.id).remove();
     } else {
       return new Promise((resolve, reject) => {
         reject({
@@ -255,6 +338,8 @@ export class DaoService {
     }
   }
 
+
+
   saveParty(party: Party): AppPromise<void> {
     if (party.id) {
       return this.updateParty(party);
@@ -262,6 +347,9 @@ export class DaoService {
       return this.createParty(party);
     }
   }
+
+
+
 
   ///////////
   // CRUD: Region

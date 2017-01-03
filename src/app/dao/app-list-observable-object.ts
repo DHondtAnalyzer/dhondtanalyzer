@@ -24,9 +24,9 @@ export class AppListObservableObject<T extends Model> {
     this.itemList = [];
 
     this.observableList.forEach(obs => {
-      obs.subscribe(i => {
-        this.itemList.push(i);
-        this.subscriber.next(this.itemList);
+      obs.subscribe(item => {
+          this.itemList.push(item);
+          this.subscriber.next(this.itemList);
       })
     });
     this.subscriber.next(this.itemList);
@@ -48,7 +48,10 @@ export class AppListObservableObject<T extends Model> {
     return new AppListObservableObject<T>(this.observableList.filter(callbackfn, thisArg));
   }
 
-
+  /*
+  map<T, R>(this: Observable<T>, project: (value: T, index: number) => R, thisArg?: any): Observable<R> {
+  }
+  */
 
   plainList(): any {
     let plainList = {};
@@ -64,12 +67,13 @@ export class AppListObservableObject<T extends Model> {
   }
 
 
-
-  push(item) {
-    this.observableList.push(item);
-    item.subscribe(i => {
+  push(obs: AppObjectObservable<T>) {
+    this.observableList.push(obs);
+    obs.subscribe(i => {
       this.itemList.push(i);
       this.subscriber.next(this.itemList);
+
     });
+
   }
 }

@@ -3,6 +3,7 @@ import {Party} from "../../../../../dao/model/party";
 import {DaoService} from "../../../../../dao/dao.service";
 import {AppListObservable} from "../../../../../dao/app-list-observable";
 import {AppList} from "../../../../../dao/app-list";
+import {AppListObservableObject} from "../../../../../dao/app-list-observable-object";
 
 @Component({
     selector: 'app-party-grid',
@@ -19,7 +20,9 @@ export class PartyGridComponent implements OnInit, OnChanges {
     @Input() searchable: boolean;
     @Input() big: boolean;
 
-    @Output() onView = new EventEmitter<string>();
+  @Output() onView = new EventEmitter<string>();
+  @Output() onPush = new EventEmitter<string>();
+  @Output() onRemove = new EventEmitter<string>();
 
     constructor(private daoService: DaoService) {
     }
@@ -27,6 +30,8 @@ export class PartyGridComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.filteredPartyList = this.partyList;
+
+    this.filteredPartyList.subscribe(e => {console.log(e);})
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -41,19 +46,13 @@ export class PartyGridComponent implements OnInit, OnChanges {
     this._filteredPartyList = value;
   }
 
-    private addParty(party): void {
-        //TODO
-        /*
-        if (party) {
-            this.partyList.push(party);
-        }
-        */
+    private add(id: string): void {
+      this.onPush.emit(id)
     }
 
 
-  private remove(party: Party) {
-    // TODO
-    //this.filteredPartyList.splice(this.filteredPartyList.indexOf(party, 0), 1);
+  private remove(id: string) {
+    this.onRemove.emit(id)
   }
 
 
@@ -62,12 +61,12 @@ export class PartyGridComponent implements OnInit, OnChanges {
     }
 
 
-    private get posibleParties(): Party[] {
+    private get posibleParties(): AppList<Party> {
 
         // Necessary because of JS function scope
         let self: PartyGridComponent = this;
 
-        return this.daoService.getParties().filter(function (value) {
+        return <AppList<Party>>this.daoService.getPartyListObservable().filter(function (value) {
           //TODO
           return true;
                 /*

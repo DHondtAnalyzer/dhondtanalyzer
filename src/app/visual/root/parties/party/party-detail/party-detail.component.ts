@@ -126,13 +126,13 @@ export class PartyDetailComponent implements DialogComponent, OnInit {
 
 
   ngOnInit(): void {
+    this.party = Party.newInstance();
     if (this.id) {
       this.daoService.getPartyObjectObservable(this.id)
         .subscribe((party: Party) => {
           this.party = party;
         });
     } else {
-      this.party = Party.newInstance();
       this.editing = true;
     }
   }

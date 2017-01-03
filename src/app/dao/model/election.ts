@@ -11,7 +11,9 @@ import {AppListObservableObject} from "../app-list-observable-object";
 
 
 export interface ElectionRaw {
+  $exists: any;
   $key: string;
+  id: string;
   name: string;
   date: Date;
   seats: number;

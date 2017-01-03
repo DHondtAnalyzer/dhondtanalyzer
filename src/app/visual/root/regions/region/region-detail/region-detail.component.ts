@@ -10,6 +10,7 @@ import {AppList} from "../../../../../dao/app-list";
 import 'rxjs/add/operator/map';
 import {District} from "../../../../../dao/model/district";
 import {AppListObservableObject} from "../../../../../dao/app-list-observable-object";
+import {AppListObservable} from "../../../../../dao/app-list-observable";
 
 @Component({
     selector: 'app-region-detail',
@@ -32,7 +33,7 @@ export class RegionDetailComponent implements DialogComponent, OnInit {
      */
     private _model: Region;
     private _id: string;
-    private _electionList: AppList<Election>;
+  private _electionList: AppListObservableObject<Election>;
     /**
      *
      * @type {"../../Observable".Observable<T>}
@@ -100,11 +101,11 @@ export class RegionDetailComponent implements DialogComponent, OnInit {
       this._model = value;
   }
 
-  get electionList(): AppList<Election> {
+  get electionList(): AppListObservableObject<Election> {
     return this._electionList;
   }
 
-  set electionList(value: AppList<Election>) {
+  set electionList(value: AppListObservableObject<Election>) {
     this._electionList = value;
   }
 
@@ -132,6 +133,7 @@ export class RegionDetailComponent implements DialogComponent, OnInit {
 
 
   ngOnInit(): void {
+    this.region = Region.newInstance();
     if (this.id) {
       this.daoService.getRegionObjectObservable(this.id)
         .subscribe(item => {
@@ -146,7 +148,6 @@ export class RegionDetailComponent implements DialogComponent, OnInit {
           }
         });
     } else {
-      this.region = Region.newInstance();
       this.editing = true;
     }
   }

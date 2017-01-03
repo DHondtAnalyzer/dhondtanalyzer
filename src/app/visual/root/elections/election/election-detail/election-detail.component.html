@@ -55,6 +55,7 @@
         Parties
       </template>
       <app-party-grid [editable]="true" [partyList]="partyList"
+                      (onPush)="addParty($event)" (onRemove)="removeParty($event)"
                       (onView)="navigateToParty($event)"></app-party-grid>
     </md-tab>
   </md-tab-group>
