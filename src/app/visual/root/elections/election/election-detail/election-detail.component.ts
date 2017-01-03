@@ -125,21 +125,21 @@ export class ElectionDetailComponent implements DialogComponent, OnInit {
     }
 
 
-    ngOnInit(): void {
-
-      this.election = Election.newInstance();
+  ngOnInit(): void {
+    if (this.id) {
       this.daoService.getElectionObjectObservable(this.id)
-        .subscribe( election => {
+        .subscribe(election => {
           this.election = election;
           //this.election.partyList.subscribe( a => { console.log(a); });
-          this.election.districtList.subscribe( a => { console.log(a); })
+          this.election.districtList.subscribe(a => {
+            console.log(a);
+          })
         });
-      /*
-      if (!this.election.name) {
-        this.editing = true;
-      }
-      */
+    } else {
+      this.election = Election.newInstance();
+      this.editing = true;
     }
+  }
 
 
   get districtList(): AppList<District> {
@@ -207,33 +207,31 @@ export class ElectionDetailComponent implements DialogComponent, OnInit {
     }
 
 
-    /**
-     * Función saveChanges.
-     *
-     * Es la encargada de guardar los datos después de una modificación o creación.
-     */
-    private saveChanges(): void {
-        if (this.editing)
-            this.daoService.createElection(this.election.id, this.election).catch(reason => {
-                console.error(reason.message);
-            });
-        else
-            this.daoService.updateElection(this.election.id, this.election).catch(reason => {
-                console.error(reason.message);
-            });
+  /**
+   * Función saveChanges.
+   *
+   * Es la encargada de guardar los datos después de una modificación o creación.
+   */
+  private saveChanges(): void {
+    this.daoService.saveElection(this.election).then(() => {
+      this.id = this.election.id;
+    }).catch(reason => {
+      console.error(reason.message);
+    });
+  }
 
-    }
 
-    /**
-     * Función delete.
-     *
-     * Es la encargada de eliminar la elección de la persistencia de la aplicación.
-     */
-    private delete(): void {
-        this.daoService.deleteElection(this.election.id).then(_ => {
-            this.closeDialog();
-        }).catch(reason => {
-            console.error(reason.message);
-        });
-    }
+
+  /**
+   * Función delete.
+   *
+   * Es la encargada de eliminar la elección de la persistencia de la aplicación.
+   */
+  private delete(): void {
+    this.daoService.deleteElection(this.election).then(() => {
+      this.closeDialog();
+    }).catch(reason => {
+      console.error(reason.message);
+    });
+  }
 }

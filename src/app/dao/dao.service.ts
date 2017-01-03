@@ -1,4 +1,4 @@
-import {Election} from "./model/election";
+import {Election, ElectionRaw} from "./model/election";
 import {Party, PartyRaw} from "./model/party";
 import {District} from "./model";
 import {Injectable} from "@angular/core";
@@ -29,13 +29,26 @@ export class DaoService {
   constructor(private af: AngularFire) {
   }
 
+
+
+
   ///////////
   // CRUD: Election
   //
 
-  createElection(id: string, election: Election): firebase.Promise<void> {
-    return this.af.database.object('/rest/elections/' + id).set(election);
+  createElection(election: Election): AppPromise<void> {
+    return this.getElectionListObservable().push({
+      name: election.name,
+      date: election.date,
+      seats: election.seats,
+      type: election.type,
+      districtList: election.districtList.plainList(),
+      partyList: election.partyList.plainList()
+    });
   }
+
+
+
 
   getElections(): Election[] {
 
@@ -58,16 +71,24 @@ export class DaoService {
     return null;
   }
 
-  getElectionListObservable(): AppList<Election> {
+
+  getElectionListObservable(): AppListObservable<Election[]> {
     if (!this.electionListObs) {
-      this.electionListObs = this.af.database.list('/rest/elections')
+      this.electionListObs = <AppListObservable<Election[]>>
+        this.af.database.list('/rest/elections').map((list: ElectionRaw[]) => {
+          return list.map<Election>((item: ElectionRaw) => {
+            return Election.fromRaw(item);
+          })
+        });
     }
     return this.electionListObs;
   }
 
-  getElectionObjectObservable(id: string, deep: number = 1): AppObjectObservable<Election> {
 
-    return <AppObjectObservable<Election>>this.af.database.object(`/rest/elections/${id}`).map((election: Election) => {
+
+
+  getElectionObjectObservable(id: string, deep: number = 1): AppObjectObservable<Election> {
+    return <AppObjectObservable<Election>>this.af.database.object(`/rest/elections/${id}`).map((election: ElectionRaw) => {
 
       // TODO Refactor code to extract it in functions.
       if (deep) {
@@ -97,17 +118,49 @@ export class DaoService {
         });
       }
 
-      return election;
+      return Election.fromRaw(election);
     });
   }
 
-  updateElection(id: string, election: Election): firebase.Promise<void> {
-    return this.getElectionObjectObservable(id).update(election);
+
+
+  updateElection(election: Election):  AppPromise<void> {
+    return this.getElectionObjectObservable(election.id).update({
+        name: election.name,
+        date: election.date,
+        seats: election.seats,
+        type: election.type,
+        districtList: election.districtList.plainList(),
+        partyList: election.partyList.plainList()
+    });
   }
 
-  deleteElection(id: string): firebase.Promise<void> {
-    return this.getElectionObjectObservable(id).remove();
+
+
+  deleteElection(election: Election): AppPromise<void> {
+    if (election.districtList.isEmpty() && election.partyList.isEmpty()) {
+      return this.getElectionObjectObservable(election.id).remove();
+    } else {
+      return new Promise((resolve, reject) => {
+        reject({
+          message: "Election participates in one or more districts or parties"
+        });
+      });
+    }
   }
+
+
+
+  saveElection(election: Election): AppPromise<void> {
+    if (election.id) {
+      return this.updateElection(election);
+    } else {
+      return this.createElection(election);
+    }
+  }
+
+
+
 
   ///////////
   // CRUD: Party
@@ -291,7 +344,7 @@ export class DaoService {
     } else {
       return new Promise((resolve, reject) => {
         reject({
-          message: "Party participates in one or more elections"
+          message: "Region participates in one or more districts"
         });
       });
     }
