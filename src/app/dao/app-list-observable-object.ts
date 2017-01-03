@@ -1,12 +1,13 @@
 import {AppObjectObservable} from "./app-object-observable";
-import {BehaviorSubject, Subscription} from "rxjs";
+import {BehaviorSubject, Subscription, Observable} from "rxjs";
 import 'rxjs/add/operator/map';
+import {Model} from "./model/model";
 
 
 /**
  * Created by garciparedes on 29/12/2016.
  */
-export class AppListObservableObject<T> {
+export class AppListObservableObject<T extends Model> {
 
   private observableList: AppObjectObservable<T>[];
   private itemList: Array<T>;
@@ -31,15 +32,37 @@ export class AppListObservableObject<T> {
     this.subscriber.next(this.itemList);
   }
 
+
+
+
   subscribe(next?: (value: T[]) => void, error?: (error: any) => void, complete?: () => void): Subscription {
     return this.subscriber.asObservable().subscribe(next, error, complete);
   }
+
+
+
 
   filter(callbackfn: (value: AppObjectObservable<T>, index: number,
                       array: AppObjectObservable<T>[]) => any,
          thisArg?: any): AppListObservableObject<T> {
     return new AppListObservableObject<T>(this.observableList.filter(callbackfn, thisArg));
   }
+
+
+
+  plainList(): any {
+    let plainList = {};
+    for (let i = 0; i < this.itemList.length; ++i)
+      plainList[this.itemList[i].id] = true;
+    return plainList;
+  }
+
+
+
+  isEmpty(): boolean {
+    return !(this.observableList.length > 0);
+  }
+
 
 
   push(item) {

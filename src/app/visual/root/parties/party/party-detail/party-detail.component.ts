@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {ComponentWithParams} from "../../../../shared/component-with-params";
 import {Party} from "../../../../../dao/model/party";
 import {MdDialogRef} from "@angular/material";
 import {Router} from "@angular/router";
@@ -7,7 +6,6 @@ import {Election} from "../../../../../dao/model/election";
 import {DialogComponent} from "../../../../shared/dialog/dialog-component";
 import {Observable, BehaviorSubject} from "rxjs";
 import {DaoService} from "../../../../../dao/dao.service";
-import {AppListObservable} from "../../../../../dao/app-list-observable";
 import {AppList} from "../../../../../dao/app-list";
 
 
@@ -127,16 +125,17 @@ export class PartyDetailComponent implements DialogComponent, OnInit {
   }
 
 
-    ngOnInit(): void {
-        this.party = Party.newInstance();
-        this.daoService.getPartyObjectObservable(this.id)
-          .subscribe( party => {this.party = party;});
-        /*
-         if (!this.party.name) {
-         this.editing = true;
-         }
-         */
+  ngOnInit(): void {
+    if (this.id) {
+      this.daoService.getPartyObjectObservable(this.id)
+        .subscribe((party: Party) => {
+          this.party = party;
+        });
+    } else {
+      this.party = Party.newInstance();
+      this.editing = true;
     }
+  }
 
   get electionList(): AppList<Election> {
     return this.party.electionList;
@@ -201,12 +200,28 @@ export class PartyDetailComponent implements DialogComponent, OnInit {
     }
 
 
-    /**
-     * Función saveChanges.
-     *
-     * Es la encargada de guardar los datos después de una modificación o creación.
-     */
-    private saveChanges(): void {
-        // TODO
-    }
+  /**
+   * Función saveChanges.
+   *
+   * Es la encargada de guardar los datos después de una modificación o creación.
+   */
+  private saveChanges(): void {
+    this.daoService.saveParty(this.party).catch(reason => {
+      console.error(reason.message);
+    });
+  }
+
+
+  /**
+   * Función delete.
+   *
+   * Es la encargada de eliminar la elección de la persistencia de la aplicación.
+   */
+  private delete(): void {
+    this.daoService.deleteParty(this.party).then(() => {
+      this.closeDialog();
+    }).catch(reason => {
+      console.error(reason.message);
+    });
+  }
 }
