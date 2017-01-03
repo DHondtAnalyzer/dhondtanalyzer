@@ -1,0 +1,4 @@
+.page-content {
+    max-height: 90%;
+    overflow: scroll;
+}

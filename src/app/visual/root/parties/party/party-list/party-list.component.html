@@ -1,0 +1,6 @@
+<app-party-grid [searchable]="true" [big]="true" [partyList]="partyList"
+                (onView)="openDialog($event)"></app-party-grid>
+
+<button md-fab class="md-fab-create md-fab" (click)="create()">
+    <md-icon class="md-24">add</md-icon>
+</button>

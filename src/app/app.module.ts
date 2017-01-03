@@ -1,20 +1,44 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import {NgModule} from "@angular/core";
+import {BrowserModule} from "@angular/platform-browser";
+import {FormsModule} from "@angular/forms";
+import {HttpModule} from "@angular/http";
+import {MaterialModule} from "@angular/material";
+import {AppComponent} from "./app.component";
+import {AppRoutingModule} from "./app-routing.module";
+import {AuthGuard} from "./shared/auth/auth.guard";
+import {DaoModule} from "./dao/dao.module";
+import {AngularFireModule} from "angularfire2";
+import {firebaseConfig} from "../environments/firebase.config";
 
-import { AppComponent } from './app.component';
 
+
+/**
+ * Clase AppModule. Implementa la funcionalidad de un Modulo.
+ *
+ * AppModule es el módulo raíz de la aplicación.
+ */
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
     ],
     imports: [
         BrowserModule,
         FormsModule,
-        HttpModule
+        HttpModule,
+        MaterialModule.forRoot(),
+        AppRoutingModule,
+        DaoModule,
+        AngularFireModule.initializeApp(firebaseConfig)
     ],
-    providers: [],
+    providers: [AuthGuard],
     bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+
+
+    /**
+     * Constructor de la clase.
+     */
+    constructor() {
+    }
+}
