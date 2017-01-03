@@ -1,0 +1,59 @@
+
+md-dialog-container {
+  transition: height 0.5s ease !important;
+  overflow: scroll !important;
+  max-width: 100vw !important;
+}
+
+md-dialog-container.md-dialog-container {
+  padding: 0;
+}
+
+.cdk-overlay-pane {
+  transition: width 0.5s ease;
+}
+
+md-dialog-container.md-dialog-container > focus-trap > div:nth-child(2) {
+  height: 100%;
+}
+div.cdk-focus-trap-content {
+  height: 100%;
+}
+
+.content-dialog {
+  padding: 24px;
+  min-height: 100%;
+}
+
+.md-dialog-container-normal-size {
+  height: 80vh;
+}
+
+
+.md-dialog-container-full-size {
+  height: 100vh;
+}
+
+.md-overlay-pane-normal-size {
+  width: 85vw;
+}
+
+.md-overlay-pane-full-size {
+  width: 100vw;
+}
+
+
+
+@media (max-width: 768px) {
+
+  .md-button-ripple-resizable {
+    visibility: hidden;
+  }
+
+  .md-dialog-container-normal-size {
+    height: 100vh;
+  }
+  .md-overlay-pane-normal-size {
+    width: 100vw;
+  }
+}

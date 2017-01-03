@@ -1,0 +1,24 @@
+<div class="row is-flex">
+
+    <div class="col-xs-12" *ngIf="searchable">
+        <app-search [placeholder]="'Search parties...'" [initialList]="partyList"
+                    (onSearch)="search($event)"></app-search>
+    </div>
+
+    <div class="{{cardColClass}}" *ngFor="let party of filteredPartyList | async">
+        <app-party-resume [party]="party" [editable]="editable"
+                          (onView)="view($event)" (onRemove)="remove($event)"></app-party-resume>
+    </div>
+
+
+    <div class="{{cardColClass}}" *ngIf="editable">
+        <md-card role="button">
+            <md-card-title>
+                <app-autocomplete-input [items]="posibleParties" [findAttribute]="'name'"
+                                        [placeholder]="'Add Party'"
+                                        (selectedItem)="add($event)" [autoClean]="true">
+                </app-autocomplete-input>
+            </md-card-title>
+        </md-card>
+    </div>
+</div>

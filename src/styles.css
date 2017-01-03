@@ -1,1 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
+@import '../node_modules/@angular/material/core/theming/prebuilt/deeppurple-amber.css';
+
+@import './styles/bootstrap-column.css';
+@import './styles/common.css';
+@import './styles/material-button.css';
+@import './styles/material-card.css';
+@import './styles/material-dialog.css';
+@import './styles/material-toolbar.css';

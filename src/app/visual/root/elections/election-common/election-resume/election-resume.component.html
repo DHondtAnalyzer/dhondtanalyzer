@@ -1,0 +1,7 @@
+<md-card role="button">
+    <md-card-title>{{election.name}}</md-card-title>
+    <md-card-actions>
+        <button (click)="view()" md-button>View</button>
+        <button *ngIf="editable" (click)="remove()" md-button>Remove</button>
+    </md-card-actions>
+</md-card>

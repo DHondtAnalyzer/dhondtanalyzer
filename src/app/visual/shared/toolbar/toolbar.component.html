@@ -1,0 +1,22 @@
+<md-toolbar color="primary">
+
+    <md-icon class="md-24">equalizer</md-icon>
+    <span>{{title}}</span>
+
+    <span class="flex"></span>
+
+    <button md-button *ngFor="let link of links"
+            (click)="goTo(link)">
+        {{ link.name }}
+    </button>
+
+    <button md-icon-button  [md-menu-trigger-for]="menu">
+        <md-icon class="md-24">more_vert</md-icon>
+    </button>
+
+    <md-menu x-position="before"  #menu="mdMenu">
+        <button md-menu-item> Refresh </button>
+        <button md-menu-item> Settings </button>
+        <button md-menu-item> Help </button>
+    </md-menu>
+</md-toolbar>
