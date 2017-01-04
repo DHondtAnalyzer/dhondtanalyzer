@@ -4,6 +4,9 @@ import {VoteCountTableComponent} from './vote-count-table/vote-count-table.compo
 import {MaterialModule} from "@angular/material";
 import {FormsModule} from "@angular/forms";
 import {NgxDatatableModule} from "@swimlane/ngx-datatable";
+import {VoteCountPieChartComponent} from './vote-count-pie-chart/vote-count-pie-chart.component';
+import {ChartsModule} from "ng2-charts";
+import { VoteCountSummaryComponent } from './vote-count-summary/vote-count-summary.component';
 
 @NgModule({
   imports: [
@@ -11,10 +14,19 @@ import {NgxDatatableModule} from "@swimlane/ngx-datatable";
     FormsModule,
     MaterialModule,
     NgxDatatableModule,
+    ChartsModule,
   ],
 
-  declarations: [VoteCountTableComponent],
-  exports: [VoteCountTableComponent]
+  declarations: [
+    VoteCountTableComponent,
+    VoteCountPieChartComponent,
+    VoteCountSummaryComponent,
+  ],
+  exports: [
+    VoteCountTableComponent,
+    VoteCountPieChartComponent,
+    VoteCountSummaryComponent,
+  ]
 })
 export class VoteCountCommonModule {
 }
