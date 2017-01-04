@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {AppRow} from "../shared/app-row";
-import {AppColumn} from "../shared/app-column";
 
 @Component({
   selector: 'app-vote-count-table',
