@@ -1,5 +1,3 @@
 .horizontal-bar-chart {
-  -ms-transform: rotate(90deg); /* IE 9 */
-  -webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
-  transform: rotate(90deg);
+
 }
