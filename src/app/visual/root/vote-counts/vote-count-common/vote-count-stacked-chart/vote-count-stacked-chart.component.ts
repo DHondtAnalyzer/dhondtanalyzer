@@ -14,24 +14,33 @@ export class VoteCountStackedChartComponent implements OnInit {
 
   public barChartOptions:any = {
     responsive: true,
+    maintainAspectRatio: false,
     scales: {
       xAxes: [{
         stacked: true,
         display: false,
+        ticks: {
+          stepSize: 1,
+          beginAtZero: true
+        }
       }],
       yAxes: [{
         stacked: true,
         display: false,
+        ticks: {
+          stepSize: 1,
+          beginAtZero: true
+        }
       }]
     }
   };
-  public barChartType:string = 'bar';
+  public barChartType:string = 'horizontalBar';
 
   public barChartData:any[] = [
-    {data: [65], label: 'Series A'},
-    {data: [28], label: 'Series B'},
-    {data: [28], label: 'Series C'},
-    {data: [28], label: 'Series D'},
+    {data: [Math.random()*100], label: 'Partido Popular'},
+    {data: [Math.random()*100], label: 'Partido Socialista'},
+    {data: [Math.random()*100], label: 'Podemos'},
+    {data: [Math.random()*100], label: 'Ciudadanos'},
   ];
 
   // events
@@ -42,26 +51,4 @@ export class VoteCountStackedChartComponent implements OnInit {
   public chartHovered(e:any):void {
     //console.log(e);
   }
-
-  public randomize():void {
-    // Only Change 3 values
-    let data = [
-      Math.round(Math.random() * 100),
-      59,
-      80,
-      (Math.random() * 100),
-      56,
-      (Math.random() * 100),
-      40];
-    let clone = JSON.parse(JSON.stringify(this.barChartData));
-    clone[0].data = data;
-    this.barChartData = clone;
-    /**
-     * (My guess), for Angular to recognize the change in the dataset
-     * it has to change the dataset variable directly,
-     * so one way around it, is to clone the data, change it and then
-     * assign it;
-     */
-  }
-
 }
