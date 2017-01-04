@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { VoteCountDistrictsRankingListComponent } from './vote-count-districts-ranking-list.component';
+import { VoteCountStackedChartComponent } from './vote-count-stacked-chart.component';
 
-describe('VoteCountDistrictsRankingListComponent', () => {
-  let component: VoteCountDistrictsRankingListComponent;
-  let fixture: ComponentFixture<VoteCountDistrictsRankingListComponent>;
+describe('VoteCountStackedChartComponent', () => {
+  let component: VoteCountStackedChartComponent;
+  let fixture: ComponentFixture<VoteCountStackedChartComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ VoteCountDistrictsRankingListComponent ]
+      declarations: [ VoteCountStackedChartComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(VoteCountDistrictsRankingListComponent);
+    fixture = TestBed.createComponent(VoteCountStackedChartComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
