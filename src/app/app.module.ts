@@ -9,6 +9,7 @@ import {AuthGuard} from "./shared/auth/auth.guard";
 import {DaoModule} from "./dao/dao.module";
 import {AngularFireModule} from "angularfire2";
 import {firebaseConfig} from "../environments/firebase.config";
+import {ChartsModule} from "ng2-charts/ng2-charts";
 
 
 
@@ -28,7 +29,8 @@ import {firebaseConfig} from "../environments/firebase.config";
         MaterialModule.forRoot(),
         AppRoutingModule,
         DaoModule,
-        AngularFireModule.initializeApp(firebaseConfig)
+        AngularFireModule.initializeApp(firebaseConfig),
+      ChartsModule,
     ],
     providers: [AuthGuard],
     bootstrap: [AppComponent]
