@@ -7,6 +7,8 @@ import {NgxDatatableModule} from "@swimlane/ngx-datatable";
 import {VoteCountPieChartComponent} from './vote-count-pie-chart/vote-count-pie-chart.component';
 import {ChartsModule} from "ng2-charts";
 import { VoteCountSummaryComponent } from './vote-count-summary/vote-count-summary.component';
+import { VoteCountPartiesRankingListComponent } from './vote-count-parties-ranking-list/vote-count-parties-ranking-list.component';
+import { VoteCountDistrictsRankingListComponent } from './vote-count-districts-ranking-list/vote-count-districts-ranking-list.component';
 
 @NgModule({
   imports: [
@@ -21,6 +23,8 @@ import { VoteCountSummaryComponent } from './vote-count-summary/vote-count-summa
     VoteCountTableComponent,
     VoteCountPieChartComponent,
     VoteCountSummaryComponent,
+    VoteCountPartiesRankingListComponent,
+    VoteCountDistrictsRankingListComponent,
   ],
   exports: [
     VoteCountTableComponent,
