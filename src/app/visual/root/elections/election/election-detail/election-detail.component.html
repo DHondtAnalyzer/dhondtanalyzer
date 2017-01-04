@@ -59,5 +59,12 @@
                       (onPush)="addParty($event)" (onRemove)="removeParty($event)"
                       (onView)="navigateToParty($event)"></app-party-grid>
     </md-tab>
+
+    <md-tab>
+      <template md-tab-label>
+        Table Results
+      </template>
+      <app-vote-count-table></app-vote-count-table>
+    </md-tab>
   </md-tab-group>
 </div>

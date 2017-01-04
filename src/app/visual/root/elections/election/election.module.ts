@@ -12,6 +12,7 @@ import {ElectionDetailComponent} from "./election-detail/election-detail.compone
 import {ElectionCommonModule} from "../election-common/election-common.module";
 import {PartyCommonModule} from "../../parties/party-common/party-common.module";
 import {DistrictCommonModule} from "../../districts/district-common.module";
+import {VoteCountCommonModule} from "../../vote-counts/vote-count-common/vote-count-common.module";
 
 /**
  * Clase ElectionModule. Implementa la funcionalidad de un Modulo.
@@ -35,6 +36,7 @@ import {DistrictCommonModule} from "../../districts/district-common.module";
         ElectionCommonModule,
         PartyCommonModule,
         DistrictCommonModule,
+      VoteCountCommonModule,
     ],
     exports: [],
     providers: [],
