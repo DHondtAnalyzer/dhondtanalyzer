@@ -67,6 +67,17 @@ export class DaoParty {
     });
   }
 
+
+  private updateParty(party: Party): AppPromise<void> {
+    return this.updatePartyRaw(<PartyRaw> {
+      $key: party.id,
+      abbreviation: party.abbreviation,
+      color: party.color,
+      electionList: party.electionList.plainList(),
+      name: party.name,
+      });
+  }
+
   getPartyListObservable(): AppListObservable<Party[]> {
 
     if (!this.partyListObs) {
@@ -92,33 +103,19 @@ export class DaoParty {
 
       // TODO Refactor code to extract it in functions.
       if (deep) {
-        let electionKeys: string[];
         if (party.electionList) {
-          electionKeys = Object.keys(party.electionList);
+          let keyList: string[] = Object.keys(party.electionList);
+          party.electionList = new AppListObservableObject<Election>();
+          keyList.forEach(key => {
+            party.electionList.push(this.getElectionObjectObservable(key, deep - 1));
+          });
         } else {
-          electionKeys = [];
+          party.electionList = new AppListObservableObject<Election>();
         }
-
-        party.electionList = new AppListObservableObject<Election>();
-        electionKeys.map(key => {
-          party.electionList.push(this.getElectionObjectObservable(key, deep - 1));
-        });
       }
 
       return Party.fromRaw(party);
     });
-  }
-
-
-  private updateParty(party: Party): AppPromise<void> {
-    return this.updatePartyRaw(<PartyRaw> {
-        abbreviation: party.abbreviation,
-        color: party.color,
-        electionList: party.electionList.plainList(),
-        $key: party.id,
-        name: party.name,
-      }
-    );
   }
 
 

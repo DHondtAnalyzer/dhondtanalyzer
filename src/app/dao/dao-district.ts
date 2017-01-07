@@ -125,7 +125,6 @@ export class DaoDistrict {
   }
 
   getDistrictListObservable(): AppListObservable<District[]> {
-
     if (!this.districtListObs) {
       this.districtListObs = this.af.database.list('/rest/districts');
     }
@@ -143,32 +142,20 @@ export class DaoDistrict {
 
       // TODO Refactor code to extract it in functions.
       if (deep) {
-        let electionKeys: string[];
         if (districtRaw.election) {
-          electionKeys = Object.keys(districtRaw.election);
-        } else {
-          electionKeys = [];
+          districtRaw.election = this.getElectionObjectObservable(Object.keys(districtRaw.election)[0], deep - 1);
         }
-        districtRaw.election = this.getElectionObjectObservable(electionKeys[0], deep - 1);
 
-
-        let regionKeys: string[];
         if (districtRaw.region) {
-          regionKeys = Object.keys(districtRaw.region);
-        } else {
-          regionKeys = [];
+          districtRaw.region = this.getRegionObjectObservable(Object.keys(districtRaw.region)[0], deep - 1);
         }
-        districtRaw.region = this.getRegionObjectObservable(regionKeys[0], deep - 1);
       }
 
 
       if (districtRaw.voteCountList) {
-        let voteCountKeys: string[];
-        voteCountKeys = Object.keys(districtRaw.voteCountList);
-
-
+        let keyList: string[] = Object.keys(districtRaw.voteCountList);
         districtRaw.voteCountList = new AppListObservableObject<VoteCount>();
-        voteCountKeys.map(key => {
+        keyList.forEach(key => {
           districtRaw.voteCountList.push(this.getVoteCountObjectObservable(key, deep));
         });
 
@@ -176,6 +163,8 @@ export class DaoDistrict {
         this.generateVoteCountList(districtRaw);
         districtRaw.voteCountList = new AppListObservableObject<VoteCount>();
       }
+
+      console.log(districtRaw);
       return District.fromRaw(districtRaw);
     });
   }
@@ -262,7 +251,6 @@ export class DaoDistrict {
 
 
   addDistrictToElection(electionId: string, regionId: string) {
-
 
     this.createDistrictRaw(<DistrictRaw>{
       election: {

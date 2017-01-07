@@ -37,13 +37,7 @@ export class District {
                             election?: AppObjectObservable<Election>,
                             seats?: number, census?: number,
                             voteCountList?: AppListObservableObject<VoteCount>): District {
-    let district = new District(null,region, election, seats, census, voteCountList);
-
-    /*
-    //TODO
-     region.districtList.push(district);
-     */
-    return district;
+    return new District(null, region, election, seats, census, voteCountList);
   }
 
 

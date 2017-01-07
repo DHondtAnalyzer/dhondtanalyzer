@@ -89,20 +89,16 @@ export class DaoRegion {
 
       // TODO Refactor code to extract it in functions.
       if (deep) {
-        let electionKeys: string[];
         if (region.districtList) {
-          electionKeys = Object.keys(region.districtList);
+          let keyList: string[] = Object.keys(region.districtList);
+          region.districtList = new AppListObservableObject<District>();
+          keyList.forEach(key => {
+            region.districtList.push(this.getDistrictObjectObservable(key, deep));
+          });
         } else {
-          electionKeys = [];
+          region.districtList = new AppListObservableObject<District>();
         }
-
-        region.districtList = new AppListObservableObject<District>();
-        electionKeys.map(key => {
-          region.districtList.push(this.getDistrictObjectObservable(key, deep));
-        });
-
       }
-
       return Region.fromRaw(region);
     });
   }

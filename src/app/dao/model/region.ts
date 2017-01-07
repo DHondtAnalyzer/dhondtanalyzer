@@ -17,11 +17,9 @@ export class Region {
     name: string;
     districtList: AppListObservableObject<District>;
 
-    public static newInstance(name?:string): Region {
-        let region = new Region(null, name);
-
-        return region;
-    }
+  public static newInstance(name?: string): Region {
+    return new Region(null, name);
+  }
 
 
   public static fromRaw(raw: RegionRaw) {

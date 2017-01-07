@@ -64,6 +64,7 @@ export class DaoElection {
 
 
   private getDistrictObjectObservable(key: string, deep: number) {
+    console.log("HOLA3");
     return this.getDaoDistrict().getDistrictObjectObservable(key, deep);
   }
 
@@ -129,10 +130,11 @@ export class DaoElection {
       // TODO Refactor code to extract it in functions.
       if (deep) {
         if (election.partyList) {
+          let keyList: string[] = Object.keys(election.partyList);
 
           election.partyList = new AppListObservableObject<Party>();
 
-          Object.keys(election.partyList).forEach(key => {
+          keyList.forEach(key => {
             election.partyList.push(this.getPartyObjectObservable(key, deep - 1));
           });
 
@@ -142,9 +144,11 @@ export class DaoElection {
 
 
         if (election.districtList) {
+
+          let keyList: string[] = Object.keys(election.districtList);
           election.districtList = new AppListObservableObject<District>();
 
-          Object.keys(election.districtList).forEach(key => {
+          keyList.forEach(key => {
             election.districtList.push(this.getDistrictObjectObservable(key, deep));
           });
         } else {

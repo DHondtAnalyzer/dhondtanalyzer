@@ -113,18 +113,14 @@ export class DaoVoteCount {
 
       // TODO Refactor code to extract it in functions.
       if (deep) {
-        if (voteCountRaw.district) {
+        if (voteCountRaw.district === true) {
           voteCountRaw.district = this.getDistrictObjectObservable(
-            Object.keys(voteCountRaw.district)[0],
-            deep - 1
-          );
+            Object.keys(voteCountRaw.district)[0], deep - 1);
         }
 
-        if (voteCountRaw.party) {
+        if (voteCountRaw.party === true) {
           voteCountRaw.party = this.getRegionObjectObservable(
-            Object.keys(voteCountRaw.party)[0],
-            deep - 1
-          );
+            Object.keys(voteCountRaw.party)[0], deep - 1);
         }
       }
       return VoteCount.fromRaw(voteCountRaw);
@@ -162,7 +158,7 @@ export class DaoVoteCount {
   }
 
   generateVoteCountList(districtRaw: DistrictRaw) {
-
+    /*
     let s: Subscription = districtRaw.election.subscribe(electionRaw => {
 
       let partyKeys: string[];
@@ -223,7 +219,7 @@ export class DaoVoteCount {
     });
 
     return new AppListObservableObject<VoteCount>();
-
+  */
   }
 
   addVoteCountToDistrict(districtKey: string, partyKey: string) {

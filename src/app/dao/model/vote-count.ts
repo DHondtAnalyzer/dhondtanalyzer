@@ -6,6 +6,7 @@ import {VoteType} from "./vote-type";
 import {District} from "./district";
 import {Party} from "./party";
 
+
 export class VoteCount {
 
     id: string;

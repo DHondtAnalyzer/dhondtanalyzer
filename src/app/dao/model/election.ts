@@ -36,23 +36,7 @@ export class Election {
                             seats: number = 0, type?: ElectionType,
                             districtList?: AppListObservableObject<District>,
                             partyList?: AppListObservableObject<Party>): Election {
-    let election = new Election(null, name, date, seats, type, districtList, partyList);
-
-
-    /*
-     // TODO
-     districtList.map(function (district) {
-     district.election = election;
-     });
-     */
-
-    /*
-     // TODO
-     partyList.map(function (party) {
-     party.electionList.push(election);
-     });
-     */
-    return election;
+    return new Election(null, name, date, seats, type, districtList, partyList);
   }
 
   public static fromRaw(raw: ElectionRaw) {

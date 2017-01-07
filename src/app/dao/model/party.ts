@@ -24,8 +24,7 @@ export class Party {
 
   public static newInstance(name?: string, abbreviation?: string,
                             color?: string, electionList?: AppListObservableObject<Election>): Party {
-    let party = new Party(null,name, abbreviation, color, electionList);
-    return party;
+    return new Party(null, name, abbreviation, color, electionList);
   }
 
 
