@@ -266,8 +266,9 @@ export class DaoDistrict {
     }).then((resolve) => {
       let s1 = this.database.object(resolve).subscribe((districtRaw: DistrictRaw) => {
         let flag: boolean = false;
-
+        s1.unsubscribe()
         let s2: Subscription = this.getElectionRaw(electionId).subscribe((electionRaw: ElectionRaw) => {
+          s2.unsubscribe();
           if (!electionRaw.districtList) {
             electionRaw.districtList = {}
           }
