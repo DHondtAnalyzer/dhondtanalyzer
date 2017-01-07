@@ -7,12 +7,11 @@ import {District} from "./district";
 import {Party} from "./party";
 import {AppList} from "../app-list";
 import {AppListObservableObject} from "../app-list-observable-object";
+import {ModelRaw} from "./model";
 
 
 
-export interface ElectionRaw {
-  $exists: any;
-  $key: string;
+export interface ElectionRaw extends ModelRaw {
   id: string;
   name: string;
   date: Date;

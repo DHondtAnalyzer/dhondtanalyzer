@@ -7,11 +7,10 @@ import {Region} from "./region";
 import {VoteCount} from "./vote-count";
 import {AppObjectObservable} from "../app-object-observable";
 import {BehaviorSubject} from "rxjs";
+import {ModelRaw} from "./model";
 
 
-export interface DistrictRaw {
-  $exists: any;
-  $key: string;
+export interface DistrictRaw extends ModelRaw {
   seats: number;
   census: number;
   election: any;

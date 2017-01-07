@@ -1,11 +1,10 @@
 import {District} from "./district";
 import {Election} from "./election";
 import {AppListObservableObject} from "../app-list-observable-object";
+import {ModelRaw} from "./model";
 
 
-export interface RegionRaw {
-  $exists: string;
-  $key: string;
+export interface RegionRaw extends ModelRaw {
   name: string;
   districtList: any;
 }
