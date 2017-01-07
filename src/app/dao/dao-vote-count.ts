@@ -10,6 +10,7 @@ import {VoteCount, VoteCountRaw} from "./model/vote-count";
 import {VoteType} from "./model/vote-type";
 import {DaoRegion} from "./dao-region";
 import {DaoDistrict} from "./dao-district";
+import {DaoElection} from "./dao-election";
 /**
  * Created by garciparedes on 07/01/2017.
  */
@@ -42,6 +43,9 @@ export class DaoVoteCount {
     return DaoRegion.newInstance();
   }
 
+  private getDaoElection(): DaoElection {
+    return DaoElection.newInstance();
+  }
 
   private getDistrictObjectObservable(key: string, deep: number) {
     return this.getDaoDistrict().getDistrictObjectObservable(key, deep);
@@ -60,6 +64,10 @@ export class DaoVoteCount {
     return this.getDaoRegion().getRegionObjectObservable(key, deep);
   }
 
+
+  private getElectionRaw(key: string) {
+    return this.getDaoElection().getElectionRaw(key);
+  }
 
   constructor(af: AngularFire) {
     this.list_url = '/rest/vote-counts/';
@@ -157,103 +165,70 @@ export class DaoVoteCount {
     }
   }
 
-  generateVoteCountList(districtRaw: DistrictRaw) {
-    /*
-    let s: Subscription = districtRaw.election.subscribe(electionRaw => {
+  generateVoteCountListFromDistrict(districtRaw: DistrictRaw, electionRaw: ElectionRaw) {
 
-      let partyKeys: string[];
+    if (!districtRaw.voteCountList){
+      this.addVoteCountToDistrict(districtRaw.$key, null, VoteType.BLANK);
+      this.addVoteCountToDistrict(districtRaw.$key, null, VoteType.NULL);
+
       if (electionRaw.partyList) {
-        partyKeys = Object.keys(electionRaw.partyList);
-      } else {
-        partyKeys = [];
+        Object.keys(electionRaw.partyList).forEach(partyKey => {
+          this.addVoteCountToDistrict(districtRaw.$key, partyKey);
+        });
       }
-
-      this.createVoteCountRaw(<VoteCountRaw>{
-        count: 0,
-        type: VoteType.NULL,
-        district: {
-          [districtRaw.$key]: true
-        },
-      }).then((resolve) => {
-        let s1 = this.af.database.object(resolve).subscribe((voteCountRaw: VoteCountRaw) => {
-          let s2: Subscription = this.getDistrictRaw(districtRaw.$key).subscribe((districtRaw: DistrictRaw) => {
-
-            if (!districtRaw.voteCountList) {
-              districtRaw.voteCountList = {}
-            }
-            districtRaw.voteCountList[voteCountRaw.$key] = true;
-            this.updateDistrictRaw(districtRaw).then(() => {
-              s1.unsubscribe()
-            })
-          });
-        });
-      });
-
-      this.createVoteCountRaw(<VoteCountRaw>{
-        count: 0,
-        type: VoteType.BLANK,
-        district: {
-          [districtRaw.$key]: true
-        },
-      }).then((resolve) => {
-        let s1 = this.af.database.object(resolve).subscribe((voteCountRaw: VoteCountRaw) => {
-          let s2: Subscription = this.getDistrictRaw(districtRaw.$key).subscribe((districtRaw: DistrictRaw) => {
-
-            if (!districtRaw.voteCountList) {
-              districtRaw.voteCountList = {}
-            }
-            districtRaw.voteCountList[voteCountRaw.$key] = true;
-            this.updateDistrictRaw(districtRaw).then(() => {
-              s1.unsubscribe()
-            })
-          });
-        });
-      });
-
-
-      partyKeys.forEach(partyKey => {
-        this.addVoteCountToDistrict(districtRaw.$key, partyKey);
-      });
-
-      s.unsubscribe();
-    });
-
-    return new AppListObservableObject<VoteCount>();
-  */
+    }
   }
 
-  addVoteCountToDistrict(districtKey: string, partyKey: string) {
-    console.log(<VoteCountRaw>{
-      count: 0,
-      type: VoteType.VALID,
-      district: districtKey,
-      party: partyKey
-    });
+  private addVoteCountToDistrict(districtKey: string, partyKey: string,
+                                 type: VoteType = VoteType.VALID) {
 
-
-    this.createVoteCountRaw(<VoteCountRaw>{
-      count: 0,
-      type: VoteType.VALID,
-      district: {
-        [districtKey]: true
-      },
-      party: {
-        [partyKey]: true
-      }
-    }).then((resolve) => {
-      let s1 = this.af.database.object(resolve).subscribe((voteCountRaw: VoteCountRaw) => {
-        let s2: Subscription = this.getDistrictRaw(districtKey).subscribe((districtRaw: DistrictRaw) => {
-
-          if (!districtRaw.voteCountList) {
-            districtRaw.voteCountList = {}
-          }
-          districtRaw.voteCountList[voteCountRaw.$key] = true;
-          this.updateDistrictRaw(districtRaw).then(() => {
-            s1.unsubscribe()
-          })
+    if (type == VoteType.VALID){
+      return this.createVoteCountRaw(<VoteCountRaw>{
+        count: 0,
+        type: type,
+        district: {
+          [districtKey]: true
+        },
+        party: {
+          [partyKey]: true
+        }
+      }).then((resolve) => {
+        let s1 = this.af.database.object(resolve).subscribe((voteCountRaw: VoteCountRaw) => {
+          let s2 = this.getDistrictRaw(districtKey).subscribe((districtRaw: DistrictRaw) => {
+            if (!districtRaw.voteCountList) {
+              districtRaw.voteCountList = {}
+            }
+            districtRaw.voteCountList[voteCountRaw.$key] = true;
+            this.updateDistrictRaw(districtRaw).then(() => {
+              s1.unsubscribe();
+              s2.unsubscribe();
+            })
+          });
         });
       });
-    });
+    } else {
+      return this.createVoteCountRaw(<VoteCountRaw>{
+        count: 0,
+        type: type,
+        district: {
+          [districtKey]: true
+        }
+      }).then((resolve) => {
+        let s1 = this.af.database.object(resolve).subscribe((voteCountRaw: VoteCountRaw) => {
+          let s2 = this.getDistrictRaw(districtKey).subscribe((districtRaw: DistrictRaw) => {
+
+            if (!districtRaw.voteCountList) {
+              districtRaw.voteCountList = {}
+            }
+            districtRaw.voteCountList[voteCountRaw.$key] = true;
+            this.updateDistrictRaw(districtRaw).then(() => {
+              s1.unsubscribe();
+              s2.unsubscribe();
+            })
+          });
+        });
+      });
+    }
   }
 
   deleteVoteCount(key: string): AppPromise<void> {

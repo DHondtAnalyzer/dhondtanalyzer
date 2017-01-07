@@ -88,8 +88,8 @@ export class DaoDistrict {
   }
 
 
-  private generateVoteCountList(districtRaw: DistrictRaw) {
-    return this.getDaoVoteCount().generateVoteCountList(districtRaw);
+  private generateVoteCountList(districtRaw: DistrictRaw, electionRaw: ElectionRaw) {
+    return this.getDaoVoteCount().generateVoteCountListFromDistrict(districtRaw, electionRaw);
   }
 
 
@@ -139,7 +139,7 @@ export class DaoDistrict {
 
   getDistrictObjectObservable(id: string, deep: number = 1): AppObjectObservable<District> {
     return <AppObjectObservable<District>>this.getDistrictRaw(id).map((districtRaw: DistrictRaw) => {
-
+      console.log(districtRaw);
       // TODO Refactor code to extract it in functions.
       if (deep) {
         if (districtRaw.election) {
@@ -160,7 +160,8 @@ export class DaoDistrict {
         });
 
       } else {
-        this.generateVoteCountList(districtRaw);
+        //console.log(districtRaw);
+        //this.generateVoteCountList(districtRaw);
         districtRaw.voteCountList = new AppListObservableObject<VoteCount>();
       }
 
@@ -194,11 +195,13 @@ export class DaoDistrict {
     let i: Subscription = this.getDistrictRaw(districtId).subscribe(district => {
       let electionId: string = Object.keys(district.election)[0];
       let regionId: string = Object.keys(district.region)[0];
-      let voteCountList: string[] = Object.keys(district.voteCountList);
 
-      voteCountList.forEach((key) => {
-        this.deleteVoteCount(key);
-      });
+      if (district.voteCountList){
+        Object.keys(district.voteCountList).forEach((key) => {
+          this.deleteVoteCount(key);
+        });
+      }
+
 
       let flag: boolean = false;
 
@@ -251,6 +254,7 @@ export class DaoDistrict {
 
 
   addDistrictToElection(electionId: string, regionId: string) {
+    console.log("HOLAAAAAAAAAAAA");
 
     this.createDistrictRaw(<DistrictRaw>{
       election: {
@@ -264,7 +268,6 @@ export class DaoDistrict {
         let flag: boolean = false;
 
         let s2: Subscription = this.getElectionRaw(electionId).subscribe((electionRaw: ElectionRaw) => {
-
           if (!electionRaw.districtList) {
             electionRaw.districtList = {}
           }
@@ -276,7 +279,9 @@ export class DaoDistrict {
               flag = true;
             }
             s2.unsubscribe();
-          })
+          });
+          this.generateVoteCountList(districtRaw, electionRaw);
+
         });
 
 
@@ -288,7 +293,7 @@ export class DaoDistrict {
           regionRaw.districtList[districtRaw.$key] = true;
           this.updateRegionRaw(regionRaw).then(() => {
             if (flag) {
-              s1.unsubscribe()
+              s1.unsubscribe();
             } else {
               flag = true;
             }

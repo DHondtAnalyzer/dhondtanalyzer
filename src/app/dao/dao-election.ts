@@ -64,7 +64,6 @@ export class DaoElection {
 
 
   private getDistrictObjectObservable(key: string, deep: number) {
-    console.log("HOLA3");
     return this.getDaoDistrict().getDistrictObjectObservable(key, deep);
   }
 
@@ -162,7 +161,7 @@ export class DaoElection {
 
 
   private updateElection(election: Election): AppPromise<void> {
-    return this.getElectionRaw(election.id).update({
+    return this.updateElectionRaw(<ElectionRaw>{
       name: election.name,
       date: election.date,
       seats: election.seats,
