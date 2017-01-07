@@ -179,7 +179,7 @@ export class DaoVoteCount {
     }
   }
 
-  private addVoteCountToDistrict(districtKey: string, partyKey: string,
+  addVoteCountToDistrict(districtKey: string, partyKey: string,
                                  type: VoteType = VoteType.VALID) {
 
     if (type == VoteType.VALID){

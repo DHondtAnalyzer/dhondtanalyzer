@@ -11,6 +11,7 @@ import {AngularFire, AngularFireDatabase} from "angularfire2";
 import {DaoRegion} from "./dao-region";
 import {DaoDistrict} from "./dao-district";
 import {DaoParty} from "./dao-party";
+import {DaoVoteCount} from "./dao-vote-count";
 /**
  * Created by garciparedes on 07/01/2017.
  */
@@ -53,6 +54,10 @@ export class DaoElection {
     return DaoParty.newInstance();
   }
 
+  private getDaoVoteCount(): DaoVoteCount {
+    return DaoVoteCount.newInstance();
+  }
+
 
   private updateRegionRaw(regionRaw: RegionRaw) {
     return this.getDaoRegion().updateRegionRaw(regionRaw);
@@ -78,6 +83,11 @@ export class DaoElection {
 
   private updatePartyRaw(partyRaw: PartyRaw) {
     return this.getDaoParty().updatePartyRaw(partyRaw);
+  }
+
+
+  private addVoteCountToDistrictdistrict(key: string, partyId: string) {
+    return this.getDaoVoteCount().addVoteCountToDistrict(key, partyId);
   }
 
 
@@ -237,7 +247,10 @@ export class DaoElection {
       electionRaw.partyList[partyId] = true;
       this.updateElectionRaw(electionRaw).then(() => {
         s1.unsubscribe();
-      })
+      });
+      Object.keys(electionRaw.districtList).forEach(key => {
+        this.addVoteCountToDistrictdistrict(key, partyId);
+      });
     });
 
     let s2: Subscription = this.getPartyRaw(partyId)
@@ -253,3 +266,4 @@ export class DaoElection {
       });
   }
 }
+
