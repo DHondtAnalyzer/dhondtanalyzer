@@ -14,6 +14,11 @@ import {Subscription} from "rxjs";
 import {DistrictRaw} from "./model/district";
 import {VoteCount, VoteCountRaw} from "./model/vote-count";
 import {VoteType} from "./model/vote-type";
+import {DaoDistrict} from "./dao-district";
+import {DaoElection} from "./dao-election";
+import {DaoParty} from "./dao-party";
+import {DaoRegion} from "./dao-region";
+import {DaoVoteCount} from "./dao-vote-count";
 
 @Injectable()
 export class DaoService {
@@ -31,7 +36,18 @@ export class DaoService {
   private districtListObs: AppListObservable<District[]>;
   private voteCountListObs: AppListObservable<VoteCount[]>;
 
+  private daoDistrict:DaoDistrict;
+  private daoElection:DaoElection;
+  private daoParty:DaoParty;
+  private daoRegion:DaoRegion;
+  private daoVoteCount:DaoVoteCount;
+
   constructor(private af: AngularFire) {
+    this.daoDistrict = DaoDistrict.newInstance(af);
+    this.daoElection = DaoElection.newInstance(af);
+    this.daoParty = DaoParty.newInstance(af);
+    this.daoRegion = DaoRegion.newInstance(af);
+    this.daoVoteCount = DaoVoteCount.newInstance(af);
   }
 
 
