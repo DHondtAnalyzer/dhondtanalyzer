@@ -23,17 +23,15 @@ export class DaoParty {
   private static instance: DaoParty;
 
   static newInstance(af?: AngularFire): DaoParty {
-    if(!DaoParty.instance)  {
+    if (!DaoParty.instance) {
       DaoParty.instance = new DaoParty(af);
     }
     return DaoParty.instance;
   }
 
 
-
-
   constructor(af: AngularFire) {
-    this.list_url ='/rest/parties/';
+    this.list_url = '/rest/parties/';
     this.af = af;
     this.database = af.database;
   }
@@ -42,6 +40,7 @@ export class DaoParty {
   private getDaoElection(): DaoElection {
     return DaoElection.newInstance();
   }
+
   private getElectionObjectObservable(key: string, deep: number) {
     return this.getDaoElection().getElectionObjectObservable(key, deep);
   }
@@ -82,10 +81,9 @@ export class DaoParty {
   }
 
 
-  getPartyRaw(key: string): AppObjectObservable<PartyRaw>{
+  getPartyRaw(key: string): AppObjectObservable<PartyRaw> {
     return <AppObjectObservable<PartyRaw>>this.af.database.object(`/rest/parties/${key}`);
   }
-
 
 
   getPartyObjectObservable(id: string, deep: number = 1): AppObjectObservable<Party> {
@@ -112,8 +110,7 @@ export class DaoParty {
   }
 
 
-
-  private updateParty(party: Party):  AppPromise<void> {
+  private updateParty(party: Party): AppPromise<void> {
     return this.updatePartyRaw(<PartyRaw> {
         abbreviation: party.abbreviation,
         color: party.color,
@@ -125,14 +122,13 @@ export class DaoParty {
   }
 
 
-  updatePartyRaw(raw: PartyRaw):  AppPromise<void> {
+  updatePartyRaw(raw: PartyRaw): AppPromise<void> {
     let i = this.getPartyRaw(raw.$key);
     delete raw.$exists;
     delete raw.$key;
 
     return i.update(raw);
   }
-
 
 
   deleteParty(party: Party): AppPromise<void> {
@@ -146,7 +142,6 @@ export class DaoParty {
       });
     }
   }
-
 
 
   saveParty(party: Party): AppPromise<void> {

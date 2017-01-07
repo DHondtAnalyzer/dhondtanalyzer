@@ -27,18 +27,17 @@ export class DaoElection {
   private static instance: DaoElection;
 
   static newInstance(af?: AngularFire): DaoElection {
-    if(!DaoElection.instance)  {
+    if (!DaoElection.instance) {
       DaoElection.instance = new DaoElection(af);
     }
     return DaoElection.instance;
   }
 
   constructor(af: AngularFire) {
-    this.list_url ='/rest/elections/';
+    this.list_url = '/rest/elections/';
     this.af = af;
     this.database = af.database;
   }
-
 
 
   private getDaoRegion(): DaoRegion {
@@ -55,8 +54,6 @@ export class DaoElection {
   }
 
 
-
-
   private updateRegionRaw(regionRaw: RegionRaw) {
     return this.getDaoRegion().updateRegionRaw(regionRaw);
   }
@@ -66,7 +63,6 @@ export class DaoElection {
   }
 
 
-
   private getDistrictObjectObservable(key: string, deep: number) {
     return this.getDaoDistrict().getDistrictObjectObservable(key, deep);
   }
@@ -74,8 +70,6 @@ export class DaoElection {
   private getPartyObjectObservable(key: string, number: number) {
     return this.getDaoParty().getPartyObjectObservable(key, number);
   }
-
-
 
 
   private getPartyRaw(partyId: string) {
@@ -124,7 +118,7 @@ export class DaoElection {
   }
 
 
-  getElectionRaw(key: string): AppObjectObservable<ElectionRaw>{
+  getElectionRaw(key: string): AppObjectObservable<ElectionRaw> {
     return <AppObjectObservable<ElectionRaw>>this.database.object(`/rest/elections/${key}`);
   }
 
@@ -134,30 +128,28 @@ export class DaoElection {
 
       // TODO Refactor code to extract it in functions.
       if (deep) {
-        let partyKeys: string[];
         if (election.partyList) {
-          partyKeys = Object.keys(election.partyList);
+
+          election.partyList = new AppListObservableObject<Party>();
+
+          Object.keys(election.partyList).forEach(key => {
+            election.partyList.push(this.getPartyObjectObservable(key, deep - 1));
+          });
+
         } else {
-          partyKeys = [];
+          election.partyList = new AppListObservableObject<Party>();
         }
 
-        election.partyList = new AppListObservableObject<Party>();
-        partyKeys.map(key => {
-          election.partyList.push(this.getPartyObjectObservable(key, deep - 1));
-        });
 
-
-        let districtKeys: string[];
         if (election.districtList) {
-          districtKeys = Object.keys(election.districtList);
-        } else {
-          districtKeys = [];
-        }
+          election.districtList = new AppListObservableObject<District>();
 
-        election.districtList = new AppListObservableObject<District>();
-        districtKeys.map(key => {
-          election.districtList.push(this.getDistrictObjectObservable(key, deep));
-        });
+          Object.keys(election.districtList).forEach(key => {
+            election.districtList.push(this.getDistrictObjectObservable(key, deep));
+          });
+        } else {
+          election.districtList = new AppListObservableObject<District>();
+        }
       }
 
       return Election.fromRaw(election);
@@ -165,8 +157,7 @@ export class DaoElection {
   }
 
 
-
-  private updateElection(election: Election):  AppPromise<void> {
+  private updateElection(election: Election): AppPromise<void> {
     return this.getElectionRaw(election.id).update({
       name: election.name,
       date: election.date,
@@ -178,7 +169,7 @@ export class DaoElection {
   }
 
 
-  updateElectionRaw(raw: ElectionRaw):  AppPromise<void> {
+  updateElectionRaw(raw: ElectionRaw): AppPromise<void> {
     let i = this.getElectionRaw(raw.$key);
     delete raw.$exists;
     delete raw.$key;
@@ -200,7 +191,6 @@ export class DaoElection {
   }
 
 
-
   saveElection(election: Election): AppPromise<void> {
     if (election.id) {
       return this.updateElection(election);
@@ -213,7 +203,7 @@ export class DaoElection {
   removePartyFromElection(electionId: string, partyId: string) {
     let s1: Subscription = this.getElectionRaw(electionId).subscribe((electionRaw: ElectionRaw) => {
 
-      if(electionRaw.partyList && electionRaw.partyList[partyId]){
+      if (electionRaw.partyList && electionRaw.partyList[partyId]) {
         delete electionRaw.partyList[partyId];
       }
 
@@ -224,7 +214,7 @@ export class DaoElection {
 
     let s2: Subscription = this.getPartyRaw(partyId).subscribe((partyRaw: PartyRaw) => {
 
-      if(partyRaw.electionList && partyRaw.electionList[electionId]){
+      if (partyRaw.electionList && partyRaw.electionList[electionId]) {
         delete partyRaw.electionList[electionId];
       }
 
@@ -233,7 +223,6 @@ export class DaoElection {
       })
     });
   }
-
 
 
   addPartyToElection(electionId: string, partyId: string) {

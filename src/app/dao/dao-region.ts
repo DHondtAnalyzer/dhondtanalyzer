@@ -22,7 +22,7 @@ export class DaoRegion {
   private static instance: DaoRegion;
 
   static newInstance(af?: AngularFire): DaoRegion {
-    if(!DaoRegion.instance)  {
+    if (!DaoRegion.instance) {
       DaoRegion.instance = new DaoRegion(af);
     }
     return DaoRegion.instance;
@@ -30,7 +30,7 @@ export class DaoRegion {
 
 
   private constructor(af: AngularFire) {
-    this.list_url ='/rest/regions/';
+    this.list_url = '/rest/regions/';
     this.af = af;
     this.database = af.database;
   }
@@ -45,12 +45,12 @@ export class DaoRegion {
   }
 
 
-
   private getDaoDistrict(): DaoDistrict {
     return DaoDistrict.newInstance();
   }
+
   private getDistrictObjectObservable(key: string, deep: number) {
-      return this.getDaoDistrict().getDistrictObjectObservable(key, deep);
+    return this.getDaoDistrict().getDistrictObjectObservable(key, deep);
   }
 
 
@@ -66,7 +66,6 @@ export class DaoRegion {
   }
 
 
-
   getRegionListObservable(): AppListObservable<Region[]> {
     if (!this.regionListObs) {
       this.regionListObs = <AppListObservable<Region[]>>
@@ -80,11 +79,9 @@ export class DaoRegion {
   }
 
 
-
-  getRegionRaw(key: string): AppObjectObservable<RegionRaw>{
+  getRegionRaw(key: string): AppObjectObservable<RegionRaw> {
     return <AppObjectObservable<RegionRaw>>this.af.database.object(`/rest/regions/${key}`);
   }
-
 
 
   getRegionObjectObservable(id: string, deep: number = 1): AppObjectObservable<Region> {
@@ -111,8 +108,7 @@ export class DaoRegion {
   }
 
 
-
-  updateRegion(region: Region):  AppPromise<void> {
+  updateRegion(region: Region): AppPromise<void> {
     return this.updateRegionRaw(<RegionRaw> {
       name: region.name,
       districtList: region.districtList.plainList()
@@ -120,15 +116,13 @@ export class DaoRegion {
   }
 
 
-
-  updateRegionRaw(raw: RegionRaw):  AppPromise<void> {
+  updateRegionRaw(raw: RegionRaw): AppPromise<void> {
     let i = this.getRegionRaw(raw.$key);
     delete raw.$exists;
     delete raw.$key;
 
     return i.update(raw);
   }
-
 
 
   deleteRegion(region: Region): AppPromise<void> {
@@ -142,7 +136,6 @@ export class DaoRegion {
       });
     }
   }
-
 
 
   saveRegion(region: Region): AppPromise<void> {

@@ -27,7 +27,7 @@ export class DaoVoteCount {
   private static instance: DaoVoteCount;
 
   static newInstance(af?: AngularFire): DaoVoteCount {
-    if(!DaoVoteCount.instance)  {
+    if (!DaoVoteCount.instance) {
       DaoVoteCount.instance = new DaoVoteCount(af);
     }
     return DaoVoteCount.instance;
@@ -62,7 +62,7 @@ export class DaoVoteCount {
 
 
   constructor(af: AngularFire) {
-    this.list_url ='/rest/vote-counts/';
+    this.list_url = '/rest/vote-counts/';
     this.af = af;
     this.database = af.database;
   }
@@ -103,7 +103,7 @@ export class DaoVoteCount {
   }
 
 
-  private getVoteCountRaw(key: string): AppObjectObservable<VoteCountRaw>{
+  private getVoteCountRaw(key: string): AppObjectObservable<VoteCountRaw> {
     return <AppObjectObservable<VoteCountRaw>>this.af.database.object(`/rest/vote-counts/${key}`);
   }
 
@@ -132,7 +132,7 @@ export class DaoVoteCount {
   }
 
 
-  private updateVoteCount(voteCount: VoteCount):  AppPromise<void> {
+  private updateVoteCount(voteCount: VoteCount): AppPromise<void> {
     return this.updateVoteCountRaw(<VoteCountRaw>
       {
         $key: voteCount.id,
@@ -145,7 +145,7 @@ export class DaoVoteCount {
   }
 
 
-  private updateVoteCountRaw(raw: VoteCountRaw):  AppPromise<void> {
+  private updateVoteCountRaw(raw: VoteCountRaw): AppPromise<void> {
     let i = this.getVoteCountRaw(raw.$key);
     delete raw.$exists;
     delete raw.$key;

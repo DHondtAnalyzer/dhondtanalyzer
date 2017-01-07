@@ -28,14 +28,14 @@ export class DaoDistrict {
   private static instance: DaoDistrict;
 
   static newInstance(af?: AngularFire): DaoDistrict {
-    if(!DaoDistrict.instance)  {
+    if (!DaoDistrict.instance) {
       DaoDistrict.instance = new DaoDistrict(af);
     }
     return DaoDistrict.instance;
   }
 
   constructor(af: AngularFire) {
-    this.list_url ='/rest/districts/';
+    this.list_url = '/rest/districts/';
     this.af = af;
     this.database = af.database;
   }
@@ -54,7 +54,6 @@ export class DaoDistrict {
   }
 
 
-
   private getElectionRaw(electionId: string) {
     return this.getDaoElection().getElectionRaw(electionId);
   }
@@ -67,7 +66,6 @@ export class DaoDistrict {
   private getElectionObjectObservable(electionKey: string, number: number) {
     return this.getDaoElection().getElectionObjectObservable(electionKey, number);
   }
-
 
 
   private getRegionRaw(regionId: string) {
@@ -85,8 +83,6 @@ export class DaoDistrict {
   }
 
 
-
-
   private deleteVoteCount(key: string) {
     return this.getDaoVoteCount().deleteVoteCount(key);
   }
@@ -100,8 +96,6 @@ export class DaoDistrict {
   private getVoteCountObjectObservable(key: string, deep: number) {
     return this.getDaoVoteCount().getVoteCountObjectObservable(key, deep);
   }
-
-
 
 
   private getListURL(): string {
@@ -139,7 +133,7 @@ export class DaoDistrict {
   }
 
 
-  getDistrictRaw(key: string): AppObjectObservable<DistrictRaw>{
+  getDistrictRaw(key: string): AppObjectObservable<DistrictRaw> {
     return <AppObjectObservable<DistrictRaw>>this.af.database.object(`/rest/districts/${key}`);
   }
 
@@ -168,7 +162,6 @@ export class DaoDistrict {
       }
 
 
-
       if (districtRaw.voteCountList) {
         let voteCountKeys: string[];
         voteCountKeys = Object.keys(districtRaw.voteCountList);
@@ -188,7 +181,7 @@ export class DaoDistrict {
   }
 
 
-  private updateDistrict(district: District):  AppPromise<void> {
+  private updateDistrict(district: District): AppPromise<void> {
     return this.updateDistrictRaw(<DistrictRaw>
       {
         $key: district.id,
@@ -199,14 +192,13 @@ export class DaoDistrict {
   }
 
 
-  updateDistrictRaw(raw: DistrictRaw):  AppPromise<void> {
+  updateDistrictRaw(raw: DistrictRaw): AppPromise<void> {
     let i = this.getDistrictRaw(raw.$key);
     delete raw.$exists;
     delete raw.$key;
 
     return i.update(raw);
   }
-
 
 
   deleteDistrict(districtId: string) {
@@ -224,12 +216,12 @@ export class DaoDistrict {
 
       let s1: Subscription = this.getElectionRaw(electionId).subscribe((electionRaw: ElectionRaw) => {
 
-        if(electionRaw.districtList && electionRaw.districtList[districtId]){
+        if (electionRaw.districtList && electionRaw.districtList[districtId]) {
           delete electionRaw.districtList[districtId];
         }
 
         this.updateElectionRaw(electionRaw).then(() => {
-          if (flag){
+          if (flag) {
             i.unsubscribe();
 
             this.getDistrictRaw(districtId).remove();
@@ -242,12 +234,12 @@ export class DaoDistrict {
 
       let s2: Subscription = this.getRegionRaw(regionId).subscribe((regionRaw: RegionRaw) => {
 
-        if(regionRaw.districtList && regionRaw.districtList[districtId]){
+        if (regionRaw.districtList && regionRaw.districtList[districtId]) {
           delete regionRaw.districtList[districtId];
         }
 
         this.updateRegionRaw(regionRaw).then(() => {
-          if (flag){
+          if (flag) {
             i.unsubscribe();
             this.getDistrictRaw(districtId).remove();
           } else {
