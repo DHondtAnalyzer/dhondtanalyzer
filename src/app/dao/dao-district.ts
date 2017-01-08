@@ -139,8 +139,15 @@ export class DaoDistrict {
 
   getDistrictObjectObservable(id: string, deep: number = 1): AppObjectObservable<District> {
     return <AppObjectObservable<District>>this.getDistrictRaw(id).map((districtRaw: DistrictRaw) => {
-      console.log(districtRaw);
       // TODO Refactor code to extract it in functions.
+      if (districtRaw.voteCountList) {
+        let keyList: string[] = Object.keys(districtRaw.voteCountList);
+        districtRaw.voteCountList = new AppListObservableObject<VoteCount>();
+        keyList.forEach(key => {
+          districtRaw.voteCountList.push(this.getVoteCountObjectObservable(key, deep));
+        });
+      }
+
       if (deep) {
         if (districtRaw.election) {
           districtRaw.election = this.getElectionObjectObservable(Object.keys(districtRaw.election)[0], deep - 1);
@@ -150,22 +157,6 @@ export class DaoDistrict {
           districtRaw.region = this.getRegionObjectObservable(Object.keys(districtRaw.region)[0], deep - 1);
         }
       }
-
-
-      if (districtRaw.voteCountList) {
-        let keyList: string[] = Object.keys(districtRaw.voteCountList);
-        districtRaw.voteCountList = new AppListObservableObject<VoteCount>();
-        keyList.forEach(key => {
-          districtRaw.voteCountList.push(this.getVoteCountObjectObservable(key, deep));
-        });
-
-      } else {
-        //console.log(districtRaw);
-        //this.generateVoteCountList(districtRaw);
-        districtRaw.voteCountList = new AppListObservableObject<VoteCount>();
-      }
-
-      console.log(districtRaw);
       return District.fromRaw(districtRaw);
     });
   }
@@ -254,8 +245,6 @@ export class DaoDistrict {
 
 
   addDistrictToElection(electionId: string, regionId: string) {
-    console.log("HOLAAAAAAAAAAAA");
-
     this.createDistrictRaw(<DistrictRaw>{
       election: {
         [electionId]: true
@@ -265,41 +254,27 @@ export class DaoDistrict {
       }
     }).then((resolve) => {
       let s1 = this.database.object(resolve).subscribe((districtRaw: DistrictRaw) => {
-        let flag: boolean = false;
-        s1.unsubscribe()
+        s1.unsubscribe();
+
         let s2: Subscription = this.getElectionRaw(electionId).subscribe((electionRaw: ElectionRaw) => {
           s2.unsubscribe();
           if (!electionRaw.districtList) {
             electionRaw.districtList = {}
           }
           electionRaw.districtList[districtRaw.$key] = true;
-          this.updateElectionRaw(electionRaw).then(() => {
-            if (flag) {
-              s1.unsubscribe()
-            } else {
-              flag = true;
-            }
-            s2.unsubscribe();
-          });
+          this.updateElectionRaw(electionRaw);
           this.generateVoteCountList(districtRaw, electionRaw);
-
         });
 
 
         let s3: Subscription = this.getRegionRaw(regionId).subscribe((regionRaw: RegionRaw) => {
+          s3.unsubscribe();
 
           if (!regionRaw.districtList) {
             regionRaw.districtList = {}
           }
           regionRaw.districtList[districtRaw.$key] = true;
-          this.updateRegionRaw(regionRaw).then(() => {
-            if (flag) {
-              s1.unsubscribe();
-            } else {
-              flag = true;
-            }
-            s3.unsubscribe();
-          })
+          this.updateRegionRaw(regionRaw);
         });
       });
     });
