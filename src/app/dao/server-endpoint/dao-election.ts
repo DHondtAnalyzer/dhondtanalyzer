@@ -4,7 +4,6 @@ import {AppPromise} from "../shared/app-promise";
 import {AppObjectObservable} from "../shared/app-object-observable";
 import {AppListObservableObject} from "../shared/app-list-observable-object";
 import {Party, PartyRaw} from "../model/party";
-import {District} from "../model/district";
 import {Subscription} from "rxjs";
 import {RegionRaw} from "../model/region";
 import {AngularFire, AngularFireDatabase} from "angularfire2";
@@ -12,6 +11,7 @@ import {DaoRegion} from "./dao-region";
 import {DaoDistrict} from "./dao-district";
 import {DaoParty} from "./dao-party";
 import {DaoVoteCount} from "./dao-vote-count";
+import {District} from "../model/district";
 /**
  * Created by garciparedes on 07/01/2017.
  */
@@ -58,24 +58,10 @@ export class DaoElection {
     return DaoVoteCount.newInstance();
   }
 
-
-  private updateRegionRaw(regionRaw: RegionRaw) {
-    return this.getDaoRegion().updateRegionRaw(regionRaw);
+  private getDistrictListObservableFromRaw(election: ElectionRaw,
+                                           deep: number): AppListObservableObject<District> {
+    return this.getDaoDistrict().getDistrictListObservableFromRaw(election,deep);
   }
-
-  private getRegionRaw(regionId: string) {
-    return this.getDaoRegion().getRegionRaw(regionId);
-  }
-
-
-  private getDistrictObjectObservable(key: string, deep: number) {
-    return this.getDaoDistrict().getDistrictObjectObservable(key, deep);
-  }
-
-  private getPartyObjectObservable(key: string, number: number) {
-    return this.getDaoParty().getPartyObjectObservable(key, number);
-  }
-
 
   private getPartyRaw(partyId: string) {
     return this.getDaoParty().getPartyRaw(partyId);
@@ -85,6 +71,10 @@ export class DaoElection {
     return this.getDaoParty().updatePartyRaw(partyRaw);
   }
 
+  private getPartyListObservableFromRaw(election: ElectionRaw,
+                                        deep: number): AppListObservableObject<Party> {
+    return this.getDaoParty().getPartyListObservableFromRaw(election,deep);
+  }
 
   private addVoteCountToDistrict(key: string, partyId: string) {
     return this.getDaoVoteCount().addVoteCountToDistrict(key, partyId);
@@ -128,6 +118,17 @@ export class DaoElection {
   }
 
 
+  getElectionListObservableFromRaw(raw: PartyRaw, deep: number = 1): AppListObservableObject<Election> {
+    let keyList: string[] = Object.keys(raw.electionList);
+    let list = new AppListObservableObject<Election>();
+
+    keyList.forEach(key => {
+      list.push(this.getElectionObjectObservable(key, deep));
+    });
+    return list;
+  }
+
+
   getElectionRaw(key: string): AppObjectObservable<ElectionRaw> {
     return <AppObjectObservable<ElectionRaw>>this.database.object(`/rest/elections/${key}`);
   }
@@ -136,33 +137,9 @@ export class DaoElection {
   getElectionObjectObservable(id: string, deep: number = 1): AppObjectObservable<Election> {
     return <AppObjectObservable<Election>>this.getElectionRaw(id).map((election: ElectionRaw) => {
 
-      // TODO Refactor code to extract it in functions.
       if (deep) {
-        if (election.partyList) {
-          let keyList: string[] = Object.keys(election.partyList);
-
-          election.partyList = new AppListObservableObject<Party>();
-
-          keyList.forEach(key => {
-            election.partyList.push(this.getPartyObjectObservable(key, deep - 1));
-          });
-
-        } else {
-          election.partyList = new AppListObservableObject<Party>();
-        }
-
-
-        if (election.districtList) {
-
-          let keyList: string[] = Object.keys(election.districtList);
-          election.districtList = new AppListObservableObject<District>();
-
-          keyList.forEach(key => {
-            election.districtList.push(this.getDistrictObjectObservable(key, deep));
-          });
-        } else {
-          election.districtList = new AppListObservableObject<District>();
-        }
+        election.partyList = this.getPartyListObservableFromRaw(election,deep);
+        election.districtList = this.getDistrictListObservableFromRaw(election,deep);
       }
 
       return Election.fromRaw(election);

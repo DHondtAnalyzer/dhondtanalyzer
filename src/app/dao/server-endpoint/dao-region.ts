@@ -53,6 +53,11 @@ export class DaoRegion {
     return this.getDaoDistrict().getDistrictObjectObservable(key, deep);
   }
 
+  private getDistrictListObservableFromRaw(regionRaw: RegionRaw,
+                                           deep: number): AppListObservableObject<District> {
+    return this.getDaoDistrict().getDistrictListObservableFromRaw(regionRaw, deep);
+  }
+
 
   ///////////
   // CRUD: Region
@@ -87,17 +92,8 @@ export class DaoRegion {
   getRegionObjectObservable(id: string, deep: number = 1): AppObjectObservable<Region> {
     return <AppObjectObservable<Region>>this.getRegionRaw(id).map((region: RegionRaw) => {
 
-      // TODO Refactor code to extract it in functions.
       if (deep) {
-        if (region.districtList) {
-          let keyList: string[] = Object.keys(region.districtList);
-          region.districtList = new AppListObservableObject<District>();
-          keyList.forEach(key => {
-            region.districtList.push(this.getDistrictObjectObservable(key, deep));
-          });
-        } else {
-          region.districtList = new AppListObservableObject<District>();
-        }
+        region.districtList = this.getDistrictListObservableFromRaw(region, deep);
       }
       return Region.fromRaw(region);
     });

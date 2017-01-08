@@ -96,10 +96,9 @@ export class DaoDistrict {
   }
 
 
-  private getVoteCountObjectObservable(key: string, deep: number) {
-    return this.getDaoVoteCount().getVoteCountObjectObservable(key, deep);
+  private getVoteCountListObservableFromRaw(districtRaw: DistrictRaw, deep: number): AppListObservableObject<VoteCount> {
+    return this.getDaoVoteCount().getVoteCountListObservableFromRaw(districtRaw, deep);
   }
-
 
   private getListURL(): string {
     return this.list_url;
@@ -134,6 +133,35 @@ export class DaoDistrict {
     return this.districtListObs;
   }
 
+  getDistrictListObservableFromRaw(raw: (ElectionRaw | RegionRaw), deep: number = 1): AppListObservableObject<District> {
+    let keyList: string[] = Object.keys(raw.districtList);
+    let districtList = new AppListObservableObject<District>();
+
+    keyList.forEach(key => {
+      districtList.push(this.getDistrictObjectObservable(key, deep));
+    });
+    return districtList;
+  }
+
+
+  //TODO
+  getDistrictListObservableFromElectionKey(key: any, deep: number = 1): AppListObservable<District[]> {
+    console.log(`/rest/elections/${key}/districtList`);
+    return <AppListObservable<District[]>>
+      this.af.database.list(`/rest/elections/${key}/districtList`).map((districtListRaw: any[]) => {
+        console.log(districtListRaw);
+        if (districtListRaw) {
+
+          let keyList: string[] = Object.keys(districtListRaw);
+          keyList.forEach(key => {
+            districtListRaw[key] = this.getDistrictObjectObservable(key, deep);
+          });
+        }
+        console.log(districtListRaw);
+        return districtListRaw;
+      });
+  }
+
 
   getDistrictRaw(key: string): AppObjectObservable<DistrictRaw> {
     return <AppObjectObservable<DistrictRaw>>this.af.database.object(`/rest/districts/${key}`);
@@ -143,13 +171,8 @@ export class DaoDistrict {
   getDistrictObjectObservable(id: string, deep: number = 1): AppObjectObservable<District> {
     return <AppObjectObservable<District>>this.getDistrictRaw(id).map((districtRaw: DistrictRaw) => {
       // TODO Refactor code to extract it in functions.
-      if (districtRaw.voteCountList) {
-        let keyList: string[] = Object.keys(districtRaw.voteCountList);
-        districtRaw.voteCountList = new AppListObservableObject<VoteCount>();
-        keyList.forEach(key => {
-          districtRaw.voteCountList.push(this.getVoteCountObjectObservable(key, deep));
-        });
-      }
+
+      districtRaw.voteCountList = this.getVoteCountListObservableFromRaw(districtRaw, deep);
 
       if (deep) {
         if (districtRaw.election) {

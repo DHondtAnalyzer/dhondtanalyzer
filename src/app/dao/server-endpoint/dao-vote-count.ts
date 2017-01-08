@@ -110,6 +110,15 @@ export class DaoVoteCount {
     return this.voteCountListObs;
   }
 
+  getVoteCountListObservableFromRaw(raw: DistrictRaw, deep: number = 1): AppListObservableObject<VoteCount> {
+    let keyList: string[] = Object.keys(raw.voteCountList);
+    let list = new AppListObservableObject<VoteCount>();
+
+    keyList.forEach(key => {
+      list.push(this.getVoteCountObjectObservable(key, deep));
+    });
+    return list;
+  }
 
   private getVoteCountRaw(key: string): AppObjectObservable<VoteCountRaw> {
     return <AppObjectObservable<VoteCountRaw>>this.af.database.object(`/rest/vote-counts/${key}`);

@@ -41,8 +41,8 @@ export class DaoParty {
     return DaoElection.newInstance();
   }
 
-  private getElectionObjectObservable(key: string, deep: number) {
-    return this.getDaoElection().getElectionObjectObservable(key, deep);
+  private getElectionListObservableFromParty(party: PartyRaw, number: number): AppListObservableObject<Election> {
+    return this.getDaoElection().getElectionListObservableFromRaw(party, number)
   }
 
 
@@ -75,7 +75,7 @@ export class DaoParty {
       color: party.color,
       electionList: party.electionList.plainList(),
       name: party.name,
-      });
+    });
   }
 
   getPartyListObservable(): AppListObservable<Party[]> {
@@ -92,6 +92,17 @@ export class DaoParty {
   }
 
 
+  getPartyListObservableFromRaw(rawElection: any, deep: number = 1): AppListObservableObject<Party> {
+    let keyList: string[] = Object.keys(rawElection.partyList);
+    let partyList = new AppListObservableObject<Party>();
+
+    keyList.forEach(key => {
+      partyList.push(this.getPartyObjectObservable(key, deep));
+    });
+    return partyList;
+  }
+
+
   getPartyRaw(key: string): AppObjectObservable<PartyRaw> {
     return <AppObjectObservable<PartyRaw>>this.af.database.object(`/rest/parties/${key}`);
   }
@@ -100,20 +111,9 @@ export class DaoParty {
   getPartyObjectObservable(id: string, deep: number = 1): AppObjectObservable<Party> {
 
     return <AppObjectObservable<Party>> this.getPartyRaw(id).map((party: PartyRaw) => {
-
-      // TODO Refactor code to extract it in functions.
       if (deep) {
-        if (party.electionList) {
-          let keyList: string[] = Object.keys(party.electionList);
-          party.electionList = new AppListObservableObject<Election>();
-          keyList.forEach(key => {
-            party.electionList.push(this.getElectionObjectObservable(key, deep - 1));
-          });
-        } else {
-          party.electionList = new AppListObservableObject<Election>();
-        }
+        party.electionList = this.getElectionListObservableFromParty(party, deep - 1);
       }
-
       return Party.fromRaw(party);
     });
   }
@@ -148,5 +148,4 @@ export class DaoParty {
       return this.createParty(party);
     }
   }
-
 }
