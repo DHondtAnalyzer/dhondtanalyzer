@@ -6,7 +6,7 @@ import {VoteType} from "./vote-type";
 import {District} from "./district";
 import {Party} from "./party";
 import {ModelRaw} from "./model";
-import {AppObjectObservable} from "../app-object-observable";
+import {AppObjectObservable} from "../shared/app-object-observable";
 
 
 export interface VoteCountRaw extends ModelRaw {

@@ -1,9 +1,9 @@
-import {AppListObservable} from "./app-list-observable";
-import {AppPromise} from "./app-promise";
-import {AppObjectObservable} from "./app-object-observable";
-import {AppListObservableObject} from "./app-list-observable-object";
-import {District} from "./model/district";
-import {RegionRaw, Region} from "./model/region";
+import {AppListObservable} from "../shared/app-list-observable";
+import {AppPromise} from "../shared/app-promise";
+import {AppObjectObservable} from "../shared/app-object-observable";
+import {AppListObservableObject} from "../shared/app-list-observable-object";
+import {District} from "../model/district";
+import {RegionRaw, Region} from "../model/region";
 import {AngularFire, AngularFireDatabase} from "angularfire2";
 import {DaoDistrict} from "./dao-district";
 /**

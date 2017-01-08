@@ -6,7 +6,7 @@ import {DaoService} from "../../../../../dao/dao.service";
 import {RouterService} from "../../../../shared/router/router.service";
 import {DialogService} from "../../../../shared/dialog/dialog.service";
 import {RegionDetailComponent} from "../region-detail/region-detail.component";
-import {AppList} from "../../../../../dao/app-list";
+import {AppList} from "../../../../../dao/shared/app-list";
 
 @Component({
   selector: 'app-region-list',

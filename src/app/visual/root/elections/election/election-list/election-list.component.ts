@@ -7,10 +7,10 @@ import {DaoService} from "../../../../../dao/dao.service";
 import {Election} from "../../../../../dao/model/election";
 import {ElectionDetailComponent} from "../election-detail/election-detail.component";
 import {Subscription} from "rxjs";
-import {AppListObservable} from "../../../../../dao/app-list-observable";
+import {AppListObservable} from "../../../../../dao/shared/app-list-observable";
 import {ObjectFromRoute} from "../../../../shared/router/object-from-route";
 import {RouterService} from "../../../../shared/router/router.service";
-import {AppList} from "../../../../../dao/app-list";
+import {AppList} from "../../../../../dao/shared/app-list";
 
 
 /**

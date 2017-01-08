@@ -1,16 +1,19 @@
-import {ElectionRaw} from "./model/election";
-import {AppListObservable} from "./app-list-observable";
-import {AppPromise} from "./app-promise";
-import {AppObjectObservable} from "./app-object-observable";
-import {AppListObservableObject} from "./app-list-observable-object";
-import {District, DistrictRaw} from "./model/district";
+
 import {Subscription} from "rxjs";
-import {RegionRaw} from "./model/region";
 import {AngularFire, AngularFireDatabase} from "angularfire2";
-import {VoteCount} from "./model/vote-count";
 import {DaoElection} from "./dao-election";
 import {DaoRegion} from "./dao-region";
 import {DaoVoteCount} from "./dao-vote-count";
+
+import {AppListObservable} from "../shared/app-list-observable";
+import {AppPromise} from "../shared/app-promise";
+import {AppObjectObservable} from "../shared/app-object-observable";
+import {AppListObservableObject} from "../shared/app-list-observable-object";
+
+import {District, DistrictRaw} from "../model/district";
+import {ElectionRaw} from "../model/election";
+import {RegionRaw} from "../model/region";
+import {VoteCount} from "../model/vote-count";
 /**
  * Created by garciparedes on 07/01/2017.
  */

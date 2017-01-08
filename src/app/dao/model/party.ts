@@ -1,6 +1,6 @@
 import {Election} from "./election";
-import {AppList} from "../app-list";
-import {AppListObservableObject} from "../app-list-observable-object";
+import {AppList} from "../shared/app-list";
+import {AppListObservableObject} from "../shared/app-list-observable-object";
 import {ModelRaw} from "./model";
 
 export interface PartyRaw extends ModelRaw {

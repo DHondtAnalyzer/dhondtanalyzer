@@ -1,8 +1,8 @@
 import {Component, OnInit, EventEmitter, Input, Output, OnChanges, SimpleChanges} from '@angular/core';
 
 import {Election} from "../../../../../dao/model/election";
-import {AppListObservable} from "../../../../../dao/app-list-observable";
-import {AppList} from "../../../../../dao/app-list";
+import {AppListObservable} from "../../../../../dao/shared/app-list-observable";
+import {AppList} from "../../../../../dao/shared/app-list";
 
 @Component({
     selector: 'app-election-grid',

@@ -7,7 +7,7 @@ import {DialogComponent} from "../../../../shared/dialog/dialog-component";
 import {Observable, BehaviorSubject} from "rxjs";
 import {DaoService} from "../../../../../dao/dao.service";
 import {District} from "../../../../../dao/model/district";
-import {AppList} from "../../../../../dao/app-list";
+import {AppList} from "../../../../../dao/shared/app-list";
 
 
 /**

@@ -6,11 +6,11 @@ import {Election} from "../../../../../dao/model/election";
 import {DialogComponent} from "../../../../shared/dialog/dialog-component";
 import {BehaviorSubject, Observable} from "rxjs";
 import {DaoService} from "../../../../../dao/dao.service";
-import {AppList} from "../../../../../dao/app-list";
+import {AppList} from "../../../../../dao/shared/app-list";
 import 'rxjs/add/operator/map';
 import {District} from "../../../../../dao/model/district";
-import {AppListObservableObject} from "../../../../../dao/app-list-observable-object";
-import {AppListObservable} from "../../../../../dao/app-list-observable";
+import {AppListObservableObject} from "../../../../../dao/shared/app-list-observable-object";
+import {AppListObservable} from "../../../../../dao/shared/app-list-observable";
 
 @Component({
     selector: 'app-region-detail',

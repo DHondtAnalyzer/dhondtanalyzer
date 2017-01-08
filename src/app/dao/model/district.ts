@@ -5,10 +5,10 @@
 import {Election} from "./election";
 import {Region} from "./region";
 import {VoteCount} from "./vote-count";
-import {AppObjectObservable} from "../app-object-observable";
+import {AppObjectObservable} from "../shared/app-object-observable";
 import {BehaviorSubject} from "rxjs";
 import {ModelRaw} from "./model";
-import {AppListObservableObject} from "../app-list-observable-object";
+import {AppListObservableObject} from "../shared/app-list-observable-object";
 
 
 export interface DistrictRaw extends ModelRaw {

@@ -1,6 +1,6 @@
 import {District} from "./district";
 import {Election} from "./election";
-import {AppListObservableObject} from "../app-list-observable-object";
+import {AppListObservableObject} from "../shared/app-list-observable-object";
 import {ModelRaw} from "./model";
 
 

@@ -5,8 +5,8 @@
 import {ElectionType} from "./election-type";
 import {District} from "./district";
 import {Party} from "./party";
-import {AppList} from "../app-list";
-import {AppListObservableObject} from "../app-list-observable-object";
+import {AppList} from "../shared/app-list";
+import {AppListObservableObject} from "../shared/app-list-observable-object";
 import {ModelRaw} from "./model";
 
 

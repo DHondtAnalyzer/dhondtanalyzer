@@ -1,24 +1,20 @@
-import {Election, ElectionRaw} from "./model/election";
-import {Party, PartyRaw} from "./model/party";
+import {Election} from "./model/election";
+import {Party} from "./model/party";
 import {District} from "./model";
 import {Injectable} from "@angular/core";
 import "rxjs/add/operator/toPromise";
 import 'rxjs/add/operator/map';
-import {Region, RegionRaw} from "./model/region";
+import {Region} from "./model/region";
 import {AngularFire} from "angularfire2";
-import {AppObjectObservable} from "./app-object-observable";
-import {AppListObservableObject} from "./app-list-observable-object";
-import {AppListObservable} from "./app-list-observable";
-import {AppPromise} from "./app-promise";
-import {Subscription} from "rxjs";
-import {DistrictRaw} from "./model/district";
-import {VoteCount, VoteCountRaw} from "./model/vote-count";
-import {VoteType} from "./model/vote-type";
-import {DaoDistrict} from "./dao-district";
-import {DaoElection} from "./dao-election";
-import {DaoParty} from "./dao-party";
-import {DaoRegion} from "./dao-region";
-import {DaoVoteCount} from "./dao-vote-count";
+import {AppObjectObservable} from "./shared/app-object-observable";
+import {AppListObservable} from "./shared/app-list-observable";
+import {AppPromise} from "./shared/app-promise";
+import {VoteCount} from "./model/vote-count";
+import {DaoDistrict} from "./server-endpoint/dao-district";
+import {DaoElection} from "./server-endpoint/dao-election";
+import {DaoParty} from "./server-endpoint/dao-party";
+import {DaoRegion} from "./server-endpoint/dao-region";
+import {DaoVoteCount} from "./server-endpoint/dao-vote-count";
 
 @Injectable()
 export class DaoService {
