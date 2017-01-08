@@ -27,6 +27,9 @@ export class ElectionDetailComponent implements DialogComponent, OnInit {
   private isFullScreen: boolean;
   private resizableSubscriber:BehaviorSubject<boolean>;
 
+
+  private _partyList: AppList<Party>;
+  private _districtList: AppList<District>;
   /**
    * Atributo model.
    *
@@ -139,11 +142,17 @@ export class ElectionDetailComponent implements DialogComponent, OnInit {
 
 
   get districtList(): AppList<District> {
-    return this.election.districtList;
+    if (!this._districtList) {
+      this._districtList = this.daoService.getDistrictListObservableFromElectionKey(this.election.id);
+    }
+    return this._districtList;
   }
 
   get partyList(): AppList<Party> {
-    return this.election.partyList;
+    if (!this._partyList) {
+      this._partyList = this.daoService.getPartyListObservableFromElectionKey(this.election.id);
+    }
+    return this._partyList;
   }
 
     /**

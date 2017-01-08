@@ -102,6 +102,19 @@ export class DaoParty {
     return partyList;
   }
 
+  getPartyListObservableFromElectionKey(key: any, deep: number = 1): AppListObservableObject<Party> {
+    let list = new AppListObservableObject<Party>();
+
+    this.af.database.list(`/rest/elections/${key}/partyList`).subscribe((listRaw: any[]) => {
+      if (listRaw) {
+        listRaw.forEach(raw => {
+          list.push(this.getPartyObjectObservable(raw.$key, deep));
+        });
+      }
+    });
+    return list;
+  }
+
 
   getPartyRaw(key: string): AppObjectObservable<PartyRaw> {
     return <AppObjectObservable<PartyRaw>>this.af.database.object(`/rest/parties/${key}`);
