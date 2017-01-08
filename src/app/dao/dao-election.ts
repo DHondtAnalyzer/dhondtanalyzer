@@ -86,7 +86,7 @@ export class DaoElection {
   }
 
 
-  private addVoteCountToDistrictdistrict(key: string, partyId: string) {
+  private addVoteCountToDistrict(key: string, partyId: string) {
     return this.getDaoVoteCount().addVoteCountToDistrict(key, partyId);
   }
 
@@ -214,55 +214,76 @@ export class DaoElection {
 
 
   removePartyFromElection(electionId: string, partyId: string) {
+    let f1: boolean = false;
     let s1: Subscription = this.getElectionRaw(electionId).subscribe((electionRaw: ElectionRaw) => {
-
-      if (electionRaw.partyList && electionRaw.partyList[partyId]) {
-        delete electionRaw.partyList[partyId];
+      if (f1) {
+        if (s1){
+          s1.unsubscribe();
+        }
+      } else {
+        f1 = true;
+        if (electionRaw.partyList && electionRaw.partyList[partyId]) {
+          delete electionRaw.partyList[partyId];
+        }
+        this.updateElectionRaw(electionRaw);
       }
-
-      this.updateElectionRaw(electionRaw).then(() => {
-        s1.unsubscribe();
-      })
     });
 
+    let f2: boolean = false;
     let s2: Subscription = this.getPartyRaw(partyId).subscribe((partyRaw: PartyRaw) => {
-
-      if (partyRaw.electionList && partyRaw.electionList[electionId]) {
-        delete partyRaw.electionList[electionId];
+      if (f2) {
+        if (s2){
+          s2.unsubscribe();
+        }
+      } else {
+        f2 = true;
+        if (partyRaw.electionList && partyRaw.electionList[electionId]) {
+          delete partyRaw.electionList[electionId];
+        }
+        this.updatePartyRaw(partyRaw);
       }
-
-      this.updatePartyRaw(partyRaw).then(() => {
-        s2.unsubscribe();
-      })
     });
   }
 
 
   addPartyToElection(electionId: string, partyId: string) {
-    let s1: Subscription = this.getElectionRaw(electionId).subscribe((electionRaw: ElectionRaw) => {
-
-      if (!electionRaw.partyList) {
-        electionRaw.partyList = {}
-      }
-      electionRaw.partyList[partyId] = true;
-      this.updateElectionRaw(electionRaw).then(() => {
-        s1.unsubscribe();
+    let f1: boolean = false;
+    let s1: Subscription = this.getElectionRaw(electionId)
+      .subscribe((electionRaw: ElectionRaw) => {
+        if (f1) {
+          if (s1){
+            s1.unsubscribe();
+          }
+        } else {
+          f1 = true;
+          if (!electionRaw.partyList) {
+            electionRaw.partyList = {}
+          }
+          electionRaw.partyList[partyId] = true;
+          if (electionRaw.districtList) {
+            Object.keys(electionRaw.districtList).forEach(key => {
+              this.addVoteCountToDistrict(key, partyId);
+            });
+          }
+          this.updateElectionRaw(electionRaw);
+        }
       });
-      Object.keys(electionRaw.districtList).forEach(key => {
-        this.addVoteCountToDistrictdistrict(key, partyId);
-      });
-    });
 
+    let f2: boolean = false;
     let s2: Subscription = this.getPartyRaw(partyId)
       .subscribe((partyRaw: PartyRaw) => {
-
-        if (!partyRaw.electionList) {
-          partyRaw.electionList = {}
+        if (f2) {
+          if (s2){
+            s2.unsubscribe();
+          }
+        } else {
+          f2 = true;
+          if (!partyRaw.electionList) {
+            partyRaw.electionList = {}
+          }
+          partyRaw.electionList[electionId] = true;
+          this.updatePartyRaw(partyRaw);
         }
-        partyRaw.electionList[electionId] = true;
-        this.updatePartyRaw(partyRaw).then(() => {
-          s2.unsubscribe();
-        })
       });
   }
 }
