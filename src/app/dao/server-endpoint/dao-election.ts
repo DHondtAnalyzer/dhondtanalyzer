@@ -119,12 +119,14 @@ export class DaoElection {
 
 
   getElectionListObservableFromRaw(raw: PartyRaw, deep: number = 1): AppListObservableObject<Election> {
-    let keyList: string[] = Object.keys(raw.electionList);
     let list = new AppListObservableObject<Election>();
+    if (raw.electionList){
+      let keyList: string[] = Object.keys(raw.electionList);
 
-    keyList.forEach(key => {
-      list.push(this.getElectionObjectObservable(key, deep));
-    });
+      keyList.forEach(key => {
+        list.push(this.getElectionObjectObservable(key, deep));
+      });
+    }
     return list;
   }
 
@@ -186,7 +188,7 @@ export class DaoElection {
     if (election.districtList.isEmpty() && election.partyList.isEmpty()) {
       return this.getElectionRaw(election.id).remove();
     } else {
-      return new Promise((resolve, reject) => {
+      return new Promise<void>((resolve, reject) => {
         reject({
           message: "Election participates in one or more districts or parties"
         });
