@@ -4,6 +4,12 @@ import {Election} from "./election";
 import {Party} from "./party";
 import {Region} from "./region";
 
+
+export interface ModelRaw {
+  $exists: any;
+  $key: string;
+}
+
 /**
  * Tipo Model.
  *

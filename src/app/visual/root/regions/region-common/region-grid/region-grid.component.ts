@@ -1,7 +1,7 @@
 import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {Region} from "../../../../../dao/model/region";
-import {AppListObservable} from "../../../../../dao/app-list-observable";
-import {AppList} from "../../../../../dao/app-list";
+import {AppListObservable} from "../../../../../dao/shared/app-list-observable";
+import {AppList} from "../../../../../dao/shared/app-list";
 
 @Component({
     selector: 'app-region-grid',

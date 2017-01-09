@@ -2,7 +2,7 @@ import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {District} from "../../../../dao/model/district";
 import {DaoService} from "../../../../dao/dao.service";
 import {Region} from "../../../../dao/model/region";
-import {AppList} from "../../../../dao/app-list";
+import {AppList} from "../../../../dao/shared/app-list";
 
 @Component({
     selector: 'app-district-grid',

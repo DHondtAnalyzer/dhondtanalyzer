@@ -5,17 +5,18 @@
 import {Election} from "./election";
 import {Region} from "./region";
 import {VoteCount} from "./vote-count";
-import {AppObjectObservable} from "../app-object-observable";
+import {AppObjectObservable} from "../shared/app-object-observable";
 import {BehaviorSubject} from "rxjs";
+import {ModelRaw} from "./model";
+import {AppListObservableObject} from "../shared/app-list-observable-object";
 
 
-export interface DistrictRaw {
-  $exists: any;
-  $key: string;
+export interface DistrictRaw extends ModelRaw {
   seats: number;
   census: number;
   election: any;
   region: any;
+  voteCountList: any;
 }
 
 
@@ -30,18 +31,13 @@ export class District {
   election: AppObjectObservable<Election>;
 
   region: AppObjectObservable<Region>;
-  voteCountList: VoteCount[];
+  voteCountList: AppListObservableObject<VoteCount>;
 
   public static newInstance(region?: AppObjectObservable<Region>,
                             election?: AppObjectObservable<Election>,
-                            seats?: number, census?: number): District {
-    let district = new District(null,region, election, seats, census);
-
-    /*
-    //TODO
-     region.districtList.push(district);
-     */
-    return district;
+                            seats?: number, census?: number,
+                            voteCountList?: AppListObservableObject<VoteCount>): District {
+    return new District(null, region, election, seats, census, voteCountList);
   }
 
 
@@ -51,17 +47,19 @@ export class District {
       raw.region,
       raw.election,
       raw.seats,
-      raw.census
+      raw.census,
+      raw.voteCountList
     );
   }
 
   constructor(key?: string, region?: AppObjectObservable<Region>,
-              election?: AppObjectObservable<Election>, seats: number = 0, census: number = 0) {
+              election?: AppObjectObservable<Election>, seats: number = 0, census: number = 0,
+              voteCountList: AppListObservableObject<VoteCount>  = new AppListObservableObject<VoteCount>()) {
     this.id = key;
     this.region = region;
     this.election = election;
     this.seats = seats;
     this.census = census;
-    this.voteCountList = [];
+    this.voteCountList = voteCountList;
   }
 }

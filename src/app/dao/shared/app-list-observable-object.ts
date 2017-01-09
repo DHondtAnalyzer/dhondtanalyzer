@@ -1,7 +1,7 @@
 import {AppObjectObservable} from "./app-object-observable";
 import {BehaviorSubject, Subscription, Observable} from "rxjs";
 import 'rxjs/add/operator/map';
-import {Model} from "./model/model";
+import {Model} from "../model/model";
 
 
 /**
