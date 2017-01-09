@@ -8,8 +8,8 @@ import {Party} from "../../../../../dao/model/party";
 import {PartyDetailComponent} from "../party-detail/party-detail.component";
 import {RouterService} from "../../../../shared/router/router.service";
 import {ObjectFromRoute} from "../../../../shared/router/object-from-route";
-import {AppListObservable} from "../../../../../dao/app-list-observable";
-import {AppList} from "../../../../../dao/app-list";
+import {AppListObservable} from "../../../../../dao/shared/app-list-observable";
+import {AppList} from "../../../../../dao/shared/app-list";
 
 
 /**

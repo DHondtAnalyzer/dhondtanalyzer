@@ -1,10 +1,9 @@
 import {Election} from "./election";
-import {AppList} from "../app-list";
-import {AppListObservableObject} from "../app-list-observable-object";
+import {AppList} from "../shared/app-list";
+import {AppListObservableObject} from "../shared/app-list-observable-object";
+import {ModelRaw} from "./model";
 
-export interface PartyRaw {
-  $exists: any;
-  $key: string;
+export interface PartyRaw extends ModelRaw {
   name: string;
   abbreviation: string;
   color: string;
@@ -25,8 +24,7 @@ export class Party {
 
   public static newInstance(name?: string, abbreviation?: string,
                             color?: string, electionList?: AppListObservableObject<Election>): Party {
-    let party = new Party(null,name, abbreviation, color, electionList);
-    return party;
+    return new Party(null, name, abbreviation, color, electionList);
   }
 
 

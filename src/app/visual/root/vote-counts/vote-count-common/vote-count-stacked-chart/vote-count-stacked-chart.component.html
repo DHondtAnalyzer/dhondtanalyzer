@@ -1,0 +1,12 @@
+<div class="horizontal-bar-chart" style="display: block">
+  <canvas baseChart
+          [style.height]="'50px'"
+          [style.width]="'100%'"
+
+          [datasets]="barChartData"
+          [options]="barChartOptions"
+          [legend]="false"
+          [chartType]="barChartType"
+          (chartHover)="chartHovered($event)"
+          (chartClick)="chartClicked($event)"></canvas>
+</div>

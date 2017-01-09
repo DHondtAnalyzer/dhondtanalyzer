@@ -1,7 +1,7 @@
 import {Component, OnInit, ElementRef, Input, Output, EventEmitter, ViewChild} from '@angular/core';
 import {MdMenuTrigger} from "@angular/material";
-import {AppList} from "../../../dao/app-list";
-import {AppListObservable} from "../../../dao/app-list-observable";
+import {AppList} from "../../../dao/shared/app-list";
+import {AppListObservable} from "../../../dao/shared/app-list-observable";
 
 
 /**

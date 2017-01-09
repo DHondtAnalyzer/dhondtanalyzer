@@ -5,14 +5,13 @@
 import {ElectionType} from "./election-type";
 import {District} from "./district";
 import {Party} from "./party";
-import {AppList} from "../app-list";
-import {AppListObservableObject} from "../app-list-observable-object";
+import {AppList} from "../shared/app-list";
+import {AppListObservableObject} from "../shared/app-list-observable-object";
+import {ModelRaw} from "./model";
 
 
 
-export interface ElectionRaw {
-  $exists: any;
-  $key: string;
+export interface ElectionRaw extends ModelRaw {
   id: string;
   name: string;
   date: Date;
@@ -37,23 +36,7 @@ export class Election {
                             seats: number = 0, type?: ElectionType,
                             districtList?: AppListObservableObject<District>,
                             partyList?: AppListObservableObject<Party>): Election {
-    let election = new Election(null, name, date, seats, type, districtList, partyList);
-
-
-    /*
-     // TODO
-     districtList.map(function (district) {
-     district.election = election;
-     });
-     */
-
-    /*
-     // TODO
-     partyList.map(function (party) {
-     party.electionList.push(election);
-     });
-     */
-    return election;
+    return new Election(null, name, date, seats, type, districtList, partyList);
   }
 
   public static fromRaw(raw: ElectionRaw) {

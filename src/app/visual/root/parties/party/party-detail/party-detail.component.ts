@@ -6,7 +6,7 @@ import {Election} from "../../../../../dao/model/election";
 import {DialogComponent} from "../../../../shared/dialog/dialog-component";
 import {Observable, BehaviorSubject} from "rxjs";
 import {DaoService} from "../../../../../dao/dao.service";
-import {AppList} from "../../../../../dao/app-list";
+import {AppList} from "../../../../../dao/shared/app-list";
 
 
 /**

@@ -1,6 +1,6 @@
 import {Component, Input, EventEmitter, Output, OnInit} from '@angular/core';
 import {Model} from "../../../dao/model/model";
-import {AppListObservable} from "../../../dao/app-list-observable";
+import {AppListObservable} from "../../../dao/shared/app-list-observable";
 
 @Component({
     selector: 'app-search',
