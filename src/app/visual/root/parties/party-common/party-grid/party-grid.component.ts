@@ -1,9 +1,9 @@
 import {Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges} from '@angular/core';
 import {Party} from "../../../../../dao/model/party";
 import {DaoService} from "../../../../../dao/dao.service";
-import {AppListObservable} from "../../../../../dao/app-list-observable";
-import {AppList} from "../../../../../dao/app-list";
-import {AppListObservableObject} from "../../../../../dao/app-list-observable-object";
+import {AppListObservable} from "../../../../../dao/shared/app-list-observable";
+import {AppList} from "../../../../../dao/shared/app-list";
+import {AppListObservableObject} from "../../../../../dao/shared/app-list-observable-object";
 
 @Component({
     selector: 'app-party-grid',
