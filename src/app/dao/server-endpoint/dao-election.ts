@@ -165,6 +165,7 @@ export class DaoElection {
 
   private updateElection(election: Election): AppPromise<void> {
     return this.updateElectionRaw(<ElectionRaw>{
+      $key: election.id,
       name: election.name,
       date: election.date,
       seats: election.seats,
