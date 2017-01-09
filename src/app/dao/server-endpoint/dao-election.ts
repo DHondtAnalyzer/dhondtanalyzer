@@ -119,12 +119,14 @@ export class DaoElection {
 
 
   getElectionListObservableFromRaw(raw: PartyRaw, deep: number = 1): AppListObservableObject<Election> {
-    let keyList: string[] = Object.keys(raw.electionList);
     let list = new AppListObservableObject<Election>();
+    if (raw.electionList){
+      let keyList: string[] = Object.keys(raw.electionList);
 
-    keyList.forEach(key => {
-      list.push(this.getElectionObjectObservable(key, deep));
-    });
+      keyList.forEach(key => {
+        list.push(this.getElectionObjectObservable(key, deep));
+      });
+    }
     return list;
   }
 

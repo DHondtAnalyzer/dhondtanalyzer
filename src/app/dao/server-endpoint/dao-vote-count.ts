@@ -111,12 +111,13 @@ export class DaoVoteCount {
   }
 
   getVoteCountListObservableFromRaw(raw: DistrictRaw, deep: number = 1): AppListObservableObject<VoteCount> {
-    let keyList: string[] = Object.keys(raw.voteCountList);
     let list = new AppListObservableObject<VoteCount>();
-
-    keyList.forEach(key => {
-      list.push(this.getVoteCountObjectObservable(key, deep));
-    });
+    if (raw.voteCountList){
+      let keyList: string[] = Object.keys(raw.voteCountList);
+      keyList.forEach(key => {
+        list.push(this.getVoteCountObjectObservable(key, deep));
+      });
+    }
     return list;
   }
 

@@ -134,12 +134,14 @@ export class DaoDistrict {
   }
 
   getDistrictListObservableFromRaw(raw: (ElectionRaw | RegionRaw), deep: number = 1): AppListObservableObject<District> {
-    let keyList: string[] = Object.keys(raw.districtList);
     let districtList = new AppListObservableObject<District>();
+    if (raw.districtList){
+      let keyList: string[] = Object.keys(raw.districtList);
 
-    keyList.forEach(key => {
-      districtList.push(this.getDistrictObjectObservable(key, deep));
-    });
+      keyList.forEach(key => {
+        districtList.push(this.getDistrictObjectObservable(key, deep));
+      });
+    }
     return districtList;
   }
 
