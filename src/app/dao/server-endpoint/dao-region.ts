@@ -100,8 +100,9 @@ export class DaoRegion {
   }
 
 
-  updateRegion(region: Region): AppPromise<void> {
+  private updateRegion(region: Region): AppPromise<void> {
     return this.updateRegionRaw(<RegionRaw> {
+      $key: region.id,
       name: region.name,
       districtList: region.districtList.plainList()
     });
