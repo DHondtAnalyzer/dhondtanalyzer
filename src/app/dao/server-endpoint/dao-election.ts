@@ -129,6 +129,20 @@ export class DaoElection {
   }
 
 
+  getElectionListObservableFromPartyKey(key: any, deep: number = 1): AppListObservableObject<Election> {
+    let list = new AppListObservableObject<Election>();
+
+    this.af.database.list(`/rest/parties/${key}/electionList`).subscribe((districtListRaw: any[]) => {
+      if (districtListRaw) {
+        districtListRaw.forEach(raw => {
+          list.push(this.getElectionObjectObservable(raw.$key, deep));
+        });
+      }
+    });
+    return list;
+  }
+
+
   getElectionRaw(key: string): AppObjectObservable<ElectionRaw> {
     return <AppObjectObservable<ElectionRaw>>this.database.object(`/rest/elections/${key}`);
   }
@@ -138,8 +152,8 @@ export class DaoElection {
     return <AppObjectObservable<Election>>this.getElectionRaw(id).map((election: ElectionRaw) => {
 
       if (deep) {
-        election.partyList = this.getPartyListObservableFromRaw(election,deep);
-        election.districtList = this.getDistrictListObservableFromRaw(election,deep);
+        //election.partyList = this.getPartyListObservableFromRaw(election,deep);
+        //election.districtList = this.getDistrictListObservableFromRaw(election,deep);
       }
 
       return Election.fromRaw(election);

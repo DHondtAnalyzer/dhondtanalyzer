@@ -15,6 +15,7 @@ import {DaoElection} from "./server-endpoint/dao-election";
 import {DaoParty} from "./server-endpoint/dao-party";
 import {DaoRegion} from "./server-endpoint/dao-region";
 import {DaoVoteCount} from "./server-endpoint/dao-vote-count";
+import {AppListObservableObject} from "./shared/app-list-observable-object";
 
 @Injectable()
 export class DaoService {
@@ -71,6 +72,10 @@ export class DaoService {
     return this.daoElection.getElectionListObservable();
   }
 
+  getElectionListObservableFromPartyKey(key: string): AppListObservableObject<Election> {
+    return this.daoElection.getElectionListObservableFromPartyKey(key)
+  }
+
   getElectionObjectObservable(id: string, deep: number = 1): AppObjectObservable<Election> {
     return this.daoElection.getElectionObjectObservable(id, deep);
   }
@@ -122,6 +127,10 @@ export class DaoService {
 
   getPartyListObservable(): AppListObservable<Party[]> {
     return this.daoParty.getPartyListObservable();
+  }
+
+  getPartyListObservableFromElectionKey(key: string): AppListObservableObject<Party> {
+    return this.daoParty.getPartyListObservableFromElectionKey(key)
   }
 
   getPartyObjectObservable(id: string, deep: number = 1): AppObjectObservable<Party> {
@@ -206,6 +215,11 @@ export class DaoService {
   getDistrictListObservable(): AppListObservable<District[]> {
     return this.daoDistrict.getDistrictListObservable();
   }
+
+  getDistrictListObservableFromElectionKey(key: string): AppListObservableObject<District> {
+    return this.daoDistrict.getDistrictListObservableFromElectionKey(key)
+  }
+
 
   getDistrictObjectObservable(id: string, deep: number = 1): AppObjectObservable<District> {
     return this.daoDistrict.getDistrictObjectObservable(id, deep);

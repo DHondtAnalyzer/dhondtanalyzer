@@ -144,24 +144,32 @@ export class DaoDistrict {
   }
 
 
-  //TODO
-  getDistrictListObservableFromElectionKey(key: any, deep: number = 1): AppListObservable<District[]> {
-    console.log(`/rest/elections/${key}/districtList`);
-    return <AppListObservable<District[]>>
-      this.af.database.list(`/rest/elections/${key}/districtList`).map((districtListRaw: any[]) => {
-        console.log(districtListRaw);
-        if (districtListRaw) {
+  getDistrictListObservableFromElectionKey(key: any, deep: number = 1): AppListObservableObject<District> {
+    let list = new AppListObservableObject<District>();
 
-          let keyList: string[] = Object.keys(districtListRaw);
-          keyList.forEach(key => {
-            districtListRaw[key] = this.getDistrictObjectObservable(key, deep);
-          });
-        }
-        console.log(districtListRaw);
-        return districtListRaw;
-      });
+    this.af.database.list(`/rest/elections/${key}/districtList`).subscribe((listRaw: any[]) => {
+      if (listRaw) {
+        listRaw.forEach(raw => {
+          list.push(this.getDistrictObjectObservable(raw.$key, deep));
+        });
+      }
+    });
+    return list;
   }
 
+
+  getDistrictListObservableFromRegionKey(key: any, deep: number = 1): AppListObservableObject<District> {
+    let list = new AppListObservableObject<District>();
+
+    this.af.database.list(`/rest/regions/${key}/districtList`).subscribe((districtListRaw: any[]) => {
+      if (districtListRaw) {
+        districtListRaw.forEach(raw => {
+          list.push(this.getDistrictObjectObservable(raw.$key, deep));
+        });
+      }
+    });
+    return list;
+  }
 
   getDistrictRaw(key: string): AppObjectObservable<DistrictRaw> {
     return <AppObjectObservable<DistrictRaw>>this.af.database.object(`/rest/districts/${key}`);

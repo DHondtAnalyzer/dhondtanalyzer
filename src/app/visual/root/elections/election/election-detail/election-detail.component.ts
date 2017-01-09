@@ -27,6 +27,7 @@ export class ElectionDetailComponent implements DialogComponent, OnInit {
   private isFullScreen: boolean;
   private resizableSubscriber:BehaviorSubject<boolean>;
 
+
   /**
    * Atributo model.
    *
