@@ -148,7 +148,7 @@ export class DaoParty {
     if (party.electionList.isEmpty()) {
       return this.getPartyRaw(party.id).remove();
     } else {
-      return new Promise((resolve, reject) => {
+      return new Promise<void>((resolve, reject) => {
         reject({
           message: "Party participates in one or more elections"
         });

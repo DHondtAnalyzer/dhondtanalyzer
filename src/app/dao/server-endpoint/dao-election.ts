@@ -188,7 +188,7 @@ export class DaoElection {
     if (election.districtList.isEmpty() && election.partyList.isEmpty()) {
       return this.getElectionRaw(election.id).remove();
     } else {
-      return new Promise((resolve, reject) => {
+      return new Promise<void>((resolve, reject) => {
         reject({
           message: "Election participates in one or more districts or parties"
         });

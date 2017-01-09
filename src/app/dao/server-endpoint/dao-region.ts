@@ -121,7 +121,7 @@ export class DaoRegion {
     if (region.districtList.isEmpty()) {
       return this.getRegionRaw(region.id).remove();
     } else {
-      return new Promise((resolve, reject) => {
+      return new Promise<void>((resolve, reject) => {
         reject({
           message: "Region participates in one or more districts"
         });
