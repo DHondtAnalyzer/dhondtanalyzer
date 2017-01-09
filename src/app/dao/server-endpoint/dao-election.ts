@@ -152,8 +152,8 @@ export class DaoElection {
     return <AppObjectObservable<Election>>this.getElectionRaw(id).map((election: ElectionRaw) => {
 
       if (deep) {
-        //election.partyList = this.getPartyListObservableFromRaw(election,deep);
-        //election.districtList = this.getDistrictListObservableFromRaw(election,deep);
+        election.partyList = this.getPartyListObservableFromRaw(election,deep);
+        election.districtList = this.getDistrictListObservableFromRaw(election,deep);
       }
 
       return Election.fromRaw(election);
