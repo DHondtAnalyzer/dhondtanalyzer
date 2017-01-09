@@ -4,6 +4,7 @@ import {CommonModule} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 
 import {MaterialModule} from "@angular/material";
+import {DatepickerModule} from 'angular2-material-datepicker'
 
 import {ElectionRoutingModule} from "./election-routing.module";
 
@@ -37,6 +38,7 @@ import {VoteCountCommonModule} from "../../vote-counts/vote-count-common/vote-co
         PartyCommonModule,
         DistrictCommonModule,
       VoteCountCommonModule,
+      DatepickerModule,
     ],
     exports: [],
     providers: [],

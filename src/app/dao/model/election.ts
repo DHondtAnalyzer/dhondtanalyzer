@@ -43,7 +43,7 @@ export class Election {
     return new Election(
       raw.$key,
       raw.name,
-      raw.date,
+      new Date(raw.date),
       raw.seats,
       raw.type,
       raw.districtList,

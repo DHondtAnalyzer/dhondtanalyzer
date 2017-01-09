@@ -31,8 +31,8 @@
   <table cellspacing="0">
     <tr>
       <td>
-        <md-input [disabled]="!editing" placeholder="Date"
-                  [(ngModel)]="election.date" name="date"></md-input>
+        <material-datepicker [disabled]="!editing" placeholder="Date" name="date"
+                             [(date)]="election.date"></material-datepicker>
       </td>
 
       <td>
