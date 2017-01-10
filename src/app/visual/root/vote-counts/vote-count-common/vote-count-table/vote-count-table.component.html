@@ -1,14 +1,24 @@
 <div class="row is-flex">
   <div class="col-xs-12">
-    <ngx-datatable
-      class="material"
-      [rows]="rows"
-      [loadingIndicator]="loadingIndicator"
-      [columns]="columns"
-      [columnMode]="'force'"
-      [headerHeight]="50"
-      [footerHeight]="50"
-      [rowHeight]="'auto'">
-    </ngx-datatable>
+    <table class="table">
+      <tr>
+        <ng-container *ngFor="let column of columns">
+          <th>{{column['name']}}</th>
+        </ng-container>
+      </tr>
+      <ng-container *ngFor="let row of rows; let i = index">
+        <tr>
+          <td>
+            {{row[0]}}
+          </td>
+          <td *ngFor="let elem of row.slice(1); let j = index">
+            <span *ngIf="!editing[i+':'+j]" (dblclick)="setCellUpdateEnv(i, j, elem)">{{elem}}</span>
+            <span *ngIf="editing[i+':'+j]">
+              <input type="number" min="0" [value]="values[i+':'+j]" (blur)="updateValue(i, j, $event.target.value)">
+            </span>
+          </td>
+        </tr>
+      </ng-container>
+    </table>
   </div>
 </div>
