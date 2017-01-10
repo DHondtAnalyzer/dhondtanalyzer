@@ -162,6 +162,43 @@ export class VoteCountTableComponent implements OnInit, OnChanges, OnDestroy {
 
   updateValue(districtIndex, partyIndex, value) {
     this.updateVoteCount(districtIndex, partyIndex, value);
+    this.updateSeats();
+  }
+
+  private updateSeats(){
+    let self = this;
+    var lastIndex = this._columns.length; //careful, null and blanks does not count
+    var totalSeats = Array(lastIndex-3).fill(0); // first column is district name, 2 last columns are blank and null votes
+    var seatsDistrict = this.districts.map((district,index) => {
+      let totalSeats = district.seats;
+      let voteCounts = this._rows[index].slice();
+      let seats =  Array(lastIndex-3).fill(0);
+      for(let n=1; n < lastIndex;n++)
+        voteCounts[n]=parseInt(voteCounts[n]);
+      let validVotes = 0; // for this district
+      for(let n = 1; n < lastIndex-1; n++) // null votes are not valid
+        validVotes += voteCounts[n];
+      if((validVotes + voteCounts[lastIndex-1]) <= district.census) {
+        let minVotes = validVotes * 3 / 100; // TODO: this should be a preference of the election (3%)
+        for (let n = 0; n < totalSeats; n++) {
+          let max = 0;
+          let maxIndex = 0;
+          for (let i = 1; i < lastIndex-2; i++) {
+            if (voteCounts[i] > minVotes && Math.trunc(voteCounts[i] / (1 + seats[i-1])) > max) {
+              maxIndex = i;
+              max = Math.trunc(voteCounts[i] / (1 + seats[i-1]));
+            }
+          }
+          seats[maxIndex-1] = seats[maxIndex-1] + 1;
+        }
+      }
+      else{
+        //TODO: warn user about this error
+        console.log("Error");
+      }
+      return seats;
+    });
+    console.log(seatsDistrict);
   }
 
   private updateVoteCount(districtIndex: number, partyIndex: number, newCount: any){
@@ -192,7 +229,7 @@ export class VoteCountTableComponent implements OnInit, OnChanges, OnDestroy {
         party = null;
       }
       else if(partyIndex+1 === this._partiesColumns.length-1){
-        type = VoteType.BLANK;
+        type = VoteType.NULL;
         party = null;
       }
       else {
