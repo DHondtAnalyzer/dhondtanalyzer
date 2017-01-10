@@ -33,10 +33,25 @@ export class DaoService {
 
   constructor(private af: AngularFire) {
     this.daoDistrict = DaoDistrict.newInstance(af);
+    this.daoDistrict.getDistrictListObservable().subscribe(districts => {
+      this._districtList = districts;
+    });
     this.daoElection = DaoElection.newInstance(af);
+    this.daoElection.getElectionListObservable().subscribe(elections => {
+      this._electionList = elections;
+    });
     this.daoParty = DaoParty.newInstance(af);
+    this.daoParty.getPartyListObservable().subscribe(parties => {
+      this._partyList = parties;
+    });
     this.daoRegion = DaoRegion.newInstance(af);
+    this.daoRegion.getRegionListObservable().subscribe(regions => {
+      this._regionList = regions;
+    });
     this.daoVoteCount = DaoVoteCount.newInstance(af);
+    this.daoVoteCount.getVoteCountListObservable().subscribe(voteCounts => {
+      this._voteCountList = voteCounts;
+    });
   }
 
 

@@ -1,231 +1,60 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component, OnInit, Input, ChangeDetectorRef, OnChanges, SimpleChange, SimpleChanges,
+  OnDestroy
+} from '@angular/core';
+import {Election} from "../../../../../dao/model/election";
+import {Party} from "../../../../../dao/model/party";
+import {District} from "../../../../../dao/model/district";
+import {VoteCount} from "../../../../../dao/model/vote-count";
+import {DaoService} from "../../../../../dao/dao.service";
+import {Subscription} from "rxjs";
+import {VoteType} from "../../../../../dao/model/vote-type";
+import {AppObjectObservable} from "../../../../../dao/shared/app-object-observable";
 
 @Component({
   selector: 'app-vote-count-table',
   templateUrl: './vote-count-table.component.html',
   styleUrls: ['./vote-count-table.component.css']
 })
-export class VoteCountTableComponent implements OnInit {
+export class VoteCountTableComponent implements OnInit, OnChanges, OnDestroy {
+
+  @Input() election: Election;
+
+  private districts: District[];
+  private parties: Party[];
+  private voteCounts={};
 
   private _rows: any[];
   private _columns: any[];
   private _loadingIndicator: boolean;
+  private editing = {};
+  private values = {};
+  private _voteCountRows: any[];
+  private _partiesColumns: any[];
+  private districtsSub: Subscription;
+  private partiesSub: Subscription;
 
-  constructor() {
+  constructor(private daoService: DaoService, private cd: ChangeDetectorRef) {
     setTimeout(() => { this.loadingIndicator = false; }, 5000);
   }
 
   ngOnInit() {
-    this.rows = [
-      {
-        name: 'Austin',
-        gender: 'Male',
-        gender2: 'Male',
-        gender3: 'Male',
-        gender4: 'Male',
-        gender5: 'Male',
-        gender6: 'Male',
-        gender7: 'Male',
-        gender8: 'Male',
-        company: 'Swimlane',
-      },
-      {
-        name: 'Austin',
-        gender: 'Male',
-        gender2: 'Male',
-        gender3: 'Male',
-        gender4: 'Male',
-        gender5: 'Male',
-        gender6: 'Male',
-        gender7: 'Male',
-        gender8: 'Male',
-        company: 'Swimlane',
-      },
-      {
-        name: 'Austin',
-        gender: 'Male',
-        gender2: 'Male',
-        gender3: 'Male',
-        gender4: 'Male',
-        gender5: 'Male',
-        gender6: 'Male',
-        gender7: 'Male',
-        gender8: 'Male',
-        company: 'Swimlane',
-      },
-      {
-        name: 'Austin',
-        gender: 'Male',
-        gender2: 'Male',
-        gender3: 'Male',
-        gender4: 'Male',
-        gender5: 'Male',
-        gender6: 'Male',
-        gender7: 'Male',
-        gender8: 'Male',
-        company: 'Swimlane',
-      },
-      {
-        name: 'Austin',
-        gender: 'Male',
-        gender2: 'Male',
-        gender3: 'Male',
-        gender4: 'Male',
-        gender5: 'Male',
-        gender6: 'Male',
-        gender7: 'Male',
-        gender8: 'Male',
-        company: 'Swimlane',
-      },
-      {
-        name: 'Austin',
-        gender: 'Male',
-        gender2: 'Male',
-        gender3: 'Male',
-        gender4: 'Male',
-        gender5: 'Male',
-        gender6: 'Male',
-        gender7: 'Male',
-        gender8: 'Male',
-        company: 'Swimlane',
-      },
-      {
-        name: 'Austin',
-        gender: 'Male',
-        gender2: 'Male',
-        gender3: 'Male',
-        gender4: 'Male',
-        gender5: 'Male',
-        gender6: 'Male',
-        gender7: 'Male',
-        gender8: 'Male',
-        company: 'Swimlane',
-      },
-      {
-        name: 'Austin',
-        gender: 'Male',
-        gender2: 'Male',
-        gender3: 'Male',
-        gender4: 'Male',
-        gender5: 'Male',
-        gender6: 'Male',
-        gender7: 'Male',
-        gender8: 'Male',
-        company: 'Swimlane',
-      },
-      {
-        name: 'Austin',
-        gender: 'Male',
-        gender2: 'Male',
-        gender3: 'Male',
-        gender4: 'Male',
-        gender5: 'Male',
-        gender6: 'Male',
-        gender7: 'Male',
-        gender8: 'Male',
-        company: 'Swimlane',
-      },
-      {
-        name: 'Austin',
-        gender: 'Male',
-        gender2: 'Male',
-        gender3: 'Male',
-        gender4: 'Male',
-        gender5: 'Male',
-        gender6: 'Male',
-        gender7: 'Male',
-        gender8: 'Male',
-        company: 'Swimlane',
-      },
-      {
-        name: 'Austin',
-        gender: 'Male',
-        gender2: 'Male',
-        gender3: 'Male',
-        gender4: 'Male',
-        gender5: 'Male',
-        gender6: 'Male',
-        gender7: 'Male',
-        gender8: 'Male',
-        company: 'Swimlane',
-      },
-      {
-        name: 'Austin',
-        gender: 'Male',
-        gender2: 'Male',
-        gender3: 'Male',
-        gender4: 'Male',
-        gender5: 'Male',
-        gender6: 'Male',
-        gender7: 'Male',
-        gender8: 'Male',
-        company: 'Swimlane',
-      },
-      {
-        name: 'Austin',
-        gender: 'Male',
-        gender2: 'Male',
-        gender3: 'Male',
-        gender4: 'Male',
-        gender5: 'Male',
-        gender6: 'Male',
-        gender7: 'Male',
-        gender8: 'Male',
-        company: 'Swimlane',
-      },
-      {
-        name: 'Austin',
-        gender: 'Male',
-        gender2: 'Male',
-        gender3: 'Male',
-        gender4: 'Male',
-        gender5: 'Male',
-        gender6: 'Male',
-        gender7: 'Male',
-        gender8: 'Male',
-        company: 'Swimlane',
-      },
-      {
-        name: 'Austin',
-        gender: 'Male',
-        gender2: 'Male',
-        gender3: 'Male',
-        gender4: 'Male',
-        gender5: 'Male',
-        gender6: 'Male',
-        gender7: 'Male',
-        gender8: 'Male',
-        company: 'Swimlane',
-      },{
-        name: 'Austin',
-        gender: 'Male',
-        gender2: 'Male',
-        gender3: 'Male',
-        gender4: 'Male',
-        gender5: 'Male',
-        gender6: 'Male',
-        gender7: 'Male',
-        gender8: 'Male',
-        company: 'Swimlane',
-      },
-
-
-    ];
-    this.columns = [
-      { prop: 'name' },
-      { name: 'Gender' },
-      { name: 'Gender2' },
-      { name: 'Gender3' },
-      { name: 'Gender4' },
-      { name: 'Gender5' },
-      { name: 'Gender6' },
-      { name: 'Gender7' },
-      { name: 'Gender8' },
-      { name: 'Company' }
-    ];
     this.loadingIndicator = true;
+    this.fetchElection();
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if('election' in changes)
+      if(changes['election'].currentValue)
+        this.fetchElection();
+  }
+
+  ngOnDestroy() {
+    if(this.districtsSub)
+      this.districtsSub.unsubscribe();
+    if(this.partiesSub)
+      this.partiesSub.unsubscribe();
+  }
 
   get rows(): any[] {
     return this._rows;
@@ -246,9 +75,134 @@ export class VoteCountTableComponent implements OnInit {
     return this._loadingIndicator;
   }
 
+  private fetchElection() {
+    if(this.election.districtList)
+      this.districtsSub = this.election.districtList.subscribe(districts => {
+        this.districts = districts;
+        this.fetchData();
+      });
+
+    if(this.election.partyList)
+      this.partiesSub = this.election.partyList.subscribe(parties => {
+        this.parties = parties;
+        this.fetchData();
+      })
+  }
+
+  private fetchData(){
+    if(!this.parties || !this.districts)
+      return;
+    this._voteCountRows = [];
+    this._partiesColumns = [{name: 'Distrito'}];
+    this._partiesColumns = this._partiesColumns.concat(this.parties.map(party => {
+      return {name: party.abbreviation};
+    }));
+    this._partiesColumns = this._partiesColumns.concat([{name:'Votos en blanco'}, {name:'Votos nulos'}]);
+
+    this.districts.forEach((district, index) => {
+      let voteCount: any[];
+      voteCount = [district.id];
+      voteCount['name'] = district.id;
+      for(let party of this.parties)
+        voteCount.push(0);
+      this._voteCountRows.push(voteCount);
+    });
+
+    this._rows = this._voteCountRows;
+    this._columns = this._partiesColumns;
+
+    let self = this;
+    this.districts.forEach((district, index) => {
+      district.region.subscribe(region => {
+        this._rows[index][0] = region.name;
+      });
+      district.voteCountList.subscribe(voteCountList => {
+        voteCountList.forEach(voteCount => {
+          if(voteCount.party){
+            let party: Party;
+            for(let id in voteCount.party){
+              try{
+                party = this.daoService.getPartyById(id);
+              } catch (e) {
+                console.error(e);
+              }
+            }
+            if(party)
+              for(let partyIndex in this.parties){
+                if(this.parties[partyIndex].id === party.id){
+                  self.voteCounts[index+':'+partyIndex] = voteCount;
+                  self._rows[index][+partyIndex+1] = voteCount.count || 0;
+                }
+              }
+
+          } else if(voteCount.type === VoteType.BLANK) {
+            let lastIndex = self._columns.length - 1;
+            let blankVotesIndex = lastIndex - 1;
+            self.voteCounts[index+':'+blankVotesIndex] = voteCount;
+            self._rows[index][+blankVotesIndex] = voteCount.count || 0;
+          } else if(voteCount.type === VoteType.NULL) {
+            let nullVotesIndex = self._columns.length -1;
+            self.voteCounts[index+':'+nullVotesIndex] = voteCount;
+            self._rows[index][+nullVotesIndex] = voteCount.count || 0;
+          }
+        });
+      });
+    });
+  }
+
   set loadingIndicator(value: boolean) {
     this._loadingIndicator = value;
   }
 
+  setCellUpdateEnv(i, j, value){
+    this.editing[i+':'+j] = true;
+    this.values[i+':'+j] = value;
+    this.cd.markForCheck();
+  }
+
+  updateValue(districtIndex, partyIndex, value) {
+    this.updateVoteCount(districtIndex, partyIndex, value);
+  }
+
+  private updateVoteCount(districtIndex: number, partyIndex: number, newCount: any){
+    let voteCount = <VoteCount>this.voteCounts[districtIndex+':'+partyIndex];
+    console.log(voteCount);
+    if(voteCount){
+      let lastCount = voteCount.count;
+      voteCount.count = +newCount;
+      if(!voteCount.party)
+        voteCount.party = null;
+      this.daoService.saveVoteCount(voteCount).then(_ => {
+        this.editing[districtIndex+':'+partyIndex] = false;
+        this.rows[districtIndex][partyIndex+1] = newCount;
+        delete this.values[districtIndex+':'+partyIndex];
+        this.cd.markForCheck();
+      }).catch(value => {
+        voteCount.count = lastCount;
+        this.editing[districtIndex+':'+partyIndex] = false;
+        delete this.values[districtIndex+':'+partyIndex];
+        this.cd.markForCheck();
+        console.error('error', value);
+      });
+    } else {
+      let type: VoteType;
+      let party: Party;
+      if(partyIndex+1 === this._partiesColumns.length-2){
+        type = VoteType.BLANK;
+        party = null;
+      }
+      else if(partyIndex+1 === this._partiesColumns.length-1){
+        type = VoteType.BLANK;
+        party = null;
+      }
+      else {
+        type = VoteType.VALID;
+        party = this._partiesColumns[partyIndex];
+      }
+      //TODO: save new VoteCount
+      this.editing[districtIndex+':'+partyIndex] = false;
+      delete this.values[districtIndex+':'+partyIndex];
+    }
+  }
 
 }
